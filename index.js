@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const SocketIO = require('socket.io');
 const morgan = require("morgan"); 
+const db=require('./models');
 
 const PORT = 8000;
 const app = express();
@@ -38,6 +39,9 @@ app.use('*', (req, res) => {
 })
 
 //서버 열기
-server.listen(PORT, () => {
+
+db.sequelize.sync({force:true}).then(()=>{
+    server.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
+})
 })

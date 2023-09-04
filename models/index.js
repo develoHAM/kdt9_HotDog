@@ -9,12 +9,12 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 //모델
 //db에 User생성
 db.User = require('./User')(sequelize);
-db.RFID =require('./RFID')(sequelize);
+// db.RFID =require('./RFID')(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
 // db.User = temp;
-db.User.hasOne(db.User);
-db.RFID.belongsTo(db.RFID);
+// db.User.hasOne(db.User);
+// db.RFID.belongsTo(db.RFID);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
