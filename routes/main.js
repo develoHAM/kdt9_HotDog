@@ -1,21 +1,10 @@
 const express = require('express')
 const router = express.Router()
-router.get('/', (req, res) => {
-    res.render('main');
-});
+const controller=require('../controller/Cuser')
+router.get('/', controller.main);
 
-router.get('/signup',(req,res)=>{
-    res.render('signup');
-})
+router.get('/signup',controller.get_signup);
 
-router.post('/login',(req,res)=>{
-    const {userid,pw}=req.body;
-})
-router.post('/signup',(req,res)=>{
-    const {userid,pw,name,birth}=req.body;
-    console.log(birth);
-    if(userid!==''&&pw!==' ' &&name!==' '){
-        res.json({message:true})
-    }
-})
+router.post('/login',controller.post_signin)
+router.post('/signup',controller.post_signup)
 module.exports=router;
