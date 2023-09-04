@@ -25,6 +25,10 @@ app.use('/mate', mateRouter)
 const socketRouter = require('./routes/socket.js');
 socketRouter(io)
 
+//게시판
+const boardsRouter = require("./routes/boards.js");
+app.use("/boards", boardsRouter);
+
 //404 PAGE NOT FOUND
 app.use('*', (req, res) => {
     res.render('404');
