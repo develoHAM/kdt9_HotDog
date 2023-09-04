@@ -15,6 +15,9 @@
     <button type="button" onclick="inputID()">아이디 입력</button>
     <br />
     <br />
+    <div>내 아이디:
+    <div id="myInfo"></div>
+    </div>
     <div id="mateList-wrapper">
         <p>조회되는 사람들</p>
         <ul id="mateList"></ul>
@@ -74,11 +77,23 @@
     function updateUsers(array) {
         const ul = document.querySelector('#mateList')
         ul.innerHTML = ''
-        array.forEach((userid) => {
-            const li = document.createElement('li')
-            li.textContent = userid
-            ul.appendChild(li)
+        array.forEach((user) => {
+            if(user.userid === myID) {
+                return;
+            } else {
+                const li = document.createElement('li')
+                li.textContent = `${user.userid} / ${user.socketid}`
+                ul.appendChild(li)
+            }
         })
+    }
+
+    function showMyID(id) {
+        const div = document.querySelector('#myInfo')
+        div.innerHTML = ''
+        const p = document.createElement('p')
+        p.textContent = id
+        div.appendChild(p)
     }
 
     socket.on('getUsers', (array) => {
@@ -87,30 +102,32 @@
 
     function inputID() {
         myID = id.value
-        console.log(myID)
+        showMyID(myID)
         id.value = ''
     }
 
     function findMate() {
-        if (myID == '') {
+        console.log(myID)
+        if (myID == undefined) {
             alert('아이디를 입력해주세요')
+        } else {
+            const type = document.forms['form-type']
+            const character = document.forms['form-character']
+            const walkingTime = document.forms['form-walkingTime']
+            const walkingLocation = document.forms['form-walkingLocation']
+    
+            const result = `${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
+    
+            const data = {
+                userid: myID,
+                roomName: result
+            }
+            socket.emit('createRoom', data, () => {
+                console.log(`${result} 조건의 이름으로 룸 생성 완료`)
+                socket.emit('getRooms', data)
+            })
         }
 
-        const type = document.forms['form-type']
-        const character = document.forms['form-character']
-        const walkingTime = document.forms['form-walkingTime']
-        const walkingLocation = document.forms['form-walkingLocation']
-
-        const result = `${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
-
-        const data = {
-            userid: myID,
-            roomName: result
-        }
-        socket.emit('createRoom', data, () => {
-            console.log(`${result} 조건의 이름으로 룸 생성 완료`)
-            socket.emit('getRooms', data)
-        })
     }
 
 </script>
