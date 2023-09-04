@@ -15,10 +15,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 //http 라우터
-app.get('/', (req, res) => {
-    res.render('main');
-})
-
+const indexRouter=require('./routes/main.js')
+app.use('/',indexRouter);
 //산책 메이트 라우터
 const mateRouter = require('./routes/mate.js')
 app.use('/mate', mateRouter)

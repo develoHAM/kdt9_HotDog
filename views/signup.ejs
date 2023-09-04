@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>회원가입 페이지</h1>
+    <label for="userid">아이디</label>
+    <input type="text" id="userid"><br/>
+    <label for="pw">패스워드</label>
+    <input type="password" id="pw"><br/>
+    <label for="name">이름</label>
+    <input type="text" id="name"><br/>
+    <label for="birth">생년월일</label>
+    <input type="date" id="birth">
+    <!-- <label for="birth">생년월일</label>
+    <input type="text" id="birth"><br/>
+    <label for="phonenumber">아이디</label>
+    <input type="text" id="phonenumber"><br/>
+     -->
+     <button type="button" onclick="signup()">회원가입</button>
+     <script>
+        async function signup(){
+            const userid=document.querySelector('#userid').value;
+            const pw=document.querySelector('#pw').value;
+            const name=document.querySelector('#name').value;
+            const birth=document.querySelector('#birth').value;
+            const data={
+                userid,pw,name,birth
+            }
+            try {
+                const res=await axios({
+                    method:'POST',
+                    url:'/signup',
+                    data
+                })
+                if(res.data.message){
+                    alert('회원가입 성공!')
+                    window.location.href='/';
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+     </script>
+</body>
+</html>
