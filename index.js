@@ -1,7 +1,8 @@
 //라이브러리 불러오기
-const http = require('http')
+const http = require('http');
 const express = require('express');
-const SocketIO = require('socket.io')
+const SocketIO = require('socket.io');
+const morgan = require("morgan"); 
 
 const PORT = 8000;
 const app = express();
@@ -11,12 +12,14 @@ const io = SocketIO(server)
 
 //미들웨어
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(morgan("dev"));
 
 //http 라우터
-const indexRouter=require('./routes/main.js')
+const indexRouter = require('./routes/main.js')
 app.use('/',indexRouter);
+
 //산책 메이트 라우터
 const mateRouter = require('./routes/mate.js')
 app.use('/mate', mateRouter)

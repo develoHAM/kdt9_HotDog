@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-router.route("/boards")
+router.route("/")
     .get((req, res) => {
-        res.send("GET //boards")
+        res.render("boards")
     });
 
-router.route("/boards/sns")
+router.route("/sns")
     .get((req, res) => {
         res.send("GET /boards/sns");
     })
@@ -14,11 +14,11 @@ router.route("/boards/sns")
         res.send("POST /boards/sns");
     });
 
-router.get('/boards/sns/:id', (req, res) => {
-    console.log('sns 와일드 카드');
+router.get('/sns/:id', (req, res) => {
+    console.log('sns 매개변수');
 });
 
-router.route("/boards/sns/comment")
+router.route("/sns/comment")
     .post((req, res) => {
         res.send("POST /boards/sns/comment");
     })
@@ -29,7 +29,7 @@ router.route("/boards/sns/comment")
         res.send("DELETE /boards/sns/comment");
     });
 
-router.route("/boards/qna")
+router.route("/qna")
     .get((req, res) => {
         res.send("GET /boards/qna");
     })
@@ -37,10 +37,9 @@ router.route("/boards/qna")
         res.send("POST /boards/qna");
     })
 
-router.get('/boards/qna/:id', (req, res) => {
-    console.log('qna 와일드 카드');
+router.get('/qna/:id', (req, res) => {
+    console.log('qna 매개변수');
 });
 
 
-
-module.exports = router
+module.exports = router;
