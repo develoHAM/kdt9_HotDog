@@ -1,11 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="socket.io/socket.io.js"></script>
     <title>Document</title>
 </head>
+
 <body>
     <h1>산책 메이트 찾기 페이지</h1>
+    <h4>내정보</h4>
+    <input type="text" id="userid" placeholder="아이디">
+    <button type="button" onclick="inputID()">아이디 입력</button>
+    <br />
+    <br />
+    <div id="mateList-wrapper">
+        <p>조회되는 사람들</p>
+        <ul id="mateList"></ul>
+    </div>
+    <div id="findMate">
+        <p>산책메이트 찾기</p>
+        <fieldset>
+            <legend>견종 크기</legend>
+            <form name="form-type">
+                <input type="radio" name="type" value="small" id="small" />
+                <label for="small">소형</label>
+                <input type="radio" name="type" value="medium" id="medium" />
+                <label for="medium">중형</label>
+                <input type="radio" name="type" value="large" id="large" />
+                <label for="large">대형</label>
+            </form>
+        </fieldset>
+        <fieldset>
+            <legend>견종 성격</legend>
+            <form name="form-character">
+                <input type="radio" name="character" value="introvert" id="introvert" />
+                <label for="introvert">소심</label>
+                <input type="radio" name="character" value="extrovert" id="extrovert" />
+                <label for="extrovert">활발</label>
+            </form>
+        </fieldset>
+        <fieldset>
+            <legend>희망 산책 시간</legend>
+            <form name="form-walkingTime">
+                <input type="radio" name="walkingTime" value="60" id="60" />
+                <label for="60">60분 이하</label>
+                <input type="radio" name="walkingTime" value="90" id="90" />
+                <label for="90">90분 정도</label>
+                <input type="radio" name="walkingTime" value="120" id="120" />
+                <label for="120">120분 이상</label>
+            </form>
+        </fieldset>
+        <fieldset>
+            <legend>희망 산책 장소</legend>
+            <form name="form-walkingLocation">
+                <input type="radio" name="walkingLocation" value="indoor" id="indoor" />
+                <label for="indoor">실내</label>
+                <input type="radio" name="walkingLocation" value="outdoor" id="outdoor" />
+                <label for="outdoor">실외</label>
+            </form>
+        </fieldset>
+        <button type="button" onclick="findMate()">찾기</button>
+    </div>
 </body>
+<script>
+    const socket = io()
+
+    const id = document.querySelector('#userid')
+
+    let myID;
+
+    function updateUsers(array) {
+        const ul = document.querySelector('#mateList')
+        ul.innerHTML = ''
+        array.forEach((userid) => {
+            const li = document.createElement('li')
+            li.textContent = userid
+            ul.appendChild(li)
+        })
+    }
+
+    socket.on('getUsers', (array) => {
+        updateUsers(array)
+    })
+
+    function inputID() {
+        myID = id.value
+        console.log(myID)
+        id.value = ''
+    }
+
+    function findMate() {
+        if (myID == '') {
+            alert('아이디를 입력해주세요')
+        }
+
+        const type = document.forms['form-type']
+        const character = document.forms['form-character']
+        const walkingTime = document.forms['form-walkingTime']
+        const walkingLocation = document.forms['form-walkingLocation']
+
+        const result = `${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
+
+        const data = {
+            userid: myID,
+            roomName: result
+        }
+        socket.emit('createRoom', data, () => {
+            console.log(`${result} 조건의 이름으로 룸 생성 완료`)
+            socket.emit('getRooms', data)
+        })
+    }
+
+</script>
+
 </html>
