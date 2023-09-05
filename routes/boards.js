@@ -31,10 +31,10 @@ router.route("/sns/comment")
 
 router.route("/qna")
     .get((req, res) => {
-        res.send("GET /boards/qna");
+        res.render("qna");
     })
     .post((req, res) => {
-        res.send("POST /boards/qna");
+        res.send("qna");
     })
 
 router.get('/qna/:id', (req, res) => {

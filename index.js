@@ -2,8 +2,10 @@
 const http = require('http');
 const express = require('express');
 const SocketIO = require('socket.io');
-const morgan = require("morgan");
-const db = require('./models');
+
+const morgan = require("morgan"); 
+const db=require('./models');
+const cookieParser = require('cookie-parser');
 
 const PORT = 8000;
 const app = express();
@@ -16,7 +18,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
-
+app.use(cookieParser());
 //http 라우터
 const indexRouter = require('./routes/main.js')
 app.use('/', indexRouter);
@@ -32,6 +34,10 @@ socketRouter(io)
 //게시판
 const boardsRouter = require("./routes/boards.js");
 app.use("/boards", boardsRouter);
+
+//게시판
+const shareRouter = require("./routes/share.js");
+app.use("/share", shareRouter);
 
 //404 PAGE NOT FOUND
 app.use('*', (req, res) => {
