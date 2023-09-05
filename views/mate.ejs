@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+
+    </style>
     <title>Document</title>
 </head>
 
@@ -16,7 +20,7 @@
     <br />
     <br />
     <div>내 아이디:
-    <div id="myInfo"></div>
+        <div id="myInfo"></div>
     </div>
     <div id="mateList-wrapper">
         <p>조회되는 사람들</p>
@@ -64,24 +68,63 @@
                 <label for="outdoor">실외</label>
             </form>
         </fieldset>
-        <button type="button" onclick="findMate()">찾기</button>
+        <button type="button" onclick="search()" id="search">찾기</button>
     </div>
+    <div id="onSearch" hidden>
+        <p>동일한 조건의 산책메이트를 찾는중입니다.</p>
+        <button type="button" onclick="cancelSearch()" id="cancelSearch">찾기 취소</button>
+    </div>
+    <button type="button" onclick="test()">현재 방 인원 확인</button>
+    <div id="chat-wrapper"></div>
 </body>
 <script>
+    //소켓 연결
     const socket = io()
 
+    //산책페이트 찾기 필터 요소
+    const findMateForm = document.querySelector('#findMate')
+
+    //아이디 입력 요소
     const id = document.querySelector('#userid')
 
+    //아이디 담길 변수 선언
     let myID;
+    let otherID;
+
+    //찾기 조건 담길 변수 선언
+    let filter;
+
+    const searchBtn = document.querySelector('#search')
+    const onSearch = document.querySelector('#onSearch')
+    const ul = document.querySelector('#mateList')
+
+    function createChatRoom() {
+        const chatWrapper = document.querySelector('#chat-wrapper')
+        const chat = document.createElement('div')
+        
+        const chatScreen = document.createElement('div')
+        const inputContainer = document.createElement('div')
+        const input = document.createElement('input')
+        const btn = document.createElement('button')
+        btn.textContent = '전송'
+        
+        inputContainer.appendChild(input)
+        inputContainer.appendChild(btn)
+        
+        chat.appendChild(chatScreen)
+        chat.appendChild(inputContainer)
+
+        chatWrapper.appendChild(chat)
+    }
 
     function updateUsers(array) {
-        const ul = document.querySelector('#mateList')
         ul.innerHTML = ''
         array.forEach((user) => {
-            if(user.userid === myID) {
+            if (user.userid === myID) {
                 return;
             } else {
                 const li = document.createElement('li')
+                li.setAttribute('onclick', `chat('${user.userid}','${user.socketid}')`)
                 li.textContent = `${user.userid} / ${user.socketid}`
                 ul.appendChild(li)
             }
@@ -96,8 +139,14 @@
         div.appendChild(p)
     }
 
-    socket.on('getUsers', (array) => {
-        updateUsers(array)
+    socket.on('usersInRoom', (clientList) => {
+        console.log('usersInRoom', clientList)
+        updateUsers(clientList)
+    })
+
+    socket.on('newChat', (inviterID, myID, privateRoomName) => {
+        alert(`${inviterID}님이 ${myID}님을 대화에 초대했습니다. 대화방=${privateRoomName}`)
+        createChatRoom()
     })
 
     function inputID() {
@@ -106,7 +155,7 @@
         id.value = ''
     }
 
-    function findMate() {
+    function search() {
         console.log(myID)
         if (myID == undefined) {
             alert('아이디를 입력해주세요')
@@ -115,19 +164,43 @@
             const character = document.forms['form-character']
             const walkingTime = document.forms['form-walkingTime']
             const walkingLocation = document.forms['form-walkingLocation']
-    
-            const result = `${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
-    
+
+            filter = `${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
+
             const data = {
                 userid: myID,
-                roomName: result
+                roomName: filter
             }
-            socket.emit('createRoom', data, () => {
-                console.log(`${result} 조건의 이름으로 룸 생성 완료`)
-                socket.emit('getRooms', data)
-            })
-        }
 
+            socket.emit('joinRoom', data)
+
+            findMateForm.hidden = true;
+            searchBtn.hidden = true;
+            onSearch.hidden = false;
+        }
+    }
+
+    function cancelSearch() {
+        socket.emit('leaveRoom', myID, filter)
+        ul.innerHTML = ''
+
+        findMateForm.hidden = false;
+        searchBtn.hidden = false;
+        onSearch.hidden = true;
+    }
+
+    function test() {
+        socket.emit('test')
+    }
+
+    function chat(id, socketid) {
+        const data = {
+            myID: myID,
+            otherID: id,
+            otherSocketID: socketid
+        }
+        socket.emit('createChat', data)
+        createChatRoom()
     }
 
 </script>
