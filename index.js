@@ -4,6 +4,7 @@ const express = require('express');
 const SocketIO = require('socket.io');
 const morgan = require("morgan"); 
 const db=require('./models');
+const cookieParser = require('cookie-parser');
 
 const PORT = 8000;
 const app = express();
@@ -16,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(morgan("dev"));
-
+app.use(cookieParser());
 //http 라우터
 const indexRouter = require('./routes/main.js')
 app.use('/',indexRouter);
