@@ -2,8 +2,8 @@
 const http = require('http');
 const express = require('express');
 const SocketIO = require('socket.io');
-const morgan = require("morgan"); 
-const db=require('./models');
+const morgan = require("morgan");
+const db = require('./models');
 
 const PORT = 8000;
 const app = express();
@@ -13,13 +13,13 @@ const io = SocketIO(server)
 
 //미들웨어
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 
 //http 라우터
 const indexRouter = require('./routes/main.js')
-app.use('/',indexRouter);
+app.use('/', indexRouter);
 
 //산책 메이트 라우터
 const mateRouter = require('./routes/mate.js')
@@ -40,8 +40,8 @@ app.use('*', (req, res) => {
 
 //서버 열기
 
-db.sequelize.sync({force:true}).then(()=>{
+db.sequelize.sync({ force: true }).then(() => {
     server.listen(PORT, () => {
-    console.log(`http://localhost:${PORT}`)
-})
+        console.log(`http://localhost:${PORT}`)
+    })
 })
