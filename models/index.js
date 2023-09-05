@@ -6,6 +6,9 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
+const qnaUser = require("./qnaUser");
+const qnaComment = require("./qnaComment");
+
 //모델
 //db에 User생성
 db.User = require('./User')(sequelize);
@@ -18,5 +21,14 @@ db.User = require('./User')(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+db.qnaUser = qnaUser;
+db.qnaComment = qnaComment;
+
+qnaUser.initiate(sequelize);
+qnaComment.initiate(sequelize);
+
+qnaUser.associate(db);
+qnaComment.associate(db);
 
 module.exports = db;
