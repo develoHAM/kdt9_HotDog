@@ -19,10 +19,12 @@
     }
   </style>
   <body>
+    <a href="/mypage">마이페이지</a>
     <!-- Button trigger modal -->
     <button
       type="button"
       class="btn btn-primary"
+      id="modalbtn"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
     >
@@ -77,6 +79,7 @@
       async function signin() {
         const userid = document.querySelector("#userid").value;
         const pw = document.querySelector("#pw").value;
+        const button=document.querySelector('#modalbtn')
         const data = {
           userid,
           pw,
@@ -89,8 +92,9 @@
           });
           console.log(res.data);
           if (res.data.result) {
+            localStorage.setItem("token", res.data.token);
             alert(`${res.data.data.name}님 로그인 성공`);
-            document.location.href = `/`;
+            // document.location.href = `/`;
           } else {
             alert(`${res.data.message}`);
             document.location.reload();
