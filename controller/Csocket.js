@@ -1,3 +1,6 @@
+const {User, Room, UserRoom }=require('../models');
+const { v4: uuidv4 } = require('uuid');
+
 exports.connection = (io, socket) => {
     console.log('접속')
 
@@ -32,13 +35,22 @@ exports.connection = (io, socket) => {
         }
     })
 
-    socket.on('createChat', (data) => {
+    socket.on('createChat', async (data) => {
         const {myID, otherID, otherSocketID} = data
-        const privateRoomName = socket.id + otherSocketID
+        const privateRoomName = uuidv4();
         console.log('privateRoomName ======',privateRoomName)
         socket.join(privateRoomName)
         io.in(otherSocketID).socketsJoin(privateRoomName)
         io.to(otherSocketID).emit('newChat', myID, otherID, privateRoomName)
+        const room = await Room.create({
+            roomID: privateRoomName,
+            creatorID: myID,        
+        })
+        console.log(room)
+        await UserRoom.create({
+            userid: myID,
+            roomID:room.roomID
+        })
     })
 
     function getUsersInRoom(room) {
