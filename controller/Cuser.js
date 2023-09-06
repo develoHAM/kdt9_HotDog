@@ -20,26 +20,32 @@ const get_mypage=(req,res)=>{
 const post_signup=async (req,res)=>{
     const {userid,pw,name,birth,phonenumber,address,dogname,rfid}=req.body;
     console.log(req.body)
-    const hash=await bcryptPassword(pw);
-    User.create({
-        userid,
-        pw:hash,
-        name,
-        birth,
-        phonenumber,
-        address,
-        dogname,
-        RFIDcode:rfid,
-        // RFID:  {
-        //     rfid,
-        //     dogregnumber,
-        //     ownername,
-        //     ownerbirth
-        // },
-        // include:[{model:RFID}]
-    }).then(()=>{
-        res.json({result:true});
-    })
+    try {
+        
+        const userExist =await User.findOne({where:{userid:userid}})
+        if(userExist){
+            res.json({flag:'2',message:'ID가 중복이됩니다!'})
+            return;
+        } else {
+            const hash=await bcryptPassword(pw);
+            const user =await User.create({
+                userid,
+                pw:hash,
+                name,
+                birth,
+                phonenumber,
+                address,
+                dogname,
+                RFIDcode:rfid,
+            })
+            if(user){
+                res.json({flag:"3", message:'회원가입을 축하드립니다'});
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 //로그인
 const post_signin= async (req,res)=>{
