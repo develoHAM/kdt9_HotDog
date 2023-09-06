@@ -15,6 +15,8 @@
 <body>
     <h1>산책 메이트 찾기 페이지</h1>
     <h4>내정보</h4>
+    <input type="text" id="myID" placeholder="내 ID는?" />
+    <button type="button" onclick="submitID()">아이디 입력</button>
     <input type="text" id="userid" placeholder="아이디">
     <button type="button" onclick="inputID()">아이디 입력</button>
     <br />
@@ -78,6 +80,36 @@
     <div id="chat-wrapper"></div>
 </body>
 <script>
+    //로컬 스토리지에서 'token' 이름의 아이템 불러오기
+    const token = window.localStorage.getItem('token')
+
+    //아이디 담길 변수 선언
+    let myID;
+    let otherID;
+
+    // token 유효성 검사
+    function submitID() {
+        const node = document.querySelector('#myID')
+        const token = window.localStorage.getItem(`${node.value}`);
+        axios({
+            method: 'post',
+            url: '/mypage',
+            data: {
+                token
+            }
+        }).then(res => {
+            console.log(res.data)
+            if (res.data.result) {
+                myID = res.data.userid
+                console.log('myID', myID)
+            } else {
+                alert('로그인 해주세요')
+                document.location.href = '/'
+            }
+        })
+    }
+
+
     //소켓 연결
     const socket = io()
 
@@ -86,10 +118,6 @@
 
     //아이디 입력 요소
     const id = document.querySelector('#userid')
-
-    //아이디 담길 변수 선언
-    let myID;
-    let otherID;
 
     //찾기 조건 담길 변수 선언
     let filter;
@@ -101,16 +129,16 @@
     function createChatRoom() {
         const chatWrapper = document.querySelector('#chat-wrapper')
         const chat = document.createElement('div')
-        
+
         const chatScreen = document.createElement('div')
         const inputContainer = document.createElement('div')
         const input = document.createElement('input')
         const btn = document.createElement('button')
         btn.textContent = '전송'
-        
+
         inputContainer.appendChild(input)
         inputContainer.appendChild(btn)
-        
+
         chat.appendChild(chatScreen)
         chat.appendChild(inputContainer)
 
@@ -157,7 +185,7 @@
 
     function search() {
         console.log(myID)
-        if (myID == undefined) {
+        if (!myID) {
             alert('아이디를 입력해주세요')
         } else {
             const type = document.forms['form-type']

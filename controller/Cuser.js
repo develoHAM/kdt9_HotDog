@@ -57,10 +57,10 @@ const post_signin= async (req,res)=>{
         const result = await compareFunc(pw, user.pw);
         console.log('result', result);
         if (result) {
-            const token=jwt.sign({name:user.name,id:user.id},SECRET);
+            const token=jwt.sign({name:user.name,id:user.id,userid:user.userid},SECRET,{expiresIn: '24h'});
             // res.cookie('isLogin', true,cookieConfig);
-            res.cookie('logintoken',token);
-            res.json({ result: true, data: user, token });
+            // res.cookie('logintoken',token);
+            res.json({ result: true, userinfo: user, token });
         } else {
             res.json({ result: false, message: '비밀번호가 틀렸습니다.' });
         }
@@ -72,6 +72,10 @@ const post_signin= async (req,res)=>{
 const post_mypage=async (req,res)=>{
     console.log('req.body', req.body)
     const token = req.body.token
+    if(!token) {
+        res.json({result: false})
+        return;
+    }
     const user = await jwt.verify(token, SECRET)
         // (err, decoded) => {
         // if (err) {
@@ -86,7 +90,7 @@ const post_mypage=async (req,res)=>{
         }
     }).then((result) => {
         const {id,userid,pw,name,birth,phonenumber,address,dogname,RFIDcode}=result;
-        res.json({id,userid,pw,name,birth,phonenumber,address,dogname,RFIDcode})        
+        res.json({result: true,id,userid,pw,name,birth,phonenumber,address,dogname,RFIDcode})        
     })
 }
 const mypage=async(req,res)=>{
