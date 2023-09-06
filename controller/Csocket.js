@@ -1,27 +1,44 @@
 exports.connection = (io, socket) => {
     console.log('접속')
 
-    socket.on('createRoom', (data, cb) => {
+    socket.on('test', () => {
+        console.log('test =====', io.sockets.adapter.rooms)
+    })
+
+    socket.on('joinRoom', (data) => {
         console.log('data =====', data)
         socket.join(data.roomName)
         socket.room = data.roomName
         socket.userid = data.userid
-        cb()
+
+        const clientList = getUsersInRoom(socket.room)
+        io.to(socket.room).emit('usersInRoom', clientList)
     })
 
-    socket.on('getRooms', (data) => {
-        const users = getUsersInRoom(data.roomName)
-        console.log('userids in room =========', users)
-        io.to(data.roomName).emit('getUsers', users)
+    socket.on('leaveRoom', (userid, room) => {
+        console.log(`${userid} left ROOM ${room}`)
+        socket.leave(room)
+        const clientList = getUsersInRoom(room)
+        console.log('clientList =====', clientList)
+        io.to(socket.room).emit('usersInRoom', clientList)
     })
 
     socket.on('disconnect', () => {
-        if(socket.room) {
-            console.log(`${socket.userid} left`)
-            const users = getUsersInRoom(socket.room)
-            io.to(socket.room).emit('getUsers', users)
+        if (socket.room) {
+            console.log(`${socket.userid} left ROOM ${socket.room}`)
             socket.leave(socket.room)
+            const clientList = getUsersInRoom(socket.room)
+            io.to(socket.room).emit('usersInRoom', clientList)
         }
+    })
+
+    socket.on('createChat', (data) => {
+        const {myID, otherID, otherSocketID} = data
+        const privateRoomName = socket.id + otherSocketID
+        console.log('privateRoomName ======',privateRoomName)
+        socket.join(privateRoomName)
+        io.in(otherSocketID).socketsJoin(privateRoomName)
+        io.to(otherSocketID).emit('newChat', myID, otherID, privateRoomName)
     })
 
     function getUsersInRoom(room) {
@@ -29,8 +46,8 @@ exports.connection = (io, socket) => {
         let users = [];
         if (socketIdsInRoom) {
             socketIdsInRoom.forEach((socketID) => {
-                const socketUser = io.sockets.sockets.get(socketID)
-                users.push({userid: socketUser.userid, socketid: socketUser.id})
+                const client = io.sockets.sockets.get(socketID)
+                users.push({ userid: client.userid, socketid: client.id })
             })
         }
         return users;

@@ -50,8 +50,11 @@
                     url:'/signup',
                     data
                 })
-                if (res.data.result) {
-                        alert('회원가입을 축하드립니다');
+                if (res.data.flag==='2') {
+                        alert(`${res.data.message}`);
+                    }
+                if (res.data.flag==='3') {
+                        alert(`${res.data.message}`);
                         document.location.href = '/';
                     }
             } catch (error) {
