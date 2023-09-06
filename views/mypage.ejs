@@ -70,6 +70,8 @@
         }
         
         async function edit() {
+            const myID = document.querySelector('#myID')
+            const token = window.localStorage.getItem(`${myID.value}`);
             const data = {
                 id: Number(id.value),
                 userid: userid.value,
