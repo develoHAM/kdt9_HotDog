@@ -14,10 +14,14 @@ router.route("/sns")
         res.send("POST /boards/sns");
     });
 
-router.get('/sns/:id', (req, res) => {
-    console.log('sns 매개변수');
-});
-
+router.route("/qna")
+    .get((req, res) => {
+        res.render("qna");
+    })
+    .post((req, res) => {
+        res.send("qna");
+    })
+    
 router.route("/sns/comment")
     .post((req, res) => {
         res.send("POST /boards/sns/comment");
@@ -29,17 +33,23 @@ router.route("/sns/comment")
         res.send("DELETE /boards/sns/comment");
     });
 
-router.route("/qna")
-    .get((req, res) => {
-        res.render("qna");
-    })
+router.route("/qna/comment")
     .post((req, res) => {
-        res.send("qna");
+        res.send("POST /boards/qna/comment");
     })
+    .put((req, res) => {
+        res.send("PUT /boards/qna/comment");
+    })
+    .delete((req, res) => {
+        res.send("DELETE /boards/qna/comment");
+    });
+
+router.get('/sns/:id', (req, res) => {
+    console.log('sns 매개변수');
+});
 
 router.get('/qna/:id', (req, res) => {
     console.log('qna 매개변수');
 });
-
 
 module.exports = router;
