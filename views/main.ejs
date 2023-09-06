@@ -91,11 +91,12 @@
             url: "/login",
             data,
           });
-          console.log(res.data);
+          const {result, userinfo, token} = res.data
+          console.log('result, userinfo, token', result, userinfo, token);
           if (res.data.result) {
-            localStorage.setItem("token", res.data.token);
-            alert(`${res.data.data.name}님 로그인 성공`);
-            // document.location.href = `/`;
+            localStorage.setItem(`${userinfo.name}`, token);
+            alert(`${userinfo.name}님 로그인 성공`);
+            document.location.href = `/`;
           } else {
             alert(`${res.data.message}`);
             document.location.reload();

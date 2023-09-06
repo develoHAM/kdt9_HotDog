@@ -1,85 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
+
 <body>
     <h1>mypage</h1>
-    <input type="hidden"  id="id">
+    <input type="text" id="myID" placeholder="내 ID는?" />
+    <button type="button" onclick="myID()">아이디 입력</button>
+    <input type="hidden" id="id">
     <label for="userid">아이디</label>
-    <input type="text" id="userid" readonly><br/>
+    <input type="text" id="userid" readonly><br />
     <label for="pw">패스워드</label>
-    <input type="password" id="pw"><br/>
+    <input type="password" id="pw"><br />
     <label for="name">이름</label>
-    <input type="text" id="name"><br/>
+    <input type="text" id="name"><br />
     <label for="birth">생년월일</label>
-    <input type="date" id="birth"><br/>
+    <input type="date" id="birth"><br />
     <label for="phonenumber">전화번호</label>
-    <input type="number" id="phonenumber"><br/>
+    <input type="number" id="phonenumber"><br />
     <label for="address">주소</label>
-    <input type="text" id="address"><br/>
+    <input type="text" id="address"><br />
     <label for="dogname">강아지 이름</label>
-    <input type="text" id="dogname" readonly><br/>
+    <input type="text" id="dogname" readonly><br />
     <label for="rfid">RFID</label>
-    <input type="text" id="rfid" readonly><br/>
+    <input type="text" id="rfid" readonly><br />
     <button type="button" onclick="edit()">수정하기</button>
     <script>
-            const userid = document.querySelector('#userid');
-            const pw=document.querySelector('#pw');
-            const name=document.querySelector('#name');
-            const birth=document.querySelector('#birth');
-            const phonenumber=document.querySelector('#phonenumber');
-            const address=document.querySelector('#address');
-            const dogname=document.querySelector('#dogname');
-            const rfid=document.querySelector('#rfid');
-            const token = window.localStorage.getItem('token');
-            const id=document.querySelector('#id');
-             axios({
-                method: 'post',
-                url: '/mypage',
-                data: {
-                    token 
-                }
-            }).then(res => {
-                console.log(res.data)
-                userid.value = res.data.userid;
-                pw.value=res.data.pw;
-                name.value=res.data.name;
-                birth.value=res.data.birth
-                phonenumber.value=res.data.phonenumber;
-                address.value=res.data.address
-                dogname.value=res.data.dogname
-                rfid.value=res.data.RFIDcode
-            })
-            async function edit(){
-                const data={
-                    id:Number(id.value),
-                    userid:userid.value,
-                    pw:pw.value,
-                    name:name.value,
-                    birth:birth.value,
-                    phonenumber:phonenumber.value,
-                    address:address.value,
-                    dogname:dogname.value,
-                    rfid:rfid.value
-                }
-               const res=await axios({
-                    method:'PATCH',
-                    url:'/mypage',
-                    data,
-                    headers:{
-                        Authorization:`Bearer ${token}`
-                    }
-                })
-                console.log(res);
-                if(res.data.result){
-                    alert('회원 정보 수정 완료')
-                    document.location.href='/';
-                }
+        const userid = document.querySelector('#userid');
+        const pw = document.querySelector('#pw');
+        const name = document.querySelector('#name');
+        const birth = document.querySelector('#birth');
+        const phonenumber = document.querySelector('#phonenumber');
+        const address = document.querySelector('#address');
+        const dogname = document.querySelector('#dogname');
+        const rfid = document.querySelector('#rfid');
+        const id = document.querySelector('#id');
+        const token = window.localStorage.getItem(myID);
+
+        function myID() {
+            const myID = document.querySelector('#myID')
+            const token = window.localStorage.getItem(`${myID.value}`);
+            axios({
+            method: 'post',
+            url: '/mypage',
+            data: {
+                token
             }
+        }).then(res => {
+            console.log(res.data)
+            if(res.data.result) {
+                userid.value = res.data.userid;
+                pw.value = res.data.pw;
+                name.value = res.data.name;
+                birth.value = res.data.birth
+                phonenumber.value = res.data.phonenumber;
+                address.value = res.data.address
+                dogname.value = res.data.dogname
+                rfid.value = res.data.RFIDcode
+            } else {
+                alert('로그인 해주세요')
+                document.location.href = '/'
+            }
+        })
+        }
+        
+        async function edit() {
+            const data = {
+                id: Number(id.value),
+                userid: userid.value,
+                pw: pw.value,
+                name: name.value,
+                birth: birth.value,
+                phonenumber: phonenumber.value,
+                address: address.value,
+                dogname: dogname.value,
+                rfid: rfid.value
+            }
+            const res = await axios({
+                method: 'PATCH',
+                url: '/mypage',
+                data,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            console.log(res);
+            if (res.data.result) {
+                alert('회원 정보 수정 완료')
+                document.location.href = '/';
+            }
+        }
     </script>
 </body>
+
 </html>
