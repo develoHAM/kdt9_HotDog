@@ -14,7 +14,7 @@ const qnaComment = require("./qnaComment");
 db.User = require('./User')(sequelize);
 db.Room = require('./Room')(sequelize);
 db.UserRoom = require('./User_Room')(sequelize);
-db.Share = require('./Share')(sequelize);
+// db.Share = require('./Share')(sequelize);
 // db.RFID =require('./RFID')(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
@@ -34,19 +34,8 @@ qnaComment.initiate(sequelize);
 qnaUser.associate(db);
 qnaComment.associate(db);
 
-db.User.associate = function(models) {
-    db.User.belongsToMany(models.Room, {
-        through: 'User_Room',
-        foreignKey: 'userid'
-    })
-}
-
-db.Room.associate = function(models) {
-    db.Room.belongsToMany(models.User, {
-        through: 'User_Room',
-        foreignKey: 'roomID'
-    })
-}
+db.User.belongsToMany(db.Room, {through: db.UserRoom, foreignKey: 'userid', sourceKey: 'userid' })
+db.Room.belongsToMany(db.User, {through: db.UserRoom, foreignKey: 'roomid', sourceKey: 'roomid',})
 
 
 

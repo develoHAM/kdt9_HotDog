@@ -1,25 +1,36 @@
+const bcrypt = require('bcrypt');
+const {User, Room, UserRoom} = require('../models');
+const jwt = require('jsonwebtoken');
+const SECRET = 'qwerty';
 
 const get_main = (req, res) => {
     res.render('mate')
 }
 
-const get_chat = (req, res) => {
+const post_verify = async (req, res) => {
+    try {
+        const token = req.body.token
+        const tokenInfo = await jwt.verify(token, SECRET)
+        const user = await User.findOne({
+            where: {
+                userid: tokenInfo.userid
+            }
+        })
+        console.log('user =====', user)
 
+        const roomsInUser = await User.
+        res.json({result: true, userinfo: user})
+    } catch (error) {
+        console.log(error)
+        res.json({result: false})
+    }
 }
 
-const post_chat = (req, res) => {
-
-}
-
-const post_match = (req, res) => {
-    console.log('req ====',req.body)
-    const {myID, otherID, otherSocketID} = req.body
-    res.json({creatorID: myID, invitedID: otherID, invitedSocketID: otherSocketID})
-}
 
 module.exports = {
     get_main,
-    get_chat,
-    post_chat,
-    post_match
+    post_verify
 }
+
+const bcryptPassword = (password) => bcrypt.hash(password,11);
+const compareFunc = (password,dbpass) => bcrypt.compare(password,dbpass)
