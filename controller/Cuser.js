@@ -20,8 +20,11 @@ const get_mypage=(req,res)=>{
 const post_signup=async (req,res)=>{
     const {userid,pw,name,birth,phonenumber,address,dogname,rfid}=req.body;
     console.log(req.body)
+    if(userid===''||pw==="" || name==="" || birth==="" || phonenumber==="" || address==="" || dogname==="" || rfid===""){
+        res.json({flag:'1',message:'모든항목을 입력해주세요'})
+        return;
+    }
     try {
-        
         const userExist =await User.findOne({where:{userid:userid}})
         if(userExist){
             res.json({flag:'2',message:'ID가 중복이됩니다!'})
