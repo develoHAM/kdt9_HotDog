@@ -15,6 +15,7 @@ const io = SocketIO(server)
 
 //미들웨어
 app.set('view engine', 'ejs');
+app.set('views', './views')
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
