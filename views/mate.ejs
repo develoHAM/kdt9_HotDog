@@ -25,7 +25,7 @@
         <div id="myInfo"></div>
     </div>
     <div id="mateList-wrapper">
-        <p>조회되는 사람들</p>
+        <p>=============조회되는 사람들================</p>
         <ul id="mateList"></ul>
     </div>
     <div id="findMate">
@@ -77,6 +77,11 @@
         <button type="button" onclick="cancelSearch()" id="cancelSearch">찾기 취소</button>
     </div>
     <button type="button" onclick="test()">현재 방 인원 확인</button>
+    <div id="chat-list-wrapper">
+        <p>=============대화목록===========</p>
+        <ul id="chat-list">
+        </ul>
+    </div>
     <div id="chat-wrapper"></div>
 </body>
 <script>
@@ -86,29 +91,6 @@
     //아이디 담길 변수 선언
     let myID;
     let otherID;
-
-    // token 유효성 검사
-    function submitID() {
-        const node = document.querySelector('#myID')
-        const token = window.localStorage.getItem(`${node.value}`);
-        axios({
-            method: 'post',
-            url: '/mypage',
-            data: {
-                token
-            }
-        }).then(res => {
-            console.log(res.data)
-            if (res.data.result) {
-                myID = res.data.userid
-                console.log('myID', myID)
-            } else {
-                alert('로그인 해주세요')
-                document.location.href = '/'
-            }
-        })
-    }
-
 
     //소켓 연결
     const socket = io()
@@ -126,6 +108,38 @@
     const onSearch = document.querySelector('#onSearch')
     const ul = document.querySelector('#mateList')
 
+    // token 유효성 검사
+    async function submitID() {
+        const node = document.querySelector('#myID')
+        const token = window.localStorage.getItem(`${node.value}`);
+        const res = await axios({
+            method: 'post',
+            url: '/mate/verify',
+            data: {
+                token
+            }
+        })
+        if (res.data.result) {
+            myID = res.data.userinfo.userid
+            console.log('myUserInfo', res.data.userinfo)
+            showMyID(myID)
+        } else {
+            alert('로그인 해주세요')
+            document.location.href = '/'
+        }
+    }
+
+    // 대화목록 보여주기
+    function showChatList(userArray) {
+        userArray.forEach((user) => {
+            const ul = document.querySelector('#chat-list')
+            const li = document.createElement('li')
+            li.textContent = user.userid
+            ul.appendChild(li)
+        })
+    }
+
+    // HTML 채팅방 만들기
     function createChatRoom() {
         const chatWrapper = document.querySelector('#chat-wrapper')
         const chat = document.createElement('div')

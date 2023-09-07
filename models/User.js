@@ -5,12 +5,13 @@ const UserModel = (sequelize) => {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false, //NOT NULL
-            primaryKey: true,
             autoIncrement: true,
+            primaryKey: true,
         },
         userid: {
             type: DataTypes.STRING(20),
             allowNull: false,
+            unique: true
         },
         pw: {
             type: DataTypes.STRING(255),
