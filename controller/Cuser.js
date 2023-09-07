@@ -20,8 +20,11 @@ const get_mypage=(req,res)=>{
 const post_signup=async (req,res)=>{
     const {userid,pw,name,birth,phonenumber,address,dogname,rfid}=req.body;
     console.log(req.body)
+    if(userid===''||pw==="" || name==="" || birth==="" || phonenumber==="" || address==="" || dogname==="" || rfid===""){
+        res.json({flag:'1',message:'모든항목을 입력해주세요'})
+        return;
+    }
     try {
-        
         const userExist =await User.findOne({where:{userid:userid}})
         if(userExist){
             res.json({flag:'2',message:'ID가 중복이됩니다!'})
@@ -89,6 +92,7 @@ const post_mypage=async (req,res)=>{
             id: user.id
         }
     }).then((result) => {
+        console.log(result.id)
         const {id,userid,pw,name,birth,phonenumber,address,dogname,RFIDcode}=result;
         res.json({result: true,id,userid,pw,name,birth,phonenumber,address,dogname,RFIDcode})        
     })
@@ -118,7 +122,16 @@ const mypage=async(req,res)=>{
     }
 }
 
-
+const delete_user=async(req,res)=>{
+    console.log(req.body);
+    const {id}=req.body;
+    const user=User.destroy({
+        where:{id},
+    })
+    if(user){
+        res.json({data:true})
+    }
+}
 
 
 
@@ -140,6 +153,7 @@ module.exports={
     get_mypage,
     post_mypage,
     mypage,
+    delete_user
 }
 
 const bcryptPassword=(password)=>bcrypt.hash(password,11);
