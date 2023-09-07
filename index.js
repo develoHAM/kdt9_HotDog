@@ -36,9 +36,15 @@ socketRouter(io)
 const boardsRouter = require("./routes/boards.js");
 app.use("/boards", boardsRouter);
 
+
+//병원
+const hospital = require("./routes/hospital.js");
+app.use("/hospital",hospital)
+
 //게시판
 const shareRouter = require("./routes/share.js");
 app.use("/share", shareRouter);
+
 
 //404 PAGE NOT FOUND
 app.use('*', (req, res) => {
