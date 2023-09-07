@@ -14,16 +14,16 @@ router.route("/sns")
         res.send("POST /boards/sns");
     });
 
-router.route("/sns/comment")
-    .post((req, res) => {
-        res.send("POST /boards/sns/comment");
-    })
-    .put((req, res) => {
-        res.send("PUT /boards/sns/comment");
-    })
-    .delete((req, res) => {
-        res.send("DELETE /boards/sns/comment");
-    });
+// router.route("/sns/comment")
+//     .post((req, res) => {
+//         res.send("POST /boards/sns/comment");
+//     })
+//     .put((req, res) => {
+//         res.send("PUT /boards/sns/comment");
+//     })
+//     .delete((req, res) => {
+//         res.send("DELETE /boards/sns/comment");
+//     });
 
 router.route("/qna")
     .get((req, res) => {
@@ -33,34 +33,38 @@ router.route("/qna")
         res.send("qnaList");
     })
 
-router.route("/qna/write")
+router.route("/write")
+    .get((req, res) => {
+        res.render("qnaWrite");
+    })
     .post((req, res) => {
-        res.render("qnawrite");
+        // const post = req.body;
+        // const result
     })
     .put((req, res) => {
-        res.render("qnawrite");
+        
     })
     .delete((req, res) => {
-        res.render("qnawrite");
+        
     });
 
-router.route("/qna/comment")
-    .post((req, res) => {
-        res.send("POST /boards/qna/comment");
-    })
-    .put((req, res) => {
-        res.send("PUT /boards/qna/comment");
-    })
-    .delete((req, res) => {
-        res.send("DELETE /boards/qna/comment");
-    });
+// router.route("/qna/comment")
+//     .post((req, res) => {
+//         res.send("POST /boards/qna/comment");
+//     })
+//     .put((req, res) => {
+//         res.send("PUT /boards/qna/comment");
+//     })
+//     .delete((req, res) => {
+//         res.send("DELETE /boards/qna/comment");
+//     });
 
-router.get('/sns/:id', (req, res) => {
-    console.log('sns 매개변수');
-});
+// router.get('/sns/:id', (req, res) => {
+//     console.log('sns 매개변수');
+// });
 
-router.get('/qna/:id', (req, res) => {
-    console.log('qna 매개변수');
-});
+// router.get('/qna/:id', (req, res) => {
+//     console.log('qna 매개변수');
+// });
 
 module.exports = router;
