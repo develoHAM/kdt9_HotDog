@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 const ShareModel = (sequelize) => {
-    return sequelize.define('user', {
+    return sequelize.define('share', {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false, //NOT NULL
