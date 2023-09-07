@@ -1,25 +1,60 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
+
 <body>
     <h1>질문 등록하기</h1>
     <div>
-        <div>
-            <label for="qna-title">제목</label>
-            <input type="text" name="" id="qna-title">
-        </div>
-        <div>
-            <label for="qna-writer">작성자</label>
-            <input type="text" name="" id="qna-writer">
-        </div>
-        <div>
-            <label for="qna-contents">내용</label>
-            <textarea name="" id="qna-contents" cols="30" rows="10"></textarea>
-        </div>
+        <form name="boards-form" method="post">
+            <div>
+                <label for="qnatitle">제목</label>
+                <input type="text" name="qna-title" id="qna-title">
+            </div>
+            <div>
+                <label for="qnawriter">작성자</label>
+                <input type="text" name="qna-writer" id="qna-writer">
+            </div>
+            <div>
+                <label for="qna-contents">내용</label><br>
+                <textarea name="qna-contents" id="qna-contents" cols="30" rows="10"></textarea>
+            </div>
+            <button type="button" onclick="qnaPostFunc()">글싸기</button>
+            <button type="button" onclick="location.href='/boards/qna'">목록으로</table></button>
+        </form>
+
     </div>
+
+    <script>
+        const qnatitle = document.querySelector("#qna-title");
+        const qnawriter = document.querySelector("#qna-writer");
+        const qnacontents = document.querySelector("#qna-contents");
+
+        async function qnaPostFunc() {
+            const form = document.form["boards-form"];
+            // const formData = new FormData(form);
+            try {
+                const res = await axios({
+                    method: "post",
+                    url: "/boards/write",
+                    data: {
+                        qnatitle: form["qna-title"].value,
+                        qnawriter: form["qna-writer"].value,
+                        qnacontents: form["qna-contents"].value,
+                    },
+                })
+                console.log(res.data)
+                window.location.reload();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
 </body>
+
 </html>
