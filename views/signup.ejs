@@ -9,7 +9,7 @@
 <body>
     <h1>회원가입 페이지</h1>
     <label for="userid">아이디</label>
-    <input type="text" id="userid"><br/>
+    <input type="text" id="userid" minlength="4" maxlength="12"><br/>
     <label for="pw">패스워드</label>
     <input type="password" id="pw"><br/>
     <label for="name">이름</label>
@@ -17,7 +17,7 @@
     <label for="birth">생년월일</label>
     <input type="date" id="birth"><br/>
     <label for="phonenumber">전화번호</label>
-    <input type="tel" id="phonenumber"><br/>
+    <input type="number" id="phonenumber"><br/>
     <label for="address">주소</label>
     <input type="text" id="address"><br/>
     <label for="dogname">강아지 이름</label>
@@ -43,6 +43,14 @@
             const data={
                 userid,pw,name,birth,phonenumber,address,dogname,rfid
             }
+            var regIdPw = /^[a-zA-Z0-9]{4,12}$/;
+                if(!regIdPw.test(userid)){
+                alert("아이디 4~12자 영문 대소문자, 숫자만 입력하세요.")
+                return false;
+            }else if(!regIdPw.test(pw)){
+                alert("비밀번호 4~12자 영문 대소문자, 숫자만 입력하세요.")
+                return false;
+            }
             console.log(data)
             try {
                 const res=await axios({
@@ -50,8 +58,14 @@
                     url:'/signup',
                     data
                 })
-                if (res.data.result) {
-                        alert('회원가입을 축하드립니다');
+                if(res.data.flag==='1'){
+                    alert(`${res.data.message}`)
+                }
+                if (res.data.flag==='2') {
+                        alert(`${res.data.message}`);
+                    }
+                if (res.data.flag==='3') {
+                        alert(`${res.data.message}`);
                         document.location.href = '/';
                     }
             } catch (error) {

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>용품 나눔</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+  </script>
+  <style>
+    .modal-body {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    글쓰기
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">게시글 작성</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="write-form">
+            <label for="userid">작성자</label>
+            <input type="text" id="userid" /><br />
+            <label for="title">제목</label>
+            <input type="text" id="title" placeholder="제목" /><br />
+            <label for="content">내용</label>
+            <textarea type="text" id="content" placeholder="내용"></textarea><br />
+            <label for="chooseFile"></label>
+            <div class="imgBtn"><input type="file" id="chooseFile" name="chooseFile" onchange="loadFile(this)"></div>
+            <button type="button" onclick="writeShare()" data-bs-dismiss="modal">작성완료</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <table border="1" cellspacing="0" class="table TableBox">
+    <thead>
+      <tr>
+        <th>작성자</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>날짜</th>
+        <th>사진</th>
+        <th>수정</th>
+        <th>삭제</th>
+      </tr>
+    </thead>
+      <tbody id="tbody">
+        <% for (let i = 0; i < data.length; i++ ) { %>
+        <tr id="tr_<%= data[i].id %>">
+          <td><%= data[i].userid %></td>
+          <td><%= data[i].title %></td>
+          <td><%= data[i].content %></td>
+          <td><%= data[i].createdAt %></td>
+          <td><%= data[i].content %></td>
+          <td><button type="button" 
+            class="btn btn-primary" 
+            data-bs-toggle="modal" 
+            data-bs-target="#editModal" 
+            onclick="editShare('<%= data[i].id %>')">수정</button></td>
+          <td><button type="button" onclick="deleteShare('<%= data[i].id %>')">삭제</button></td>
+          <% } %>
+      </tbody>
+      <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">게시글 변경</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="edit-form">
+                <label for="userid">작성자</label>
+                <input type="text" id="userid" /><br />
+                <label for="title">제목</label>
+                <input type="text" id="title" /><br />
+                <label for="content">내용</label>
+                <textarea type="text" id="content"></textarea><br />
+                <label for="chooseFile"></label>
+                <div class="imgBtn"><input type="file" id="chooseFile" name="chooseFile" onchange="loadFile(this)"></div>
+                <button type="button" onclick="editShare()" data-bs-dismiss="modal">변경완료</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </table>
+
+
+
+  <script>
+
+    const userid = document.querySelector('#userid')
+    const title = document.querySelector('#title')
+    const content = document.querySelector('#content')
+    const body = document.querySelector('tbody')
+    const tbody=document.querySelector('#tbody');
+    async function writeShare() {
+      const form = document.forms['write-form']
+      try {
+        const res = await axios({
+          method: 'POST',
+          url: '/share/shareCommit',
+          data: {
+            userid: form.userid.value,
+            title: form.title.value,
+            content: form.content.value
+          }
+        });
+        console.log(res.data)
+        if (res.data.result) {
+          alert(`등록되었습니다.`)
+          console.log('res', res)
+          const tbody = `
+          <td>${res.data.userid}<td>
+          <td>${res.data.title}<td>
+          <td>${res.data.content}<td>
+          <td>1<td>
+          <td>2<td>
+          <td>3<td>
+          ` 
+          body.insertAdjacentHTML('beforeend', tbody);
+          window.location.reload()
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    async function editShare(id) {
+      const form = document.forms['edit-form'];
+      if (!confirm ('수정 하시겠습니까?')) {
+        return
+      }
+      try {
+        const res = await axios({
+          method: 'PATCH',
+          url: '/share/edit',
+          data: {
+            id:Number(id),
+            userid: form.userid.value,
+            title: form.title.value,
+            content: form.content.value
+          }
+        });
+        console.log(res.data)
+        if (res.data.result) {
+          alert(`변경 완료되었습니다.`)
+          const tbody = `
+          <td>${res.data.userid}<td>
+          <td>${res.data.title}<td>
+          <td>${res.data.content}<td>
+          <td>1<td>
+          <td>2<td>
+          <td>3<td>
+          ` 
+          window.location.reload()
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    async function deleteShare(id) {
+      if (!confirm ('삭제 하시겠습니까?')) {
+        return
+      }
+      try {
+        const res = await axios({
+        method : 'DELETE',
+        url : '/share/delete',
+        data : {
+          id: Number(id),
+        }
+      });
+      if (res.data.result) {
+          alert(`삭제되었습니다.`)
+          window.location.reload()
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      
+      console.log(first)
+    }
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
