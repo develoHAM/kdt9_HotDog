@@ -14,14 +14,6 @@ router.route("/sns")
         res.send("POST /boards/sns");
     });
 
-router.route("/qna")
-    .get((req, res) => {
-        res.render("qna");
-    })
-    .post((req, res) => {
-        res.send("qna");
-    })
-    
 router.route("/sns/comment")
     .post((req, res) => {
         res.send("POST /boards/sns/comment");
@@ -31,6 +23,25 @@ router.route("/sns/comment")
     })
     .delete((req, res) => {
         res.send("DELETE /boards/sns/comment");
+    });
+
+router.route("/qna")
+    .get((req, res) => {
+        res.render("qnaList");
+    })
+    .post((req, res) => {
+        res.send("qnaList");
+    })
+
+router.route("/qna/write")
+    .post((req, res) => {
+        res.render("qnawrite");
+    })
+    .put((req, res) => {
+        res.render("qnawrite");
+    })
+    .delete((req, res) => {
+        res.render("qnawrite");
     });
 
 router.route("/qna/comment")

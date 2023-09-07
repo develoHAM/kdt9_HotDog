@@ -14,6 +14,7 @@ const qnaComment = require("./qnaComment");
 db.User = require('./User')(sequelize);
 db.Room = require('./Room')(sequelize);
 db.UserRoom = require('./User_Room')(sequelize);
+db.Share = require('./Share')(sequelize);
 // db.RFID =require('./RFID')(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
