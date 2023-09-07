@@ -43,7 +43,8 @@
 
       <a href="/mypage">마이페이지</a>
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" id="modalbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button type="button" class="loginoutbtn" id="logoutBtn" onclick="logout()" hidden>로그아웃</button>
+      <button type="button" class="btn btn-primary loginoutbtn" id="modalbtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
         로그인
       </button>
   </div>
@@ -80,7 +81,8 @@
     async function signin() {
       const userid = document.querySelector("#userid").value;
       const pw = document.querySelector("#pw").value;
-      const button = document.querySelector('#modalbtn')
+      const loginbutton = document.querySelector('#modalbtn')
+      const logoutbutton = document.querySelector('#logoutBtn')
       const data = {
         userid,
         pw,
@@ -93,9 +95,11 @@
         });
         console.log(res.data);
         if (res.data.result) {
-          localStorage.setItem("token", res.data.token);
-          alert(`${res.data.data.name}님 로그인 성공`);
-          // document.location.href = `/`;
+          localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
+          alert(`${res.data.userinfo.name}님 로그인 성공`);
+          // document.location.href = `/`; 
+          loginbutton.hidden = true;
+          logoutbutton.hidden = false;
         } else {
           alert(`${res.data.message}`);
           document.location.reload();
@@ -103,6 +107,20 @@
       } catch (error) {
         console.log(error);
       }
+    }
+    async function logout(){
+    //   const token=localStorage.getItem(`${userid}`);
+    //  const res=await axios({
+    //       method:"POST",
+    //       url:'/logout',
+    //       data:token
+    //   })
+    //   if(res.data){
+    //     localStorage.removeItem()
+    //     document.location.href='/';
+    //   }
+      window.localStorage.clear()
+      document.location.href = '/'
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
