@@ -30,6 +30,7 @@
     <label for="rfid">RFID</label>
     <input type="text" id="rfid" readonly><br />
     <button type="button" onclick="edit()">수정하기</button>
+    <button type="button" onclick="delete_user()">탈퇴하기</button>
     <script>
         const userid = document.querySelector('#userid');
         const pw = document.querySelector('#pw');
@@ -54,6 +55,7 @@
         }).then(res => {
             console.log(res.data)
             if(res.data.result) {
+                id.value=res.data.id
                 userid.value = res.data.userid;
                 pw.value = res.data.pw;
                 name.value = res.data.name;
@@ -97,6 +99,23 @@
                 document.location.href = '/';
             }
         }
+        async function  delete_user() {
+                if (!confirm('회원탈퇴 하시겠습니까?')) {
+                    return;
+                }
+             const res=  await axios({
+                    method: 'DELETE',
+                    url: '/delete',
+                    data: {
+                        id: Number(id.value),
+                    },
+                })
+                if (res.data.data) {
+                    alert('회원탈퇴 완료되었습니다');
+                    document.location.href = '/';
+                }
+                
+            }
     </script>
 </body>
 

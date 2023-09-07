@@ -11,5 +11,6 @@ router.post('/login',controller.post_signin);
 router.get('/mypage',controller.get_mypage);
 router.post('/mypage',controller.post_mypage);
 router.patch('/mypage',controller.mypage);
-router.post('/signup',controller.post_signup)
+router.post('/signup',controller.post_signup);
+router.delete('/delete',controller.delete_user);
 module.exports=router;
