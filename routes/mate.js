@@ -23,60 +23,88 @@ router.post('/testUser', async (req, res) => {
     res.json({ result: true, userinfo: result })
 })
 
-router.post('/testRoom', async (req, res) => {
-    const { roomid } = req.body
-    const result = await Room.create({
-        roomid
-    })
-    res.json({ result: true, roominfo: result })
+router.post('/test', async (req, res) => {
+    console.log('hi')
+    try {
+        const { myID, otherID, roomID } = req.body
+        const [findRoom] = await Room.findAll({
+            where: {
+                roomid: roomID
+            }
+        })
+        if (!findRoom) {
+            const room = await Room.create({
+                roomid: roomID,
+            })
+            const me = await User.findOne({
+                where: {
+                    userid: myID
+                }
+            })
+            const other = await User.findOne({
+                where: {
+                    userid: otherID
+                }
+            })
+            const createdRoom = await room.addUsers([me, other])
+            res.json({ result: 'true', createdRoom: createdRoom })
+        } else {
+            res.json({ result: 'false', msg: 'user already exists in the conversation' })
+        }
+    } catch (error) {
+        console.log(error)
+    }
 })
 
-router.post('/testUserRoom', async (req, res) => {
-    const { userid, otherid, roomid } = req.body
+router.get('/test', async (req, res) => {
     try {
-        const myID = await UserRoom.create({
-            userid,
-            roomid
+        const { myID } = req.query
+        const user = await User.findOne({
+            where: {
+                userid: myID
+            }
         })
-        const otherID = await UserRoom.create({
-            userid: otherid,
-            roomid
-        })
-        res.json({ result: true, userRoomInfo: { myID: myID, otherID: otherID } })
+        const arr = []
+        const rooms = await user.getRooms()
+        rooms.forEach(element => {
+            arr.push(element.roomid)
+        });
+
+        const result = []
+        for(let i = 0; i < arr.length; i++) {
+            const findAllRelations = await UserRoom.findAll({
+                where: {
+                    roomid: arr[i]
+                }
+            })
+            const temp = []
+            for(let j = 0; j < findAllRelations.length; j++) {
+                if(findAllRelations[j].userid !== myID) {
+                    temp.push({roomid: findAllRelations[j].roomid ,userid: findAllRelations[j].userid})
+                }
+            }
+            result.push(...temp)
+        }
+        res.json({result: true, data: result})
     } catch (error) {
         console.log(error)
         res.json({ result: false })
     }
 })
 
-router.get('/test', async (req, res) => {
+router.delete('/test', (req, res) => {
+    const {myID, otherID, roomID} = req.body
     try {
-        const result = await UserRoom.findAll({
-        })
-        res.json({ result: true, info: result })
-    } catch (error) {
-        console.log(error)
-        res.json({ result: false, err: error })
-    }
-})
-
-router.post('/test', async (req, res) => {
-    try {
-        const {myID, otherID, roomID} = req.body
-        const user = await User.findOne({
+        const res = UserRoom.destroy({
             where: {
                 userid: myID
             }
         })
-
-        const rooms = await user.getRooms();
-        console.log('rooms ====', rooms)
-        res.json({result: true, rooms})
     } catch (error) {
-        console.log('error ========', error)
-        res.json({result: false})
+        
     }
 })
+
 
 
 
