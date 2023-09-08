@@ -1,4 +1,5 @@
 const { User, Room, UserRoom } = require('../models');
+const { OP } = require('sequelize')
 const { v4: uuidv4 } = require('uuid');
 
 exports.connection = (io, socket) => {
@@ -8,20 +9,25 @@ exports.connection = (io, socket) => {
         console.log('test =====', io.sockets.adapter.rooms)
     })
 
+    socket.on('getChatList', async (myID) => {
+    
+    console.log(result)
+    })
+
     socket.on('joinRoom', (data) => {
         console.log('data =====', data)
         socket.join(data.roomName)
         socket.room = data.roomName
         socket.userid = data.userid
 
-        const clientList = getUsersInRoom(socket.room)
-        io.to(socket.room).emit('usersInRoom', clientList)
+        const clientList = getUsersInFilter(socket.room)
+        io.to(socket.room).emit('usersInFilter', clientList)
     })
 
     socket.on('leaveRoom', (userid, room) => {
         console.log(`${userid} left ROOM ${room}`)
         socket.leave(room)
-        const clientList = getUsersInRoom(room)
+        const clientList = getUsersInFilter(room)
         console.log('clientList =====', clientList)
         io.to(socket.room).emit('usersInRoom', clientList)
     })
@@ -30,7 +36,7 @@ exports.connection = (io, socket) => {
         if (socket.room) {
             console.log(`${socket.userid} left ROOM ${socket.room}`)
             socket.leave(socket.room)
-            const clientList = getUsersInRoom(socket.room)
+            const clientList = getUsersInFilter(socket.room)
             io.to(socket.room).emit('usersInRoom', clientList)
         }
     })
@@ -59,7 +65,7 @@ exports.connection = (io, socket) => {
 
     })
 
-    function getUsersInRoom(room) {
+    function getUsersInFilter(room) {
         const socketIdsInRoom = io.sockets.adapter.rooms.get(room)
         let users = [];
         if (socketIdsInRoom) {

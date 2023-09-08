@@ -123,6 +123,7 @@
             myID = res.data.userinfo.userid
             console.log('myUserInfo', res.data.userinfo)
             showMyID(myID)
+            socket.emit('getChatList', myID)
         } else {
             alert('로그인 해주세요')
             document.location.href = '/'
@@ -181,7 +182,8 @@
         div.appendChild(p)
     }
 
-    socket.on('usersInRoom', (clientList) => {
+
+    socket.on('usersInFilter', (clientList) => {
         console.log('usersInRoom', clientList)
         updateUsers(clientList)
     })
