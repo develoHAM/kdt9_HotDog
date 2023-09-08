@@ -16,9 +16,6 @@ const post_verify = async (req, res) => {
                 userid: tokenInfo.userid
             }
         })
-        console.log('user =====', user)
-
-        const roomsInUser = await User.
         res.json({result: true, userinfo: user})
     } catch (error) {
         console.log(error)

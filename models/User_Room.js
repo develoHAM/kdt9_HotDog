@@ -1,14 +1,8 @@
-const { DataTypes } = require('sequelize');
-
-const UserRoomModel = (sequelize) => {
+const UserRoomModel = (sequelize, Sequelize) => {
     return sequelize.define('users_rooms', {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
     })
 }
 
+
 module.exports = UserRoomModel;
+

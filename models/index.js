@@ -12,8 +12,8 @@ const qnaComment = require("./qnaComment");
 //모델
 //db에 User생성
 db.User = require('./User')(sequelize);
-db.Room = require('./Room')(sequelize);
-db.UserRoom = require('./User_Room')(sequelize);
+db.Room = require('./Room')(sequelize, Sequelize);
+db.UserRoom = require('./User_Room')(sequelize, Sequelize);
 // db.Share = require('./Share')(sequelize);
 // db.RFID =require('./RFID')(sequelize);
 // const model = require('./User');
@@ -25,17 +25,17 @@ db.UserRoom = require('./User_Room')(sequelize);
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.qnaUser = qnaUser;
-db.qnaComment = qnaComment;
+// db.qnaUser = qnaUser;
+// db.qnaComment = qnaComment;
 
-qnaUser.initiate(sequelize);
-qnaComment.initiate(sequelize);
+// qnaUser.initiate(sequelize);
+// qnaComment.initiate(sequelize);
 
-qnaUser.associate(db);
-qnaComment.associate(db);
+// qnaUser.associate(db);
+// qnaComment.associate(db);
 
-db.User.belongsToMany(db.Room, {through: db.UserRoom, foreignKey: 'userid', sourceKey: 'userid' })
-db.Room.belongsToMany(db.User, {through: db.UserRoom, foreignKey: 'roomid', sourceKey: 'roomid',})
+db.User.belongsToMany(db.Room, {through: db.UserRoom, foreignKey: 'userid', otherKey: 'roomid', sourceKey: 'userid', targetKey: 'roomid'})
+db.Room.belongsToMany(db.User, {through: db.UserRoom, foreignKey: "roomid", otherKey: 'userid', sourceKey: 'roomid', targetKey: 'userid'})
 
 
 

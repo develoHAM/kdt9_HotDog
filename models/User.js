@@ -11,7 +11,7 @@ const UserModel = (sequelize) => {
         userid: {
             type: DataTypes.STRING(20),
             allowNull: false,
-            unique: true
+            unique: true,
         },
         pw: {
             type: DataTypes.STRING(255),
