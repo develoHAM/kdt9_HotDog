@@ -1,7 +1,9 @@
 const bcrypt=require('bcrypt');
 const {User, RFID}=require('../models');
 const jwt=require('jsonwebtoken');
-const SECRET='qwerty';
+require('dotenv').config();
+const SECRET=process.env.login_SECRET;
+const round=Number(process.env.hashRound);
 
 const cookieConfig={
     httpOnly:true,
@@ -156,5 +158,5 @@ module.exports={
     delete_user
 }
 
-const bcryptPassword=(password)=>bcrypt.hash(password,11);
+const bcryptPassword=(password)=>bcrypt.hash(password,round);
 const compareFunc=(password,dbpass)=>bcrypt.compare(password,dbpass)
