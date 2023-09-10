@@ -53,7 +53,7 @@ app.use('*', (req, res) => {
 
 //서버 열기
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false}).then(() => {
     server.listen(PORT, () => {
         console.log(`http://localhost:${PORT}`)
     })

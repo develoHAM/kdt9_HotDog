@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const controller = require("../controller/Cqna")
+// const {qnaWrite}=require('../models')
 
 router.route("/")
     .get((req, res) => {
@@ -30,23 +32,15 @@ router.route("/qna")
         res.render("qnaList");
     })
     .post((req, res) => {
-        res.send("qnaList");
+        controller.qna_post(req, res);
     })
 
-router.route("/write")
+router.route("/qna/write")
     .get((req, res) => {
-        res.render("qnaWrite");
+        res.render("qnawrite");
     })
-    .post((req, res) => {
-        // const post = req.body;
-        // const result
-    })
-    .put((req, res) => {
-        
-    })
-    .delete((req, res) => {
-        
-    });
+    
+
 
 // router.route("/qna/comment")
 //     .post((req, res) => {
