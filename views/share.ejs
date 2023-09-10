@@ -38,8 +38,8 @@
             <input type="text" id="title" placeholder="제목" /><br />
             <label for="content">내용</label>
             <textarea type="text" id="content" placeholder="내용"></textarea><br />
-            <label for="chooseFile"></label>
-            <div class="imgBtn"><input type="file" id="chooseFile" name="chooseFile" onchange="loadFile(this)"></div>
+            <label for="dynamic_file"></label>
+            <input type='file' id="dynamic_file" accept='image/jpg, image/png, image/jpeg' />
             <button type="button" onclick="writeShare()" data-bs-dismiss="modal">작성완료</button>
           </form>
         </div>
@@ -70,17 +70,15 @@
           <td><%= data[i].userid %></td>
           <td><%= data[i].title %></td>
           <td><%= data[i].content %></td>
-          <td><%= data[i].createdAt %></td>
-          <td><%= data[i].content %></td>
+          <td><%= data[i].createdAt.toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) %></td>
+          <td><img src="<%= data[i].dynamic_file %>" alt="images" style="width :100px; height:100px;"/></td>
           <td><button type="button" 
             class="btn btn-primary" 
             data-bs-toggle="modal" 
-            data-bs-target="#editModal" 
-            onclick="editShare('<%= data[i].id %>')">수정</button></td>
+            data-bs-target="#editModal_<%= data[i].id %>">수정</button></td>
           <td><button type="button" onclick="deleteShare('<%= data[i].id %>')">삭제</button></td>
-          <% } %>
       </tbody>
-      <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="editModal_<%= data[i].id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -88,16 +86,16 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form id="edit-form">
+              <form id="edit-form_<%= data[i].id %>"">
                 <label for="userid">작성자</label>
                 <input type="text" id="userid" /><br />
                 <label for="title">제목</label>
                 <input type="text" id="title" /><br />
                 <label for="content">내용</label>
                 <textarea type="text" id="content"></textarea><br />
-                <label for="chooseFile"></label>
-                <div class="imgBtn"><input type="file" id="chooseFile" name="chooseFile" onchange="loadFile(this)"></div>
-                <button type="button" onclick="editShare()" data-bs-dismiss="modal">변경완료</button>
+                <label for="dynamic_file"></label>
+                <input type='file' id="dynamic_file" accept='image/jpg, image/png, image/jpeg' />
+                <button type="button" onclick="editShare('<%= data[i].id %>')" data-bs-dismiss="modal">변경완료</button>
               </form>
             </div>
             <div class="modal-footer">
@@ -106,82 +104,75 @@
           </div>
         </div>
       </div>
+      <% } %>
   </table>
 
-
-
   <script>
-
     const userid = document.querySelector('#userid')
     const title = document.querySelector('#title')
     const content = document.querySelector('#content')
     const body = document.querySelector('tbody')
     const tbody=document.querySelector('#tbody');
+
     async function writeShare() {
-      const form = document.forms['write-form']
+      event.preventDefault();
+
+      const userid = document.querySelector('#userid').value;
+      const title = document.querySelector('#title').value;
+      const content = document.querySelector('#content').value;
+      const fileInput = document.querySelector('#dynamic_file');
+
+      const formData = new FormData();
+      formData.append('userid', userid);
+      formData.append('title', title);
+      formData.append('content', content);
+      formData.append('dynamic_file', fileInput.files[0]);
+
       try {
-        const res = await axios({
-          method: 'POST',
-          url: '/share/shareCommit',
-          data: {
-            userid: form.userid.value,
-            title: form.title.value,
-            content: form.content.value
-          }
+        const response = await axios.post(
+          '/share/shareCommit', 
+          formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         });
-        console.log(res.data)
-        if (res.data.result) {
-          alert(`등록되었습니다.`)
-          console.log('res', res)
-          const tbody = `
-          <td>${res.data.userid}<td>
-          <td>${res.data.title}<td>
-          <td>${res.data.content}<td>
-          <td>1<td>
-          <td>2<td>
-          <td>3<td>
-          ` 
-          body.insertAdjacentHTML('beforeend', tbody);
-          window.location.reload()
+        console.log(response.data)
+        console.log(response.data.result)
+        alert('등록되었습니다.');
+        window.location.reload()
+        if (response.data.result) {
+          console.log(response.data)
         }
       } catch (error) {
-        console.log(error)
+        console.error('오류 발생:', error);
       }
     }
 
-    async function editShare(id) {
-      const form = document.forms['edit-form'];
-      if (!confirm ('수정 하시겠습니까?')) {
-        return
+async function editShare(id) {
+      const form = document.forms['edit-form_' + id];
+      if (!confirm('수정 하시겠습니까?')) {
+        return;
       }
       try {
         const res = await axios({
           method: 'PATCH',
-          url: '/share/edit',
+          url: `/share/edit/${id}`,
           data: {
-            id:Number(id),
+            id: Number(id),
             userid: form.userid.value,
             title: form.title.value,
-            content: form.content.value
-          }
+            content: form.content.value,
+          },
         });
-        console.log(res.data)
         if (res.data.result) {
-          alert(`변경 완료되었습니다.`)
-          const tbody = `
-          <td>${res.data.userid}<td>
-          <td>${res.data.title}<td>
-          <td>${res.data.content}<td>
-          <td>1<td>
-          <td>2<td>
-          <td>3<td>
-          ` 
-          window.location.reload()
+          alert(`변경 완료되었습니다.`);
+          window.location.reload();
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
+
 
     async function deleteShare(id) {
       if (!confirm ('삭제 하시겠습니까?')) {
