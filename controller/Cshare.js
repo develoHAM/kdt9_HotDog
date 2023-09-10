@@ -18,35 +18,61 @@ const get_User = (req, res) => {
 
 /////////
 
-const post_shareCommit =async (req, res) => {
-    console.log('asd');
-    const { userid, title, content } = req.body;
-    console.log(req.body)
-   const share = await Share.create({
-        userid : req.body.userid,
-        title : req.body.title,
-        content : req.body.content
-    })
-    if(share){
-        res.json({result:true,userid,title,content})
-    }
-    
-    // }
-}
+async function post_shareCommit(req, res) {
+    try {
+      const { userid, title, content } = req.body;
+      const dynamic_file = req.file ? req.file.path : null; // 파일 업로드 처리
+  
+      const now = new Date();
+      const formattedCreatedAt = now.toISOString();
 
-const patch_editShare = async (req,res) => {
-    console.log('asdasd')
-    const { userid, title, content } = req.body;
-    console.log(req.body);
-    const share = await Share.update ({
-        userid : req.body.userid,
-        title : req.body.title,
-        content : req.body.content
-    }, {where : {id : req.body.id}})
-    if(share){
-        res.json({result:true,userid,title,content})
+      const newShare = await Share.create({ userid, title, content, dynamic_file , createdAt: formattedCreatedAt});
+      res.status(201).json(newShare);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: '글 작성 실패' });
     }
-}
+  }
+
+// const patch_editShare = async (req,res) => {
+//     console.log('asdasd')
+//     const { userid, title, content } = req.body;
+//     console.log(req.body);
+//     const share = await Share.update ({
+//         userid : req.body.userid,
+//         title : req.body.title,
+//         content : req.body.content
+//     }, {where : {id : req.body.id}})
+//     if(share){
+//         res.json({result:true,userid,title,content})
+//     }
+// }
+const patch_editShare = async (req, res) => {
+  console.log('asdasd');
+  const { id, userid, title, content } = req.body;
+  console.log(req.body);
+  try {
+    const share = await Share.update(
+      {
+        userid: userid,
+        title: title,
+        content: content,
+      },
+      { where: { id: id } }
+    );
+    if (share[0] === 1) {
+      // Check if exactly 1 row was updated
+      res.json({ result: true, id, userid, title, content });
+    } else {
+      res.json({ result: false, message: '수정에 실패했습니다.' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ result: false, message: '서버 오류 발생' });
+  }
+};
+
+
 const delete_share = async (req,res) => {
     console.log('asdasdasd')
     const share = await Share.destroy ({
