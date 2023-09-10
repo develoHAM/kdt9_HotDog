@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const QnaModel = require("./Qna");
 
 const UserModel = (sequelize) => {
     return sequelize.define('user', {
@@ -43,5 +44,6 @@ const UserModel = (sequelize) => {
         }
     });
 };
+
 
 module.exports = UserModel;
