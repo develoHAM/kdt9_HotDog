@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>게시글 상세 조회</title>
+    <link rel="stylesheet" href="../css/qnaDetail.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.container {
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+
+<body>
+    <h1>게시글 상세 조회</h1>
+    <div class="container">
+    <input type="hidden" id="id" value="<%=data.id%>">
+    <label for="writer">작성자</label>
+    <input type="text" id="writer" value="<%=data.writer%>" readonly><br>
+    <label for="title">제목</label>
+    <input type="text" id="title" value="<%=data.title%>"><br>
+    <label for="contents">내용</label>
+    <!-- <input type="text" id="contents" value="<%=data.contents%>"><br> -->
+    <textarea id="contents" cols="" rows="10"><%=data.contents%></textarea>
+    <button type="button" onclick="edit()">수정</button>
+    <button type="button" onclick="deleteBoards()">삭제</button>
+    </div>
+
+</body>
+<script>
+    async function edit() {
+        const id = document.getElementById("id").value;
+        const title = document.getElementById("title").value;
+        const contents = document.getElementById("contents").value;
+        console.log(id)
+        console.log(title)
+        console.log(contents)
+        try {
+        if (!confirm("수정 하시겠습니까?")) {
+            return;
+        }
+        const data = {
+            id: Number(id),
+            title: title,
+            contents: contents,
+        };
+            const res = await axios({
+            method: "PATCH",
+            url: `/boards/qna/${id}`,
+            data,
+        })
+            if(res.data.data){
+            alert(`${res.data.message}`);
+            document.location.href = '/boards/qna';
+            }
+        } catch (error) {
+            console.error(error);
+            alert("수정 중 오류가 발생했습니다.");
+        }
+    }
+
+    async function deleteBoards() {
+        const id = document.getElementById("id").value;
+        const data={id}
+
+        if (!confirm("삭제 하시겠습니까?")) {
+            return;
+        }
+
+        try {
+            const res = await axios({
+            method: "DELETE",
+            url:`/boards/qna/${id}`,
+            data
+            })
+            console.log(res.data)
+            if (res.data.data){
+            alert("삭제가 완료되었습니다.");
+            document.location.href = '/boards/qna';
+            return;
+        }
+    } catch (error) {
+        console.error(error);
+        alert("삭제 중 오류가 발생했습니다.");
+        document.location.href = '/boards/qna';
+        return;
+    }
+}
+</script>
+
+</html>

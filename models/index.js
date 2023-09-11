@@ -23,8 +23,8 @@ db.Qna = require("./Qna")(sequelize);
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'id' });
-db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'id' });
+db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid' });
+db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid' });
 // db.qnaUser = qnaUser;
 // db.qnaComment = qnaComment;
 
