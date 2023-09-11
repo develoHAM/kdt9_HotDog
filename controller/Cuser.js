@@ -1,5 +1,5 @@
 const bcrypt=require('bcrypt');
-const {User, RFID}=require('../models');
+const {User}=require('../models');
 const jwt=require('jsonwebtoken');
 require('dotenv').config();
 const SECRET=process.env.login_SECRET;
@@ -134,9 +134,6 @@ const delete_user=async(req,res)=>{
         res.json({data:true})
     }
 }
-
-
-
 
 
 

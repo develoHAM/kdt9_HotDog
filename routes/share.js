@@ -4,7 +4,7 @@ const router = express.Router();
 const multer = require('multer');
 const AWS = require("aws-sdk");
 const multerS3 = require('multer-s3');
-AWS.config.loadFromPath(__dirname + "/../config/awsconfig.json");
+// AWS.config.loadFromPath(__dirname + "/../config/awsconfig.json");
 
 // const aws = require('aws-sdk'); // aws 설정을 위한 모듈
 
