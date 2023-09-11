@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controller/Cqna")
 // const {qnaWrite}=require('../models')
+const { Qna } = require('../models')
 
 router.route("/")
     .get((req, res) => {
@@ -28,18 +29,34 @@ router.route("/sns")
 //     });
 
 router.route("/qna")
-    .get((req, res) => {
-        res.render("qnaList");
+    .get(async (req, res) => {
+        const data = await Qna.findAll()
+        // console.log('data ====', data)
+        res.render("qnaList", { data });
     })
     .post((req, res) => {
         controller.qna_post(req, res);
     })
 
-router.route("/qna/write")
+    router.route("/qna/write")
     .get((req, res) => {
         res.render("qnawrite");
     })
-    
+
+router.route("/qna/:id")
+.get(async (req, res) => {
+    const {id}=req.params
+    const result = await Qna.findOne({
+        where:{id: id}
+    })
+    res.render("qnaDetail",{data:result});
+}).delete(async (req, res) => {
+    controller.qna_delete(req, res);
+})
+
+
+
+
 
 
 // router.route("/qna/comment")
