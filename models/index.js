@@ -9,8 +9,8 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 //모델
 //db에 User생성
 db.User = require('./User')(sequelize);
-// db.Room = require('./Room')(sequelize);
-db.UserRoom = require('./User_Room')(sequelize);
+db.Room = require('./Room')(sequelize, Sequelize);
+db.UserRoom = require('./User_Room')(sequelize, Sequelize);
 db.Share = require('./Share')(sequelize);
 // db.RFID =require('./RFID')(sequelize);
 // const model = require('./User');
@@ -34,7 +34,7 @@ db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid' });
 // qnaUser.associate(db);
 // qnaComment.associate(db);
 
-// db.User.belongsToMany(db.Room, {through: db.UserRoom, foreignKey: 'userid', otherKey: 'roomid', sourceKey: 'userid', targetKey: 'roomid'})
-// db.Room.belongsToMany(db.User, {through: db.UserRoom, foreignKey: "roomid", otherKey: 'userid', sourceKey: 'roomid', targetKey: 'userid'})
+db.User.belongsToMany(db.Room, {through: db.UserRoom, foreignKey: 'userid', otherKey: 'roomid', sourceKey: 'userid', targetKey: 'roomid'})
+db.Room.belongsToMany(db.User, {through: db.UserRoom, foreignKey: "roomid", otherKey: 'userid', sourceKey: 'roomid', targetKey: 'userid'})
 
 module.exports = db;
