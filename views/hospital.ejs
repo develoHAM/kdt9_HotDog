@@ -30,11 +30,63 @@
 </head>
 
 <body>
+    !-- nav -->
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">로고</a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="btns" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">산책친구 찾기</a>
+              </li>
+
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  게시판
+                </a>
+                <ul class="dropdown-menu">
+
+                  <li><a class="dropdown-item" href="#">용품나눔</a></li>
+                  <li><a class="dropdown-item" href="#">나의 펫을 자랑합니다</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">강아지 찾기</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="#">Q&A</a>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="myLog">
+            <button class="btn_my" type="button">마이페이지</button>
+            <button class="btn_log" type="button">로그인</button>
+          </div>
+        </div>
+      </nav>
+
     <p style="margin-top: -12px"></p>
     <div class="container">
         <div id="map"></div>
         <div id="hospitalList">
-            <div> 가까운 순서 </div>
+            
+        </div>
+    </div>
+    
+    <p style="margin-top: -12px"></p>
+    <div class="container">
+        <div id="map"></div>
+        <div id="hospitalList">
+            <!-- <div> 가까운 순서 </div> -->
         </div>
     </div>
 
