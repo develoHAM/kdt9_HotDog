@@ -6,9 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <title>Document</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+  </style>
 </head>
 
 <body>
+  <script>
+  </script>
   <div>
     <a href="/boards/qna/write">글쓰기</a>
   </div>
@@ -20,33 +28,30 @@
           <th>제목</th>
           <th>작성자</th>
           <th>작성일</th>
-          <th>조회</th>
         </tr>
       </thead>
       <tbody>
+        <% for (let i=0; i < data.length; i++ ) { %>
         <tr>
-          <td>번호</td>
-          <td><a href="">타이틀</a></td>
-          <td>작성자이름</td>
-          <td>2023.09.07</td>
-          <td>99999</td>
-        </tr>
+            <td><%= data[i].id %></td>
+            <td><a href="/boards/qna/<%= data[i].id %>"><%= data[i].title %></a></td>
+            <td><%= data[i].writer %></td>
+            <td><%= data[i].createdAt.toLocaleString('ko-KR', { 
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit', 
+              hour: '2-digit', 
+              minute: '2-digit',
+              hour12: false  
+            }) %></td>
+          </tr>
+          <% } %>
       </tbody>
     </table>
   </div>
-  <!-- <div>
-    <a href="">&lt;&lt;</a>
-    <a href="">&lt;</a>
-    <a href="">1</a>
-    <a href="">2</a>
-    <a href="">3</a>
-    <a href="">4</a>
-    <a href="">&gt;</a>
-    <a href="">&gt;&gt;</a>
-  </div> -->
-
-  <script>
-    
-  </script>
+  
+  
 </body>
+
 </html>
+

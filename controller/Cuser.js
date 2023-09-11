@@ -144,9 +144,6 @@ const delete_user=async(req,res)=>{
 
 
 
-
-
-
 module.exports={
     main,
     get_signup,
