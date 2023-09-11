@@ -40,6 +40,7 @@ app.use("/boards", boardsRouter);
 //병원
 const hospital = require("./routes/hospital.js");
 app.use("/hospital",hospital)
+app.use('/css', express.static(__dirname + '/css'))
 
 //게시판
 const shareRouter = require("./routes/share.js");
