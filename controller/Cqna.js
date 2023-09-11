@@ -1,7 +1,7 @@
 const  { Qna } = require("../models");
 const { User } = require("../models");
 const jwt = require("jsonwebtoken");
-const SECRET = "qwerty";
+const SECRET = process.env.login_SECRET;
 
 const qna_list = async (req, res, next) => {
     try {
@@ -43,9 +43,31 @@ const qna_post = async (req, res) => {
     return 
 }
 
-// const qna_patch = async (req, res) => {
+const qna_patch = async (req, res) => {
+    const {id,title,contents}=req.body
+    console.log(id, title,contents);
+    try {
+        // const useredit=await Qna.update({
+        //     title,contents,
+        // },{where:{id}})
+        // console.log(useredit);
 
-// }
+        const edited = await Qna.update({
+            title: title,
+            contents: contents
+        },{
+            where: {
+                id: id
+            }
+        })
+        console.log('edited ====', edited)
+        if(edited){
+            res.json({data:true,message:"수정완료"})
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 const qna_delete = async (req, res) => {
     console.log(req.body)
@@ -54,7 +76,7 @@ const qna_delete = async (req, res) => {
         const contents = await Qna.destroy ({
             where: {id}
         });
-        if(contents > 0) {
+        if(contents) {
             res.json({data: true})
         } else{
             res.json({ data: false, message: "ID 없음"})
@@ -68,6 +90,6 @@ const qna_delete = async (req, res) => {
 module.exports = {
     qna_list,
     qna_post,
-    // qna_patch,
+    qna_patch,
     qna_delete,
 };

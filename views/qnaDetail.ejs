@@ -93,11 +93,12 @@ button:hover {
             const res = await axios({
             method: "PATCH",
             url: `/boards/qna/${id}`,
-            data: data,
+            data,
         })
-            console.log(res.data);
-            alert("수정이 완료되었습니다.");
+            if(res.data.data){
+            alert(`${res.data.message}`);
             document.location.href = '/boards/qna';
+            }
         } catch (error) {
             console.error(error);
             alert("수정 중 오류가 발생했습니다.");
@@ -106,6 +107,7 @@ button:hover {
 
     async function deleteBoards() {
         const id = document.getElementById("id").value;
+        const data={id}
 
         if (!confirm("삭제 하시겠습니까?")) {
             return;
@@ -115,8 +117,10 @@ button:hover {
             const res = await axios({
             method: "DELETE",
             url:`/boards/qna/${id}`,
+            data
             })
-            if (res.data.result){
+            console.log(res.data)
+            if (res.data.data){
             alert("삭제가 완료되었습니다.");
             document.location.href = '/boards/qna';
             return;

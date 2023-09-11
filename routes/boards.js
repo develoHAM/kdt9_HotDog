@@ -52,6 +52,8 @@ router.route("/qna/:id")
     res.render("qnaDetail",{data:result});
 }).delete(async (req, res) => {
     controller.qna_delete(req, res);
+}).patch(async(req,res)=>{
+    controller.qna_patch(req,res);
 })
 
 
