@@ -1,0 +1,103 @@
+/* #hospitalList id */
+
+.container-fluid  {
+    background-color: #F4E0D6;
+    height: 70px;
+    border-radius: 10px;
+
+}
+.myLog{
+    margin-top: 0;
+}
+.btn_my, .btn_log{
+    background-color: #F4E0D6;
+    border:none;
+    color: black;
+    margin-top: 0;
+}
+.btns:hover{
+    
+    display: flex;
+    justify-content: center;
+    align-content: space-evenly;
+
+}
+
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 35px;
+}
+
+#map {
+    width: 50%;
+    height: 500px;
+}
+
+
+#hospitalList {
+    overflow-y: scroll;
+    margin-bottom: 0%;
+    height: 500px; 
+    width: 48%; 
+    background-color: #F4E0D6;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px #000
+
+}
+
+#hospitalList div {
+    margin: 10px 0;
+    padding: 5px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+
+#hospitalList div:hover {
+    background-color: #FFDCC1;
+}
+
+.navbar {
+    background-color: #F4E0D6;
+    padding: 0%;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-toggler-icon {
+    background-color: black;
+}
+
+.nav-link {
+    color: black;
+    font-weight: bold;
+}
+
+.btn_my,
+.btn_log {
+    background-color: #F4E0D6;
+    border: none;
+    color: black;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.btn_my:hover,
+.btn_log:hover {
+    background-color: #FFDCC1;
+}
+
+.myLog {
+    display: flex;
+    align-items: center;
+}
+
