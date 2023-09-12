@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
 const {User, Room, UserRoom} = require('../models');
 const jwt = require('jsonwebtoken');
-const SECRET = 'qwerty';
+require('dotenv').config();
+const SECRET=process.env.login_SECRET;
+const round=Number(process.env.hashRound);
 
 const get_main = (req, res) => {
     res.render('mate')
@@ -29,5 +31,5 @@ module.exports = {
     post_verify
 }
 
-const bcryptPassword = (password) => bcrypt.hash(password,11);
+const bcryptPassword = (password) => bcrypt.hash(password,round);
 const compareFunc = (password,dbpass) => bcrypt.compare(password,dbpass)
