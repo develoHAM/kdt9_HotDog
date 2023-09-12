@@ -249,7 +249,12 @@ exports.connection = (io, socket) => {
             })
 
             if (usersLeftInChat.length == 0) {
-                const destroyChat = await Room.destroy({
+                const destroyChatRoom = await Room.destroy({
+                    where: {
+                        roomid: roomID
+                    }
+                })
+                const destroyChats = await Chat.destroy({
                     where: {
                         roomid: roomID
                     }
