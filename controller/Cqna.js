@@ -1,5 +1,4 @@
-const  { Qna } = require("../models");
-const { User } = require("../models");
+const  { Qna, Comment } = require("../models");
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.login_SECRET;
 
@@ -34,7 +33,7 @@ const qna_post = async (req, res) => {
             title , contents, writer:id 
             // title , contents, writer: userid
         })
-        res.json({data : result.dataValues}) 
+        res.json({data : result.dataValues, result: user}) 
       } catch (err) {
         console.log(err);
         res.json({data : false, message: "글 싸다가 실패"}) 
@@ -87,9 +86,59 @@ const qna_delete = async (req, res) => {
     }
 }
 
+const comment_list = async(req, res) => {
+    try {
+        const {id}=req.body;
+        res.json({data:id});
+    } catch (error) {
+        console.log(error)
+    }
+}
+const comment_register=async(req,res)=>{
+    try {
+        const {id,comment}=req.body
+        res.json({data:id,message:comment})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+    // const comment_post = async(req ,res) => {
+        
+    // }
+
+const comment_delete = async(req ,res) => {
+    
+}
+ 
+const user_verify = async (req ,res) => {
+    const {token,writer}=req.body;
+    const user = jwt.verify(token, SECRET);
+    const id=user.userid
+    if(id===writer){
+        res.json({data:true})
+    }else{
+        res.json({data:false,message:'본인게시물만 수정가능'})
+    }
+}
+const comment_comment=async (req,res)=>{
+    const {writerid,content,boardtype}=req.body;
+    const cmt=await Comment.create({
+       writerid,content,boardtype     
+    })
+    if(cmt){
+        res.json({data:true,id:writerid,contents:content});
+    }
+} 
+//user.userid랑 writer
 module.exports = {
     qna_list,
     qna_post,
     qna_patch,
     qna_delete,
+    user_verify,
+    comment_list,
+    comment_register,
+    comment_delete,
+    comment_comment
 };

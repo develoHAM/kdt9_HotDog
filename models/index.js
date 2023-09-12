@@ -19,20 +19,14 @@ db.Share = require('./Share')(sequelize);
 // db.User.hasOne(db.User);
 // db.RFID.belongsTo(db.RFID);
 db.Qna = require("./Qna")(sequelize);
+db.Comment = require("./Comments")(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+
 db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid' });
 db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid' });
-// db.qnaUser = qnaUser;
-// db.qnaComment = qnaComment;
-
-// qnaUser.initiate(sequelize);
-// qnaComment.initiate(sequelize);
-
-// qnaUser.associate(db);
-// qnaComment.associate(db);
 
 db.User.belongsToMany(db.Room, {through: db.UserRoom, foreignKey: 'userid', otherKey: 'roomid', sourceKey: 'userid', targetKey: 'roomid'})
 db.Room.belongsToMany(db.User, {through: db.UserRoom, foreignKey: "roomid", otherKey: 'userid', sourceKey: 'roomid', targetKey: 'userid'})

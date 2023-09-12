@@ -34,6 +34,7 @@
         const form = document.forms["#boardForm"]
         const token = window.localStorage.getItem("token");
         async function qnaPost() {
+                console.log(token);
                 if (!token) {
                     alert("로그인 해주세요.");
                     return;
@@ -59,7 +60,7 @@
                 url:"/boards/qna",
                 data
                 })
-                console.log(res);
+                console.log(res.data.result.userid);
                 if(res.data.data){
                     alert('글작성 완료!')
                     document.location.href='/boards/qna';

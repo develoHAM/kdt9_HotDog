@@ -6,74 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>게시글 상세 조회</title>
-    <link rel="stylesheet" href="../css/qnaDetail.css">
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-}
-
-.container {
-    max-width: 500px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-label {
-    font-weight: bold;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-    </style>
 </head>
 
 <body>
     <h1>게시글 상세 조회</h1>
     <div class="container">
-    <input type="hidden" id="id" value="<%=data.id%>">
-    <label for="writer">작성자</label>
-    <input type="text" id="writer" value="<%=data.writer%>" readonly><br>
-    <label for="title">제목</label>
-    <input type="text" id="title" value="<%=data.title%>"><br>
-    <label for="contents">내용</label>
-    <!-- <input type="text" id="contents" value="<%=data.contents%>"><br> -->
-    <textarea id="contents" cols="" rows="10"><%=data.contents%></textarea>
-    <button type="button" onclick="edit()">수정</button>
-    <button type="button" onclick="deleteBoards()">삭제</button>
+        <button id="editBtn" type="button" onclick="edit()">수정</button>
+        <button id="deleteBtn" type="button" onclick="deleteBoards()">삭제</button><br><br>
+        <input type="hidden" id="id" value="<%=data.id%>">
+        <label for="writer">작성자</label>
+        <input type="text" id="writer" value="<%=data.writer%>" readonly><br>
+        <label for="title">제목</label>
+        <input type="text" id="title" value="<%=data.title%>"><br>
+        <label for="contents">내용</label><br>
+        <!-- <input type="text" id="contents" value="<%=data.contents%>"><br> -->
+        <textarea id="contents" cols="" rows="10"><%=data.contents%></textarea><br>
+    </div>
+    <br><br>
+    <div id="commentarea"></div>
+    <h2>댓글</h2>
+    <div class="comment-container">
+        <div class="comment-list"></div>
+        <input type="hidden" id="boardtype" value="qna"/>
+        <input type="hidden" id="id" value="<%=data.id%>">
+        <label for="writer">작성자</label>
+        <input type="hidden" id="writer_other" value="<%=data.writer%>" readonly><br>
+        <label for="comment-content">댓글</label>
+        <textarea id="comment-content" rows="4" placeholder="댓글을 입력하세요"></textarea>
+        <button onclick="postComment()">댓글 작성</button>
     </div>
 
 </body>
 <script>
+    const token=localStorage.getItem('token');
+    const writer=document.querySelector('#writer').value
+    const editBtn = document.getElementById("editBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const data={token,writer};
+    axios({
+        method:'POST',
+        url:'/boards/verify',
+        data
+    }).then((res)=>{
+        console.log(res);
+        if(!res.data.data){
+            editBtn.style.display='none'
+            deleteBtn.style.display='none'
+        }
+    })
     async function edit() {
         const id = document.getElementById("id").value;
         const title = document.getElementById("title").value;
@@ -82,22 +62,22 @@ button:hover {
         console.log(title)
         console.log(contents)
         try {
-        if (!confirm("수정 하시겠습니까?")) {
-            return;
-        }
-        const data = {
-            id: Number(id),
-            title: title,
-            contents: contents,
-        };
+            if (!confirm("수정 하시겠습니까?")) {
+                return;
+            }
+            const data = {
+                id: Number(id),
+                title: title,
+                contents: contents,
+            };
             const res = await axios({
-            method: "PATCH",
-            url: `/boards/qna/${id}`,
-            data,
-        })
-            if(res.data.data){
-            alert(`${res.data.message}`);
-            document.location.href = '/boards/qna';
+                method: "PATCH",
+                url: `/boards/qna/${id}`,
+                data,
+            })
+            if (res.data.data) {
+                alert(`${res.data.message}`);
+                document.location.href = '/boards/qna';
             }
         } catch (error) {
             console.error(error);
@@ -107,7 +87,7 @@ button:hover {
 
     async function deleteBoards() {
         const id = document.getElementById("id").value;
-        const data={id}
+        const data = { id }
 
         if (!confirm("삭제 하시겠습니까?")) {
             return;
@@ -115,23 +95,76 @@ button:hover {
 
         try {
             const res = await axios({
-            method: "DELETE",
-            url:`/boards/qna/${id}`,
-            data
+                method: "DELETE",
+                url: `/boards/qna/${id}`,
+                data
             })
             console.log(res.data)
-            if (res.data.data){
-            alert("삭제가 완료되었습니다.");
+            if (res.data.data) {
+                alert("삭제가 완료되었습니다.");
+                document.location.href = '/boards/qna';
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+            alert("삭제 중 오류가 발생했습니다.");
             document.location.href = '/boards/qna';
             return;
         }
-    } catch (error) {
-        console.error(error);
-        alert("삭제 중 오류가 발생했습니다.");
-        document.location.href = '/boards/qna';
-        return;
     }
-}
+     
+    async function verify(writer) {
+      const token = window.localStorage.getItem('token')
+      //const id=document.querySelector('#writer')
+      const data = {
+        token, writer
+      }
+      try {
+        const res = await axios({
+          method: 'POST',
+          url: "/boards/verify",
+          data
+        })
+        console.log(res.data.data);
+        if (!res.data.data) {
+          alert(`${res.data.message}`)
+          document.location.href = '/boards/qna'
+        }
+
+      } catch (error) {
+
+      }
+    }
+        const b_t=document.querySelector('#boardtype')
+        const writer_other=document.querySelector('#writer_other')
+        const contents=document.querySelector('#comment-content')
+        const commentarea=document.querySelector('#commentarea');
+        const div=document.createElement('div')
+        div.style.whiteSpace = 'pre-wrap';
+    async function postComment(){
+        
+        console.log(b_t,writer,contents)
+       const data={
+            writerid:writer_other.value,
+            content:contents.value,
+            boardtype:b_t.value
+       }
+       try {
+           const res=await axios({
+               method:'POST',
+               url:'/boards/comment',
+               data
+           })
+           if(res.data.data){
+            div.textContent +=`${res.data.id}님의 댓글:${res.data.contents}\n`
+            commentarea.append(div);
+            contents.value='';
+           }
+                
+       } catch (error) {
+        console.log(error);
+       }
+    }
 </script>
 
 </html>

@@ -9,24 +9,11 @@ router.route("/")
         res.render("boards")
     });
 
-router.route("/sns")
-    .get((req, res) => {
-        res.send("GET /boards/sns");
-    })
-    .post((req, res) => {
-        res.send("POST /boards/sns");
-    });
 
-// router.route("/sns/comment")
-//     .post((req, res) => {
-//         res.send("POST /boards/sns/comment");
-//     })
-//     .put((req, res) => {
-//         res.send("PUT /boards/sns/comment");
-//     })
-//     .delete((req, res) => {
-//         res.send("DELETE /boards/sns/comment");
-//     });
+router.route("/verify")
+    .post((req, res) => {
+        controller.user_verify(req, res);
+    })
 
 router.route("/qna")
     .get(async (req, res) => {
@@ -38,29 +25,27 @@ router.route("/qna")
         controller.qna_post(req, res);
     })
 
-    router.route("/qna/write")
+router.route("/qna/write")
     .get((req, res) => {
         res.render("qnawrite");
     })
 
 router.route("/qna/:id")
-.get(async (req, res) => {
-    const {id}=req.params
-    const result = await Qna.findOne({
-        where:{id: id}
+    .get(async (req, res) => {
+        const { id } = req.params
+        const result = await Qna.findOne({
+            where: { id: id }
+        })
+        res.render("qnaDetail", { data: result });
+    }).patch(async (req, res) => {
+        controller.qna_patch(req, res);
+    }).delete(async (req, res) => {
+        controller.qna_delete(req, res);
     })
-    res.render("qnaDetail",{data:result});
-}).delete(async (req, res) => {
-    controller.qna_delete(req, res);
-}).patch(async(req,res)=>{
-    controller.qna_patch(req,res);
-})
 
-
-
-
-
-
+    router.post('/list',controller.comment_list);
+    router.post('/register',controller.comment_register);
+    router.post('/comment',controller.comment_comment)
 // router.route("/qna/comment")
 //     .post((req, res) => {
 //         res.send("POST /boards/qna/comment");
@@ -71,10 +56,6 @@ router.route("/qna/:id")
 //     .delete((req, res) => {
 //         res.send("DELETE /boards/qna/comment");
 //     });
-
-// router.get('/sns/:id', (req, res) => {
-//     console.log('sns 매개변수');
-// });
 
 // router.get('/qna/:id', (req, res) => {
 //     console.log('qna 매개변수');

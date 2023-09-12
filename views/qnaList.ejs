@@ -7,7 +7,9 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <title>Document</title>
   <style>
-    table, th, td {
+    table,
+    th,
+    td {
       border: 1px solid black;
       border-collapse: collapse;
     }
@@ -21,7 +23,7 @@
     <a href="/boards/qna/write">글쓰기</a>
   </div>
   <div>
-    <table>
+    <table id="user-list">
       <thead>
         <tr>
           <th>번호</th>
@@ -32,26 +34,100 @@
       </thead>
       <tbody>
         <% for (let i=0; i < data.length; i++ ) { %>
-        <tr>
-            <td><%= data[i].id %></td>
-            <td><a href="/boards/qna/<%= data[i].id %>"><%= data[i].title %></a></td>
-            <td><%= data[i].writer %></td>
-            <td><%= data[i].createdAt.toLocaleString('ko-KR', { 
-              year: 'numeric', 
-              month: '2-digit', 
-              day: '2-digit', 
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: false  
-            }) %></td>
+          <tr>
+            <td onclick="cmt('<%= data[i].id %>')">
+              <%= data[i].id %>
+            </td>
+            <td><a href="/boards/qna/<%= data[i].id %>" onclick="verify('<%= data[i].writer %>')">
+                <%= data[i].title %>
+              </a></td>
+            <td class="writer">
+              <%= data[i].writer %>
+            </td>
+            <td>
+              <%= data[i].createdAt.toLocaleString('ko-KR', { year: 'numeric' , month: '2-digit' , day: '2-digit' ,
+                hour: '2-digit' , minute: '2-digit' , hour12: false }) %>
+            </td>
           </tr>
           <% } %>
       </tbody>
     </table>
   </div>
-  
-  
+  <br>
+  <!-- <div>
+    <form id="comment-form">
+      <fieldset>
+        <legend>댓글 등록</legend>
+        <div>
+          <input type="text" id="cmtid" placeholder="게시글 번호">
+        </div>
+        <div>
+          <input type="text" id="comment" placeholder="댓글">
+        </div>
+        <button type="button" onclick="register()">등록</button>
+      </fieldset>
+    </form> -->
+  </div>
+  </table>
+  <script>
+    const cmtid=document.querySelector('#cmtid');
+    const comment=document.querySelector('#comment')
+
+    // async function verify(writer) {
+    //   const token = window.localStorage.getItem('token')
+    //   //const id=document.querySelector('#writer')
+    //   const data = {
+    //     token, writer
+    //   }
+    //   try {
+    //     const res = await axios({
+    //       method: 'POST',
+    //       url: "/boards/verify",
+    //       data
+    //     })
+    //     console.log(res.data.data);
+    //     if (!res.data.data) {
+    //       alert(`${res.data.message}`)
+    //       document.location.href = '/boards/qna'
+    //     }
+
+    //   } catch (error) {
+
+    //   }
+    // }
+    async function cmt(id){
+      const data={id}
+      console.log(id)
+      try {
+        const res=await axios({
+        method:'POST',
+        url:'/boards/list',
+        data
+      })
+        cmtid.value=`${res.data.data}` 
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    async function register() {
+      const data={
+        id:cmtid.value,
+        comment:comment.value
+      }
+      try {
+        const res=await axios({
+          method:'POST',
+          url:'/boards/register',
+          data,
+        })
+        console.log(`${res.data.data}번 게시물에 대한 댓글:${res.data.message}`)
+      } catch (error) {
+        
+      }
+    }
+  </script>
+
 </body>
 
 </html>
-
