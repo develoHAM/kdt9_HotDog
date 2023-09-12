@@ -11,6 +11,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 db.User = require('./User')(sequelize);
 db.Room = require('./Room')(sequelize, Sequelize);
 db.UserRoom = require('./User_Room')(sequelize, Sequelize);
+db.Chat = require('./Chat')(sequelize, Sequelize);
 db.Share = require('./Share')(sequelize);
 // db.RFID =require('./RFID')(sequelize);
 // const model = require('./User');
