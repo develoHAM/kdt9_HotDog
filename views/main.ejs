@@ -73,7 +73,7 @@
       class="loginoutbtn"
       id="logoutBtn"
       onclick="logout()"
-      hidden
+      style="background-color: #F4E0D6; border: none ;color:black; border-radius: 10px;"
     >
       로그아웃
     </button>
@@ -83,56 +83,58 @@
       id="modalbtn"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
+      style="background-color: #F4E0D6; border: none ;color:black;"
     >
       로그인
     </button>
     </div>
   </nav>
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">로그인</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered"> 
+        <div class="modal-content" style="background-color: #F4E0D6;">
+          <div class="modal-header text-center">
+            <div class="modal-title fs-5" id="exampleModalLabel">로그인</div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form id="login-form">
-              <label for="userid">아이디</label>
-              <input type="text" id="userid" /><br />
-              <label for="userid">비밀번호</label>
-              <input type="password" id="pw" /><br />
-              <button type="button" onclick="signup()">회원가입</button>
-              <button type="button" onclick="signin()">login</button>
+              <div class="mb-3">
+                <label for="userid" class="form-label">아이디</label>
+                <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;">
+              </div>
+              <div class="mb-3">
+                <label for="pw" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;">
+              </div>
+              <div class="text-center">
+                <button type="button" class="btn btn-primary" onclick="signin()" style="background-color:#DBC2BD; border: none;">로그인</button>
+                <button type="button" class="btn btn-primary" onclick="signup()" style="background-color:#DBC2BD; border: none;">회원가입</button>
+                <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal" style="background-color:#DBC2BD; border: none;">Close</button> <!-- 회원가입 버튼 추가 -->
+              </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
           </div>
         </div>
       </div>
     </div>
     <script>
+      window.onload = function() {
+        const loginbutton = document.querySelector("#modalbtn");
+        const logoutbutton = document.querySelector("#logoutBtn");
+    
+        const token = localStorage.getItem("token");
+        if (token) {
+          loginbutton.style.display = "none"; 
+          logoutbutton.style.display = "block"; 
+        } else {
+          loginbutton.style.display = "block"; 
+          logoutbutton.style.display = "none"; 
+        }
+      }
+    
       function signup() {
         window.location.href = "/signup";
       }
+    
       async function signin() {
         const userid = document.querySelector("#userid").value;
         const pw = document.querySelector("#pw").value;
@@ -142,6 +144,7 @@
           userid,
           pw,
         };
+    
         try {
           const res = await axios({
             method: "POST",
@@ -151,10 +154,11 @@
           console.log(res.data);
           if (res.data.result) {
             localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
+            localStorage.setItem(`token`, res.data.token);
             alert(`${res.data.userinfo.name}님 로그인 성공`);
-            // document.location.href = `/`;
-            loginbutton.hidden = true;
-            logoutbutton.hidden = false;
+            loginbutton.style.display = "none";
+            logoutbutton.style.display = "block";
+            window.location.reload();
           } else {
             alert(`${res.data.message}`);
             document.location.reload();
@@ -165,6 +169,10 @@
       }
       async function logout() {
         window.localStorage.clear();
+        const loginbutton = document.querySelector("#modalbtn");
+        const logoutbutton = document.querySelector("#logoutBtn");
+        loginbutton.style.display = "block";
+        logoutbutton.style.display = "none";
         document.location.href = "/";
       }
     </script>

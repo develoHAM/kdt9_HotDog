@@ -11,49 +11,65 @@
 <body>
     <h1>질문 등록하기</h1>
     <div>
-        <form name="boards-form" method="post">
+        <form id="boardForm">
             <div>
-                <label for="qnatitle">제목</label>
-                <input type="text" name="qna-title" id="qna-title">
+                <!-- 'title' 속성 값을 수정 -->
+                <label for="title">제목</label>
+                <input type="text" name="qna-title" id="title">
             </div>
             <div>
-                <label for="qnawriter">작성자</label>
-                <input type="text" name="qna-writer" id="qna-writer">
+                <!-- 'contents' 속성 값을 수정 -->
+                <label for="contents">내용</label><br>
+                <textarea name="qna-contents" id="contents" cols="30" rows="10"></textarea>
             </div>
-            <div>
-                <label for="qna-contents">내용</label><br>
-                <textarea name="qna-contents" id="qna-contents" cols="30" rows="10"></textarea>
-            </div>
-            <button type="button" onclick="qnaPostFunc()">글싸기</button>
-            <button type="button" onclick="location.href='/boards/qna'">목록으로</table></button>
+            <button type="button" onclick="qnaPost()">글싸기</button>
+            <button type="button" onclick="location.href='/boards/qna'">목록으로</button>
         </form>
 
     </div>
 
     <script>
-        const qnatitle = document.querySelector("#qna-title");
-        const qnawriter = document.querySelector("#qna-writer");
-        const qnacontents = document.querySelector("#qna-contents");
+        const title = document.querySelector("#title");
+        const contents = document.querySelector("#contents");
+        const form = document.forms["#boardForm"]
+        const token = window.localStorage.getItem("token");
+        async function qnaPost() {
+                if (!token) {
+                    alert("로그인 해주세요.");
+                    return;
+                }
+                console.log(title.value)
+                if (!title.value) {
+                    alert("제목을 입력해주세요.");
+                    return;
+                }
 
-        async function qnaPostFunc() {
-            const form = document.form["boards-form"];
-            // const formData = new FormData(form);
-            try {
+                if(!contents.value) {
+                    alert("내용을 입력해주세요.");
+                    return;
+                }
+                const data={
+                    title:title.value,
+                    contents:contents.value,
+                    token: token,
+                }
+                try {
                 const res = await axios({
-                    method: "post",
-                    url: "/boards/write",
-                    data: {
-                        qnatitle: form["qna-title"].value,
-                        qnawriter: form["qna-writer"].value,
-                        qnacontents: form["qna-contents"].value,
-                    },
+                method:"POST",
+                url:"/boards/qna",
+                data
                 })
-                console.log(res.data)
-                window.location.reload();
-            } catch (error) {
-                console.log(error);
-            }
+                console.log(res);
+                if(res.data.data){
+                    alert('글작성 완료!')
+                    document.location.href='/boards/qna';
+                }
+                } catch (error) {
+                    console.log(error);
+                }
+
         }
+        
     </script>
 </body>
 

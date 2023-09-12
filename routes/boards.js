@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const controller = require("../controller/Cqna")
+// const {qnaWrite}=require('../models')
+const { Qna } = require('../models')
 
 router.route("/")
     .get((req, res) => {
@@ -26,27 +29,37 @@ router.route("/sns")
 //     });
 
 router.route("/qna")
-    .get((req, res) => {
-        res.render("qnaList");
+    .get(async (req, res) => {
+        const data = await Qna.findAll()
+        // console.log('data ====', data)
+        res.render("qnaList", { data });
     })
     .post((req, res) => {
-        res.send("qnaList");
+        controller.qna_post(req, res);
     })
 
-router.route("/write")
+    router.route("/qna/write")
     .get((req, res) => {
-        res.render("qnaWrite");
+        res.render("qnawrite");
     })
-    .post((req, res) => {
-        // const post = req.body;
-        // const result
+
+router.route("/qna/:id")
+.get(async (req, res) => {
+    const {id}=req.params
+    const result = await Qna.findOne({
+        where:{id: id}
     })
-    .put((req, res) => {
-        
-    })
-    .delete((req, res) => {
-        
-    });
+    res.render("qnaDetail",{data:result});
+}).delete(async (req, res) => {
+    controller.qna_delete(req, res);
+}).patch(async(req,res)=>{
+    controller.qna_patch(req,res);
+})
+
+
+
+
+
 
 // router.route("/qna/comment")
 //     .post((req, res) => {

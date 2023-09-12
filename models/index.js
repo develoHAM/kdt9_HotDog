@@ -6,26 +6,26 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
-const qnaUser = require("./qnaUser");
-const qnaComment = require("./qnaComment");
-
 //모델
 //db에 User생성
 db.User = require('./User')(sequelize);
 db.Room = require('./Room')(sequelize, Sequelize);
 db.UserRoom = require('./User_Room')(sequelize, Sequelize);
 db.Chat = require('./Chat')(sequelize, Sequelize);
-// db.Share = require('./Share')(sequelize);
+db.Share = require('./Share')(sequelize);
 // db.RFID =require('./RFID')(sequelize);
 // const model = require('./User');
 // const temp = model(sequelize);
 // db.User = temp;
 // db.User.hasOne(db.User);
 // db.RFID.belongsTo(db.RFID);
+db.Qna = require("./Qna")(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid' });
+db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid' });
 // db.qnaUser = qnaUser;
 // db.qnaComment = qnaComment;
 
