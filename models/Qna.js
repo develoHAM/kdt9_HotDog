@@ -1,5 +1,4 @@
 const { DataTypes } = require('sequelize');
-const UserModel = require("./User");
 
 const QnaModel = (sequelize) => {
     return sequelize.define('qna', {

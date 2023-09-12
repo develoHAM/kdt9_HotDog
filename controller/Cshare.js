@@ -20,8 +20,9 @@ const get_User = (req, res) => {
 
 async function post_shareCommit(req, res) {
     try {
+      console.log("옴")
       const { userid, title, content } = req.body;
-      const dynamic_file = req.file ? req.file.path : null; // 파일 업로드 처리
+      const dynamic_file = req.file ? req.file.location : null; // 파일 업로드 처리
   
       const now = new Date();
       const formattedCreatedAt = now.toISOString();
@@ -82,29 +83,6 @@ const delete_share = async (req,res) => {
         res.json({result:true})
     }
 }
-
-////////////////////// router
-
-// router.post('/shareCommit', (req, res) => {	
-//     models.User.findOne({
-//         where: {
-//             userid : req.body.userid
-//         }
-//     })	// 글 작성
-//     db.content.create({				// 게시판번호와 게시글정보를 req.body로 받아와 db에 삽입
-//         userid: req.body.userid,
-//         title: req.body.title,
-//         content: req.body.content,
-//     }).then((result) => {
-//         return res.status(200).json({
-//             message: '글 작성 완료!',
-//         })
-//     }).catch(function(err){
-//         console.log(err);
-//         return res.status(404).json({message: '에러뜸'});
-//     })
-// });
-
 
 module.exports = {
     get_main,

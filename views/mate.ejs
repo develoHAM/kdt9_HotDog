@@ -15,19 +15,33 @@
 <body>
     <h1>산책 메이트 찾기 페이지</h1>
     <h4>내정보</h4>
+
+    <!-- ----------------------임의로 아이디 입력-------------------------- -->
+
     <input type="text" id="myID" placeholder="내 ID는?" />
     <button type="button" onclick="submitID()">아이디 입력</button>
-    <input type="text" id="userid" placeholder="아이디">
-    <button type="button" onclick="inputID()">아이디 입력</button>
-    <br />
-    <br />
     <div>내 아이디:
         <div id="myInfo"></div>
     </div>
-    <div id="mateList-wrapper">
+    <hr />
+
+    <!-- -------------------------내 대화 목록--------------------------- -->
+    <div id="chat-list-wrapper" style="background-color: blanchedalmond;">
+        <p>=============대화목록===========</p>
+        <ul id="chat-list">
+        </ul>
+    </div>
+    <div id="chat-wrapper"></div>
+    <hr />
+
+    <!-- -------------------------산책 메이트 조회 리스트 --------------------------- -->
+    <div id="mateList-wrapper" style="background-color: beige; height: 200px;">
         <p>=============조회되는 사람들================</p>
         <ul id="mateList"></ul>
     </div>
+    <hr />
+
+    <!-- -------------------------산책 메이트 찾기--------------------------- -->
     <div id="findMate">
         <p>산책메이트 찾기</p>
         <fieldset>
@@ -76,13 +90,6 @@
         <p>동일한 조건의 산책메이트를 찾는중입니다.</p>
         <button type="button" onclick="cancelSearch()" id="cancelSearch">찾기 취소</button>
     </div>
-    <button type="button" onclick="test()">현재 방 인원 확인</button>
-    <div id="chat-list-wrapper">
-        <p>=============대화목록===========</p>
-        <ul id="chat-list">
-        </ul>
-    </div>
-    <div id="chat-wrapper"></div>
 </body>
 <script>
     //로컬 스토리지에서 'token' 이름의 아이템 불러오기
@@ -95,18 +102,16 @@
     //소켓 연결
     const socket = io()
 
-    //산책페이트 찾기 필터 요소
+    //산책페이트 찾기 필터 요소, 찾기 버튼 요소, 찾는 중 안내 요소
     const findMateForm = document.querySelector('#findMate')
+    const searchBtn = document.querySelector('#search')
+    const onSearch = document.querySelector('#onSearch')
 
     //아이디 입력 요소
     const id = document.querySelector('#userid')
 
     //찾기 조건 담길 변수 선언
     let filter;
-
-    const searchBtn = document.querySelector('#search')
-    const onSearch = document.querySelector('#onSearch')
-    const ul = document.querySelector('#mateList')
 
     // token 유효성 검사
     async function submitID() {
@@ -131,76 +136,212 @@
     }
 
     // 대화목록 보여주기
-    function showChatList(userArray) {
-        userArray.forEach((user) => {
-            const ul = document.querySelector('#chat-list')
+    function showChatList(chatList) {
+        // chatList => [ {roomid:'', users:['userid','userid'] }, ... ]
+
+        const ul = document.querySelector('#chat-list')
+        ul.innerHTML = ''
+
+        chatList.forEach((room) => {
+            let otherUser;
+            room.users.forEach((user) => {
+                if (user != myID) {
+                    otherUser = user
+                }
+            })
+            console.log('otherUser ====', otherUser)
+            if(otherUser == undefined) {
+                otherUser = 'unknown'
+            }
             const li = document.createElement('li')
-            li.textContent = user.userid
+            const span = document.createElement('span')
+            span.textContent = otherUser
+            const enterChatBtn = document.createElement('button')
+            enterChatBtn.textContent = '대화방 참가'
+            enterChatBtn.setAttribute('type', 'button')
+            enterChatBtn.setAttribute('onclick', `enterChat('${room.roomid}','${otherUser}')`)
+
+            const leaveChatBtn = document.createElement('button')
+            leaveChatBtn.textContent = '대화방 나가기'
+            leaveChatBtn.setAttribute('type', 'button')
+            leaveChatBtn.setAttribute('onclick', `leaveChat('${room.roomid}','${otherUser}')`)
+            li.id = `${room.roomid}`
+            li.appendChild(span)
+            li.appendChild(enterChatBtn)
+            li.appendChild(leaveChatBtn)
             ul.appendChild(li)
         })
     }
 
-    // HTML 채팅방 만들기
-    function createChatRoom() {
+    // HTML 채팅방 만드는 함수
+    function createChatRoom(otherID, roomID, messages) {
         const chatWrapper = document.querySelector('#chat-wrapper')
-        const chat = document.createElement('div')
+        chatWrapper.innerHTML = ''
+        const notice = document.createElement('div')
+        notice.textContent = `${myID}와 ${otherID}의 대화방`
 
+        const chat = document.createElement('div')
+        chat.id = `${roomID}`
+        chat.classList.add('chatInterface')
         const chatScreen = document.createElement('div')
+        chatScreen.id = 'chatScreen'
+        chatScreen.style.backgroundColor = 'skyblue'
+        chatScreen.style.height = '300px'
         const inputContainer = document.createElement('div')
         const input = document.createElement('input')
+        input.id = 'messageInput'
         const btn = document.createElement('button')
         btn.textContent = '전송'
+        btn.id = 'sendMessage'
+        btn.setAttribute('onclick', `sendMessage('${otherID}','${roomID}')`)
+
+        const leaveBtn =  document.createElement('button')
+        leaveBtn.textContent = '뒤로가기'
+        leaveBtn.onclick = function () {
+            chatWrapper.innerHTML = ''
+        }
+
 
         inputContainer.appendChild(input)
         inputContainer.appendChild(btn)
+        inputContainer.appendChild(leaveBtn)
 
         chat.appendChild(chatScreen)
         chat.appendChild(inputContainer)
 
+        chatWrapper.appendChild(notice)
         chatWrapper.appendChild(chat)
-    }
 
-    function updateUsers(array) {
-        ul.innerHTML = ''
-        array.forEach((user) => {
-            if (user.userid === myID) {
-                return;
-            } else {
-                const li = document.createElement('li')
-                li.setAttribute('onclick', `chat('${user.userid}','${user.socketid}')`)
-                li.textContent = `${user.userid} / ${user.socketid}`
-                ul.appendChild(li)
-            }
+        if (messages.length == 0) {
+            return;
+        }
+
+        messages.forEach((msginfo) => {
+            const {id, senderid, content} = msginfo
+            appendChatMessage(senderid, id, content)
         })
     }
 
-    function showMyID(id) {
-        const div = document.querySelector('#myInfo')
-        div.innerHTML = ''
-        const p = document.createElement('p')
-        p.textContent = id
-        div.appendChild(p)
+    //대화방 입장 onclick
+    function enterChat(roomID, otherID) {
+        const data = {
+            myID: myID,
+            otherID: otherID,
+            roomID: roomID
+        }
+        socket.emit('fetchChatRoomData', data)
     }
 
-
-    socket.on('usersInFilter', (clientList) => {
-        console.log('usersInRoom', clientList)
-        updateUsers(clientList)
-    })
-
-    socket.on('newChat', (inviterID, myID, privateRoomName) => {
-        alert(`${inviterID}님이 ${myID}님을 대화에 초대했습니다. 대화방=${privateRoomName}`)
-        createChatRoom()
-    })
-
-    function inputID() {
-        myID = id.value
-        showMyID(myID)
-        id.value = ''
+    //clientList를 받아서 보여준 특정 클라이언트 li태그 onclick
+    function chat(otherID, otherSocketID) {
+        const data = {
+            myID: myID,
+            otherID: otherID,
+            otherSocketID: otherSocketID,
+        }
+        socket.emit('startChat', data)
     }
 
+    //대화방 입장시
+    socket.on('openChatRoom', (chatRoomInfo) => {
+        const { myID, otherID, roomID, messages } = chatRoomInfo
+        console.log('messages', messages)
+        // messages => [{id, content. senderid, createdAt},...]
+        createChatRoom(otherID, roomID, messages)
+    })
+
+    function sendMessage(otherID, roomID) {
+        const content = document.querySelector('#messageInput').value
+        const data = {
+            myID,
+            otherID,
+            roomID,
+            content
+        }
+        socket.emit('message', data)
+    }
+
+    socket.on('newMessage', (msgData) => {
+        const { senderID, receiverID, roomID, message } = msgData
+        const chatWrapper = document.querySelector('#chat-wrapper')
+        const chatInterface = document.querySelector('.chatInterface')
+
+        if (myID != senderID) {
+            socket.emit('getChatList', myID)
+            appendNotification(roomID, message)
+            if(document.querySelector('#chatScreen')) {
+                appendChatMessage(senderID, roomID, message)
+            }
+        } else {
+            appendChatMessage(myID, roomID, message)
+        }
+    })
+
+    function appendChatMessage(senderID, roomID, message) {
+        chatScreen = document.querySelector('#chatScreen')
+        chatBubbleContainer = document.createElement('div')
+        chatBubbleContainer.style.textAlign = myID == senderID ? 'right' : 'left'
+        chatBubbleMessage = document.createElement('span')
+        chatBubbleMessage.textContent = message
+        chatBubbleContainer.appendChild(chatBubbleMessage)
+        chatScreen.appendChild(chatBubbleContainer)
+    }
+
+    function appendNotification(roomID, message) {
+        console.log('newMessage to you')
+    }
+
+    //clientList중 하나를 클릭하고 나와 다른 사용자의 고유한 roomid를 새로 할당받는다
+    socket.on('openNewChatRoom', (roomInfo) => {
+        const { roomID, otherID, myID } = roomInfo
+        console.log('newChatRoom ||', roomID)
+        const data = {
+            myID: myID,
+            otherID: otherID,
+            roomID: roomID
+        }
+        socket.emit('getChatList', myID)
+        socket.emit('fetchChatRoomData', data)
+    })
+
+    //clientList중 하나를 클릭 =
+    socket.on('openExistingChatRoom', (roomInfo) => {
+        const { roomID, otherID, myID } = roomInfo
+        console.log('existingChatRoom ||', roomID)
+        const data = {
+            myID: myID,
+            otherID: otherID,
+            roomID: roomID
+        }
+        socket.emit('fetchChatRoomData', data)
+    })
+
+
+    //chatList(대화방 목록) 받는 이벤트
+    socket.on('chatList', (chatList) => {
+        console.log('chatList', chatList)
+        showChatList(chatList)
+    })
+
+    //대화방 나가기 onclick
+    async function leaveChat(roomID, otherID) {
+        console.log('leaveChat()')
+        const data = {
+            myID: myID,
+            otherID: otherID,
+            roomID: roomID
+        }
+        await socket.emit('leaveChat', data)
+    }
+
+    socket.on('leftChat', (msg) => {
+        console.log(msg)
+
+        socket.emit('getChatList', myID)
+    })
+
+    //필터조건으로 찾기 버튼 onclick 
     function search() {
-        console.log(myID)
         if (!myID) {
             alert('아이디를 입력해주세요')
         } else {
@@ -213,7 +354,7 @@
 
             const data = {
                 userid: myID,
-                roomName: filter
+                filter: filter
             }
 
             socket.emit('joinRoom', data)
@@ -224,8 +365,14 @@
         }
     }
 
+    //필터조건으로 찾기 중지 버튼 onclick 
     function cancelSearch() {
-        socket.emit('leaveRoom', myID, filter)
+        const data = {
+            myID: myID,
+            filter: filter
+        }
+        socket.emit('leaveRoom', data)
+        const ul = document.querySelector('#mateList')
         ul.innerHTML = ''
 
         findMateForm.hidden = false;
@@ -233,18 +380,41 @@
         onSearch.hidden = true;
     }
 
-    function test() {
-        socket.emit('test')
+    //clientList 받는 이벤트
+    socket.on('clientList', (clientList) => {
+        console.log('clientList', clientList)
+        updateUsers(clientList)
+    })
+
+    // HTML 동일조건 사용자들 보여주는 함수
+    function updateUsers(clientList) {
+        const ul = document.querySelector('#mateList')
+        ul.innerHTML = ''
+        clientList.forEach((user) => {
+            if (user.userid === myID) {
+                return;
+            } else {
+                const li = document.createElement('li')
+                li.setAttribute('onclick', `chat('${user.userid}','${user.socketid}')`)
+                li.textContent = `${user.userid}님과 대화하기`
+                ul.appendChild(li)
+            }
+        })
     }
 
-    function chat(id, socketid) {
-        const data = {
-            myID: myID,
-            otherID: id,
-            otherSocketID: socketid
-        }
-        socket.emit('createChat', data)
-        createChatRoom()
+    // 배포시 삭제: 내 아이디 보여주는 함수
+    function showMyID(id) {
+        const div = document.querySelector('#myInfo')
+        div.innerHTML = ''
+        const p = document.createElement('p')
+        p.textContent = id
+        div.appendChild(p)
+    }
+
+    function inputID() {
+        myID = id.value
+        showMyID(myID)
+        id.value = ''
     }
 
 </script>

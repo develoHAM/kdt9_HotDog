@@ -11,22 +11,16 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 db.User = require('./User')(sequelize);
 db.Room = require('./Room')(sequelize, Sequelize);
 db.UserRoom = require('./User_Room')(sequelize, Sequelize);
+db.Chat = require('./Chat')(sequelize, Sequelize);
 db.Share = require('./Share')(sequelize);
-// db.RFID =require('./RFID')(sequelize);
-// const model = require('./User');
-// const temp = model(sequelize);
-// db.User = temp;
-// db.User.hasOne(db.User);
-// db.RFID.belongsTo(db.RFID);
 db.Qna = require("./Qna")(sequelize);
 db.Comment = require("./Comments")(sequelize);
 
+db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
+db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-
-db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid' });
-db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid' });
 
 db.User.belongsToMany(db.Room, {through: db.UserRoom, foreignKey: 'userid', otherKey: 'roomid', sourceKey: 'userid', targetKey: 'roomid'})
 db.Room.belongsToMany(db.User, {through: db.UserRoom, foreignKey: "roomid", otherKey: 'userid', sourceKey: 'roomid', targetKey: 'userid'})

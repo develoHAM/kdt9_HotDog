@@ -1,6 +1,140 @@
+html {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    /* 1 */
+    line-height: 1.4;
+    /* 3 */
+    font-size: 1em;
+    /* 3 */
+    -ms-text-size-adjust: 100%;
+    /* 2 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+  }
+  
+  @font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'SUITE-Regular';
+  }
+
 .modal-body {
     display: flex;
     justify-content: center;
 }
+
+
+.navbar {
+    background-color: #F4E0D6;
+    padding: 0%;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-toggler-icon {
+    background-color: black;
+}
+
+.nav-link {
+    color: black;
+    font-weight: bold;
+}
+
+.myLog {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+}
+
+.container-fluid  {
+    background-color: #F4E0D6;
+    height: 70px;
+    border-radius: 10px;
+
+}
+
+.btn_my:hover,
+.btn_log:hover {
+    background-color: #FFDCC1;
+}
+
+.btn_my,
+.btn_log {
+    background-color: #F4E0D6;
+    border: none;
+    color: black;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.btn_my, .btn_log{
+    background-color: #F4E0D6;
+    border:none;
+    color: black;
+    margin-top: 0;
+}
+
+.btns:hover{
+    
+    display: flex;
+    justify-content: center;
+    align-content: space-evenly;
+
+}
+
+/* footer */
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:#E2ceca;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    height: 20%;
+    border-radius: 10px;
+}
+
+.footer-container-1 {
+    flex: 1;
+    margin: 10px;
+    display: flex;
+    flex-direction: column; /* 요소를 세로로 나열합니다. */
+    align-items: center; /* 내부 요소를 수직으로 가운데 정렬합니다. */
+}
+
+.footer-container-1 a {
+    color: black;
+    text-decoration: none;
+    margin: 0 10px;
+    display: inline-block;
+    text-align: center;
+    line-height: 1;
+}
+.footer-container-1 a:not(:last-child) {
+    margin-bottom: 10px; /* 링크 사이에 아래쪽 여백을 추가합니다. */
+}
+
+.footer-container-2 {
+    flex: 1;
+    margin: 10px;
+}
+ .copyright {
+font-size: 15px;
+color: #888;
+margin-top: 10px;
+text-align: center;
+}
+
 
 
