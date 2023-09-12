@@ -2,7 +2,8 @@
 const http = require('http');
 const express = require('express');
 const SocketIO = require('socket.io');
-
+const aws = require('aws-sdk')
+const multer = require('multer-s3')
 const morgan = require("morgan"); 
 const db=require('./models');
 const cookieParser = require('cookie-parser');
@@ -54,7 +55,7 @@ app.use('*', (req, res) => {
 
 //서버 열기
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     server.listen(PORT, () => {
         console.log(`http://localhost:${PORT}`)
     })
