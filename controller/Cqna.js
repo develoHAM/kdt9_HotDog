@@ -12,6 +12,15 @@ const qna_list = async (req, res, next) => {
     }
 } 
 
+const comment_memory = async (req, res, next) => {
+        try {
+            const comment_memory = await Comment.findAll();
+            res.json(comment_memory)
+        } catch (error) {
+            console.error(err);
+            next(err);
+        }
+}
 
 //질문 users table에서 id 끌어와서 사용할수있는지?
 
@@ -41,6 +50,7 @@ const qna_post = async (req, res) => {
 
     return 
 }
+
 
 const qna_patch = async (req, res) => {
     const {id,title,contents}=req.body
@@ -140,5 +150,6 @@ module.exports = {
     comment_list,
     comment_register,
     comment_delete,
-    comment_comment
+    comment_comment,
+    comment_memory
 };

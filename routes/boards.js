@@ -46,6 +46,7 @@ router.route("/qna/:id")
     router.post('/list',controller.comment_list);
     router.post('/register',controller.comment_register);
     router.post('/comment',controller.comment_comment)
+    router.post("/memory", controller.comment_memory)
 // router.route("/qna/comment")
 //     .post((req, res) => {
 //         res.send("POST /boards/qna/comment");
