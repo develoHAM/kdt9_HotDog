@@ -16,6 +16,7 @@ db.Chat = require('./Chat')(sequelize, Sequelize);
 db.Share = require('./Share')(sequelize);
 db.Qna = require("./Qna")(sequelize);
 db.Comment = require("./Comments")(sequelize);
+db.ShareComments = require("./ShareComments")(sequelize)
 
 db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
 db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
@@ -24,7 +25,7 @@ db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
 db.Share.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
 
 db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
-db.ShareComment.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
+db.ShareComments.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
