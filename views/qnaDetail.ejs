@@ -14,28 +14,29 @@
     <title>게시글 상세 조회</title>
 </head>
 <style>
-       body {
-            background-color: #f4e0d6;
-        }
+    body {
+        background-color: #f4e0d6;
+    }
 
-        .container {
-            margin-top: 20px;
-        }
+    .container {
+        margin-top: 20px;
+    }
 
-        .btn {
-            margin-right: 10px;
-        }
+    .btn {
+        margin-right: 10px;
+    }
 
-        .comment-container {
-            margin-top: 20px;
-        }
+    .comment-container {
+        margin-top: 20px;
+    }
 
-        .comment-list {
-            margin-top: 10px;
-            white-space: pre-wrap;
-        }
-    </style>
+    .comment-list {
+        margin-top: 10px;
+        white-space: pre-wrap;
+    }
 </style>
+</style>
+
 <body>
     <div class="container">
         <h1>게시글 상세 조회</h1>
@@ -60,26 +61,24 @@
         <div class="comment-list"></div>
         <input type="hidden" id="boardtype" value="qna" />
 
-        <input type="hidden" id="id" value="<%=data.id%>">
+        <!-- <input type="hidden" id="id" value="<%=data.id%>">
         <label for="writer">작성자</label>
         <input type="hidden" id="writer_other" value="<%=data.writer%>" readonly><br>
         <label for="comment-content">댓글</label><br>
         <textarea id="comment-content" rows="4" placeholder="댓글을 입력하세요"></textarea><br>
-        <button onclick="postComment()">댓글 작성</button>
+        <button onclick="postComment()">댓글 작성</button> -->
 
         <input type="hidden" id="id" value="<%=data.id%>" />
         <input type="hidden" id="writer_other" value="<%=data.writer%>" readonly>
         <div class="form-group">
-            <label for="comment-content">댓글</label>
-            <textarea id="comment-content" class="form-control" rows="4" placeholder="댓글을 입력하세요"></textarea>
+        <label for="comment-content">댓글</label>
+        <textarea id="comment-content" class="form-control" rows="4" placeholder="댓글을 입력하세요"></textarea>
         </div>
         <button class="btn btn-primary" onclick="postComment()">댓글 작성</button>
-
     </div>
 
 </body>
 
-</body>
 <script>
     const token = localStorage.getItem('token');
     const writer = document.querySelector('#writer').value
@@ -111,17 +110,17 @@
     //     })
     // })
     axios({
-    method: 'GET',
-    url: `/boards/comment/${document.getElementById("id").value}`
-}).then(res => {
-    console.log(res.data);
-    const commentarea = document.querySelector('#commentarea'); // 댓글을 표시할 요소 선택
-    res.data.comments.forEach(value => {
-        const paragraph = document.createElement('p'); // <p> 요소 생성
-        paragraph.textContent = `${value.writerid}님의 댓글: ${value.content}`;
-        commentarea.appendChild(paragraph); // 각 댓글을 별도의 <p> 요소로 추가
+        method: 'GET',
+        url: `/boards/comment/${document.getElementById("id").value}`
+    }).then(res => {
+        console.log(res.data);
+        const commentarea = document.querySelector('#commentarea'); // 댓글을 표시할 요소 선택
+        res.data.comments.forEach(value => {
+            const paragraph = document.createElement('p'); // <p> 요소 생성
+            paragraph.textContent = `${value.writerid}님의 댓글: ${value.content}`;
+            commentarea.appendChild(paragraph); // 각 댓글을 별도의 <p> 요소로 추가
+        });
     });
-});
     async function edit() {
         const id = document.getElementById("id").value;
         const title = document.getElementById("title").value;
