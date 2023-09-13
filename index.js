@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use('/images', express.static(__dirname + '/images'))
 //http 라우터
 const indexRouter = require('./routes/main.js')
 app.use('/', indexRouter);
