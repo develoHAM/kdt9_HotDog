@@ -23,14 +23,19 @@
       max-width: 600px;
       margin: 20px auto;
       display: flex;
-      background-color: #fff;
+      background-color: #F4E0D6;
       flex-direction: column;
       align-items: center;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
+    @media screen and (max-width: 768px) {
+      /* 화면 너비가 768px 이하인 경우에 적용될 스타일 */
+      .mypage-container{
+        max-width: 400px;
+      }
+    }
     /* 제목 스타일 */
     h1 {
       text-align: center;
@@ -54,8 +59,8 @@
     }
 
     button {
-      background-color: #007bff;
-      color: #fff;
+      background-color: #dcada4;
+      color: black;
       border: none;
       width: 70%;
       padding: 10px 20px;
@@ -65,16 +70,16 @@
     }
 
     button:hover {
-      background-color: #0056b3;
+      background-color: #c69f9fec;
     }
 
     /* 삭제 버튼 스타일 */
     button[type="button"]:last-child {
-      background-color: #ff6347;
+      background-color: #dcada4;
     }
 
     button[type="button"]:last-child:hover {
-      background-color: #cc4c3d;
+      background-color: #c69f9fec;
     }
   </style>
 </head>
