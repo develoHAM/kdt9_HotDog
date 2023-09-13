@@ -21,6 +21,10 @@ const CommentsModel = (sequelize) => {
         boardtype: {
             type: DataTypes.STRING(10),
             allowNull: false
+        },
+        qnaId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         }
     });
 }
