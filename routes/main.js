@@ -5,6 +5,8 @@ const router = express.Router()
 
 // 메인페이지
 router.get('/', controller.main);
+//FAQ페이지
+router.get('/faq',controller.faq)
 // 회원가입 페이지
 router.get('/signup',controller.get_signup);
 // 로그인

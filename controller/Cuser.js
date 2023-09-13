@@ -12,6 +12,9 @@ const cookieConfig={
 const main=(req, res) => {
     res.render('main');
 }
+const faq=(req,res)=>{
+    res.render('FAQ')
+}
 const get_signup=(req,res)=>{
     res.render('signup');
 }
@@ -143,6 +146,7 @@ const delete_user=async(req,res)=>{
 
 module.exports={
     main,
+    faq,
     get_signup,
     post_signup,
     post_signin,
