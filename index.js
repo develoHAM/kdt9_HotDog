@@ -21,7 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
+
+app.use('/css', express.static(__dirname + '/css'))
+
+
 app.use('/images', express.static(__dirname + '/images'))
+
 //http 라우터
 const indexRouter = require('./routes/main.js')
 app.use('/', indexRouter);
@@ -42,7 +47,7 @@ app.use("/boards", boardsRouter);
 //병원
 const hospital = require("./routes/hospital.js");
 app.use("/hospital",hospital)
-app.use('/css', express.static(__dirname + '/css'))
+
 
 //게시판
 const shareRouter = require("./routes/share.js");
