@@ -92,6 +92,13 @@
                 console.log(position.coords)
                 console.log(position.coords.latitude)
                 console.log(position.coords.longitude)
+                const customOverlay = new kakao.maps.CustomOverlay({
+                map: map,
+                position: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                content: '<div class="custom-marker"></div>',
+                yAnchor: 1,
+            });
+            
                 ps.keywordSearch('동물 병원', placesSearchCB, {
                     location: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude)
                 });
