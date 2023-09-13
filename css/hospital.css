@@ -101,3 +101,10 @@
     align-items: center;
 }
 
+.custom-marker {
+    width: 15px; 
+    height: 15px;
+    background-color: red;
+    border-radius: 50%; 
+    border: 2px solid white; 
+}
