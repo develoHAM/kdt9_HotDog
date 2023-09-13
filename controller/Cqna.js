@@ -12,21 +12,14 @@ const qna_list = async (req, res, next) => {
     }
 } 
 
-const comment_memory = async (req, res, next) => {
-        try {
-            const comment_memory = await Comment.findAll();
-            res.json(comment_memory)
-        } catch (error) {
-            console.error(err);
-            next(err);
-        }
+const comment_memory = async (req, res) => {
+
 }
 
 //질문 users table에서 id 끌어와서 사용할수있는지?
 
 const qna_post = async (req, res) => {
-    ///////
-    
+
     const { title, contents, token } = req.body;
     try {
         if (!token) {
@@ -113,10 +106,6 @@ const comment_register=async(req,res)=>{
     }
 }
 
-    // const comment_post = async(req ,res) => {
-        
-    // }
-
 const comment_delete = async(req ,res) => {
     
 }
@@ -132,14 +121,25 @@ const user_verify = async (req ,res) => {
     }
 }
 const comment_comment=async (req,res)=>{
-    const {writerid,content,boardtype}=req.body;
+    const {writerid,content,boardtype, id}=req.body;
+    const qna = await Qna.findOne({ where: {id}})
+    console.log(qna)
     const cmt=await Comment.create({
-       writerid,content,boardtype     
+       writerid,content,boardtype,qnaId: qna.id
     })
+    console.log(cmt)
     if(cmt){
         res.json({data:true,id:writerid,contents:content});
     }
 } 
+
+const get_comment =async (req, res) => {
+    const id = req.params.id
+    const comments = await Comment.findAll({
+        where: {qnaId: id}
+    })
+    res.json({comments})
+}
 //user.userid랑 writer
 module.exports = {
     qna_list,
@@ -151,5 +151,6 @@ module.exports = {
     comment_register,
     comment_delete,
     comment_comment,
-    comment_memory
+    comment_memory,
+    get_comment
 };

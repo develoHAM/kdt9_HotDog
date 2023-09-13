@@ -23,7 +23,9 @@
         <textarea id="contents" cols="" rows="10"><%=data.contents%></textarea><br>
     </div>
     <br><br>
-    <div id="commentarea"></div>
+    <div id="commentarea">
+
+    </div>
     <h2>댓글</h2>
     <div class="comment-container">
         <div class="comment-list"></div>
@@ -53,6 +55,19 @@
             editBtn.style.display='none'
             deleteBtn.style.display='none'
         }
+    })
+
+    axios({
+        method: 'GET',
+        url: `/boards/comment/${document.getElementById("id").value}`
+    }).then( res => {
+        console.log(res.data)
+        const div=document.createElement('div')
+        res.data.comments.forEach(value => {
+
+            div.textContent +=`${value.writerid}님의 댓글:${value.content}\n`
+                commentarea.append(div);
+        })
     })
     async function edit() {
         const id = document.getElementById("id").value;
@@ -142,17 +157,18 @@
         const div=document.createElement('div')
         div.style.whiteSpace = 'pre-wrap';
     async function postComment(){
-        
+        const id = document.getElementById("id").value;
         console.log(b_t,writer,contents)
        const data={
             writerid:writer_other.value,
             content:contents.value,
-            boardtype:b_t.value
+            boardtype:b_t.value,
+            id
        }
        try {
            const res=await axios({
                method:'POST',
-               url:'/boards/comment',
+               url:'/boards/comment/',
                data
            })
            if(res.data.data){
@@ -165,6 +181,9 @@
         console.log(error);
        }
     }
+
+// const res = await axios({
+// })
 </script>
 
 </html>

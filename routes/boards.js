@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controller/Cqna")
 // const {qnaWrite}=require('../models')
-const { Qna } = require('../models')
+const { Qna, Comment } = require('../models')
 
 router.route("/")
     .get((req, res) => {
@@ -34,32 +34,36 @@ router.route("/qna/:id")
     .get(async (req, res) => {
         const { id } = req.params
         const result = await Qna.findOne({
-            where: { id: id }
+            where: { id: id, }
         })
-        res.render("qnaDetail", { data: result });
+  
+
+
+        res.render("qnaDetail", { data: result, });
     }).patch(async (req, res) => {
         controller.qna_patch(req, res);
     }).delete(async (req, res) => {
         controller.qna_delete(req, res);
     })
 
+// router.route("/comment")
+//     .get(async (req, res) => {
+//         try {
+
+//             const comment = await Comment.findAll({where:{boardtype}});
+//             // commenter : req.body.writerid,
+//             // comment: req.body.content,
+//             res.json(comment)
+
+//         } catch (error) {
+//             console.error(error);
+//         }
+//     })
+
+    router.get("/comment/:id", controller.get_comment)
     router.post('/list',controller.comment_list);
     router.post('/register',controller.comment_register);
     router.post('/comment',controller.comment_comment)
     router.post("/memory", controller.comment_memory)
-// router.route("/qna/comment")
-//     .post((req, res) => {
-//         res.send("POST /boards/qna/comment");
-//     })
-//     .put((req, res) => {
-//         res.send("PUT /boards/qna/comment");
-//     })
-//     .delete((req, res) => {
-//         res.send("DELETE /boards/qna/comment");
-//     });
-
-// router.get('/qna/:id', (req, res) => {
-//     console.log('qna 매개변수');
-// });
 
 module.exports = router;
