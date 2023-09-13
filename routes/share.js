@@ -43,8 +43,13 @@ const upload = multer({
 
 router.get('/', controller.get_main)
 router.get('/user', controller.get_User)
+router.get('/share/:id', controller.user_verify)
+router.post('/verify', controller.user_verify)
 router.post('/shareCommit', upload.single('dynamic_file') , controller.post_shareCommit)
 router.patch('/edit/:id', controller.patch_editShare)
 router.delete('/delete', controller.delete_share)
+
+router.post('/share/comments/:postId', controller.createComment);
+router.delete('/share/comments/:commentId', controller.deleteComment);
 
 module.exports = router;

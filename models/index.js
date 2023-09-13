@@ -20,6 +20,12 @@ db.Comment = require("./Comments")(sequelize);
 db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
 db.Qna.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
 
+db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
+db.Share.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
+
+db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
+db.ShareComment.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

@@ -20,6 +20,14 @@ const ShareModel = (sequelize) => {
             type:DataTypes.STRING(255),
             allowNull:false
         },
+        dynamic_file:{
+            type:DataTypes.STRING(255),
+            allowNull:true
+        },
+        writer:{
+            type:DataTypes.STRING(255),
+            allowNull:true
+        },
     });
 };
 
