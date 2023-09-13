@@ -99,8 +99,12 @@
         <% for (let i = 0; i < data.length; i++) { %>
         <div class="col-md-4 mb-4">
           <div class="card">
-            <img src="<%= data[i].dynamic_file %>" alt="게시글 이미지" class="card-img-top">
-            <div class="card-body">
+            <% if(data[i].dynamic_file) { %>
+              <div class="card-img-container"><img src="<%= data[i].dynamic_file %>" alt="게시글 이미지" class="card-img-top"></div>
+              <% } else { %>
+              <div class="card-img-container"><img src="../images/Labrador.avif" alt="게시글 이미지" class="card-img-top"></div>
+              <% } %>            
+              <div class="card-body">
               <h5 class="card-title">
                 <%= data[i].title %>
               </h5>

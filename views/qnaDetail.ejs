@@ -5,36 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/qnaDetail.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
     <title>게시글 상세 조회</title>
 </head>
 <style>
-       body {
-            background-color: #f4e0d6;
-        }
+    body {
+        background-color: #f4e0d6;
+    }
 
-        .container {
-            margin-top: 20px;
-        }
+    .container {
+        margin-top: 20px;
+    }
 
-        .btn {
-            margin-right: 10px;
-        }
+    .btn {
+        margin-right: 10px;
+    }
 
-        .comment-container {
-            margin-top: 20px;
-        }
+    .comment-container {
+        margin-top: 20px;
+    }
 
-        .comment-list {
-            margin-top: 10px;
-            white-space: pre-wrap;
-        }
-    </style>
+    .comment-list {
+        margin-top: 10px;
+        white-space: pre-wrap;
+    }
 </style>
+</style>
+
 <body>
     <div class="container">
         <h1>게시글 상세 조회</h1>
@@ -58,48 +61,67 @@
     <div class="comment-container">
         <div class="comment-list"></div>
         <input type="hidden" id="boardtype" value="qna" />
+
+        <!-- <input type="hidden" id="id" value="<%=data.id%>">
+        <label for="writer">작성자</label>
+        <input type="hidden" id="writer_other" value="<%=data.writer%>" readonly><br>
+        <label for="comment-content">댓글</label><br>
+        <textarea id="comment-content" rows="4" placeholder="댓글을 입력하세요"></textarea><br>
+        <button onclick="postComment()">댓글 작성</button> -->
+
         <input type="hidden" id="id" value="<%=data.id%>" />
         <input type="hidden" id="writer_other" value="<%=data.writer%>" readonly>
         <div class="form-group">
-            <label for="comment-content">댓글</label>
-            <textarea id="comment-content" class="form-control" rows="4" placeholder="댓글을 입력하세요"></textarea>
+        <label for="comment-content">댓글</label>
+        <textarea id="comment-content" class="form-control" rows="4" placeholder="댓글을 입력하세요"></textarea>
         </div>
         <button class="btn btn-primary" onclick="postComment()">댓글 작성</button>
     </div>
 
 </body>
 
-</body>
 <script>
-    const token=localStorage.getItem('token');
-    const writer=document.querySelector('#writer').value
+    const token = localStorage.getItem('token');
+    const writer = document.querySelector('#writer').value
     const editBtn = document.getElementById("editBtn");
     const deleteBtn = document.getElementById("deleteBtn");
-    const data={token,writer};
+    const data = { token, writer };
     axios({
-        method:'POST',
-        url:'/boards/verify',
+        method: 'POST',
+        url: '/boards/verify',
         data
-    }).then((res)=>{
+    }).then((res) => {
         console.log(res);
-        if(!res.data.data){
-            editBtn.style.display='none'
-            deleteBtn.style.display='none'
+        if (!res.data.data) {
+            editBtn.style.display = 'none'
+            deleteBtn.style.display = 'none'
         }
     })
 
+    // axios({
+    //     method: 'GET',
+    //     url: `/boards/comment/${document.getElementById("id").value}`
+    // }).then(res => {
+    //     console.log(res.data)
+    //     const div = document.createElement('p')
+    //     res.data.comments.forEach(value => {
+
+    //         div.textContent += `${value.writerid}님의 댓글:${value.content}\n`
+    //         commentarea.append(div);
+    //     })
+    // })
     axios({
         method: 'GET',
         url: `/boards/comment/${document.getElementById("id").value}`
-    }).then( res => {
-        console.log(res.data)
-        const div=document.createElement('div')
+    }).then(res => {
+        console.log(res.data);
+        const commentarea = document.querySelector('#commentarea'); // 댓글을 표시할 요소 선택
         res.data.comments.forEach(value => {
-
-            div.textContent +=`${value.writerid}님의 댓글:${value.content}\n`
-                commentarea.append(div);
-        })
-    })
+            const paragraph = document.createElement('p'); // <p> 요소 생성
+            paragraph.textContent = `${value.writerid}님의 댓글: ${value.content}`;
+            commentarea.appendChild(paragraph); // 각 댓글을 별도의 <p> 요소로 추가
+        });
+    });
     async function edit() {
         const id = document.getElementById("id").value;
         const title = document.getElementById("title").value;
@@ -158,63 +180,63 @@
             return;
         }
     }
-     
+
     async function verify(writer) {
-      const token = window.localStorage.getItem('token')
-      //const id=document.querySelector('#writer')
-      const data = {
-        token, writer
-      }
-      try {
-        const res = await axios({
-          method: 'POST',
-          url: "/boards/verify",
-          data
-        })
-        console.log(res.data.data);
-        if (!res.data.data) {
-          alert(`${res.data.message}`)
-          document.location.href = '/boards/qna'
+        const token = window.localStorage.getItem('token')
+        //const id=document.querySelector('#writer')
+        const data = {
+            token, writer
         }
+        try {
+            const res = await axios({
+                method: 'POST',
+                url: "/boards/verify",
+                data
+            })
+            console.log(res.data.data);
+            if (!res.data.data) {
+                alert(`${res.data.message}`)
+                document.location.href = '/boards/qna'
+            }
 
-      } catch (error) {
+        } catch (error) {
 
-      }
+        }
     }
-        const b_t=document.querySelector('#boardtype')
-        const writer_other=document.querySelector('#writer_other')
-        const contents=document.querySelector('#comment-content')
-        const commentarea=document.querySelector('#commentarea');
-        const div=document.createElement('div')
-        div.style.whiteSpace = 'pre-wrap';
-    async function postComment(){
+    const b_t = document.querySelector('#boardtype')
+    const writer_other = document.querySelector('#writer_other')
+    const contents = document.querySelector('#comment-content')
+    const commentarea = document.querySelector('#commentarea');
+    const div = document.createElement('div')
+    div.style.whiteSpace = 'pre-wrap';
+    async function postComment() {
         const id = document.getElementById("id").value;
-        console.log(b_t,writer,contents)
-       const data={
-            writerid:writer_other.value,
-            content:contents.value,
-            boardtype:b_t.value,
+        console.log(b_t, writer, contents)
+        const data = {
+            writerid: writer_other.value,
+            content: contents.value,
+            boardtype: b_t.value,
             id
-       }
-       try {
-           const res=await axios({
-               method:'POST',
-               url:'/boards/comment/',
-               data
-           })
-           if(res.data.data){
-            div.textContent +=`${res.data.id}님의 댓글:${res.data.contents}\n`
-            commentarea.append(div);
-            contents.value='';
-           }
-                
-       } catch (error) {
-        console.log(error);
-       }
+        }
+        try {
+            const res = await axios({
+                method: 'POST',
+                url: '/boards/comment/',
+                data
+            })
+            if (res.data.data) {
+                div.textContent += `${res.data.id}님의 댓글:${res.data.contents}\n`
+                commentarea.append(div);
+                contents.value = '';
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-// const res = await axios({
-// })
+    // const res = await axios({
+    // })
 </script>
 
 </html>

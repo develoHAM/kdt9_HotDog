@@ -1,0 +1,74 @@
+#chat-list-wrapper,
+#chat-wrapper {
+    display: none;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+main {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 5rem 0rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#find-mate-section, #found-mate-section {
+    height: 100%;
+}
+
+#find-mate-wrapper {
+    background-color: #f4e0d6;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 10%;
+}
+
+#find-mate-fieldset-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#found-mate-wrapper {
+    background-color: #f4e0d6;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 10%;
+}
+
+
+header,
+footer {
+    background-color: #f4e0d6;
+    height: 5rem;
+    width: 65%;
+    border-radius: 10px;
+    margin: auto;
+}
+
+/* 찾는중입니다 로딩 버튼 애니메이션 */
+.loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #c69f9fec; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
