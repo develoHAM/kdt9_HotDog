@@ -1,44 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <link rel="icon" href="/images/7Tf1NS6R.ico" type="image/x-icon" sizes="32x32">
-  <link rel="stylesheet" href="/css/qnaList.css">
-  <link rel="stylesheet" href="/css/header.css">
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"> -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
   <title>Q&A</title>
+
+  <style>
+    body, h1, h2, h3, p, ul, li, table {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-decoration: none;
+      font-family: 'Comic Sans MS', sans-serif;
+    }
+
+    /* Global Styles */
+    body {
+      background-color: #f4e0d6;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    main {
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 80%; /* 가로 크기 조절 */
+      max-width: 800px; /* 최대 가로 크기 지정 */
+      height: 80%; /* 높이 자동 조절 */
+      text-align: center; /* 내용 가운데 정렬 */
+    }
+    @media screen and (max-width: 768px) {
+      /* 화면 너비가 768px 이하인 경우에 적용될 스타일 */
+      main{
+        max-width: 400px;
+      }
+    }
+    .btn-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: #dcada4;
+      color: black;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #c69f9fec;
+      text-decoration-line: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
 </head>
-
 <body>
-  <!-- Header -->
-  <nav class="navbar">
-    <div class="navber__logo">
-      <a href="/"><img class="logo" src="/images/logo-removebg.png" alt="logo"></a>
-    </div>
-    
-    <ul class="navbar__menu">
-      <li><a href="/mate">산책메이트 찾기</a></li>
-      <li><a href="/hospital">병원 찾아가기</a></li>
-      <li><a href="/share">용품나눔</a></li>
-      <li><a href="/boards/qna">Q&A</a></li>
-    </ul>
-
-    <div class="navber__login">
-      <li><a href="/faq">FAQ</a></li>
-      <li><a href="/signup">회원가입</a></li>
-    </div>
-  </nav>
-
-  <div class="main__container">
   <main>
     <h1>Q&A 게시판</h1>
     <div class="btn-container">
       <a href="/boards/qna/write" class="btn">글쓰기</a>
-    </div>
+      </div>
     <table id="user-list">
       <thead>
         <tr>
@@ -61,50 +129,82 @@
               <%= data[i].writer %>
             </td>
             <td class="date">
-              <%= data[i].createdAt.toLocaleString('ko-KR', { year: 'numeric' , month: '2-digit' , day: '2-digit' ,
-                hour: '2-digit' , minute: '2-digit' , hour12: false }) %>
+              <%= data[i].createdAt.toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }) %>
             </td>
           </tr>
           <% } %>
       </tbody>
     </table>
   </main>
-</div>
+    <!-- <form id="comment-form">
+      <fieldset>
+        <legend>댓글 등록</legend>
+        <div>
+          <input type="text" id="cmtid" placeholder="게시글 번호">
+        </div>
+        <div>
+          <input type="text" id="comment" placeholder="댓글">
+        </div>
+        <button type="button" onclick="register()">등록</button>
+      </fieldset>
+    </form> -->
   <script>
-    const cmtid = document.querySelector('#cmtid');
-    const comment = document.querySelector('#comment')
-    async function cmt(id) {
-      const data = { id }
+    const cmtid=document.querySelector('#cmtid');
+    const comment=document.querySelector('#comment')
+
+    // async function verify(writer) {
+    //   const token = window.localStorage.getItem('token')
+    //   //const id=document.querySelector('#writer')
+    //   const data = {
+    //     token, writer
+    //   }
+    //   try {
+    //     const res = await axios({
+    //       method: 'POST',
+    //       url: "/boards/verify",
+    //       data
+    //     })
+    //     console.log(res.data.data);
+    //     if (!res.data.data) {
+    //       alert(`${res.data.message}`)
+    //       document.location.href = '/boards/qna'
+    //     }
+
+    //   } catch (error) {
+
+    //   }
+    // }
+    async function cmt(id){
+      const data={id}
       console.log(id)
       try {
-        const res = await axios({
-          method: 'POST',
-          url: '/boards/list',
-          data
-        })
-        cmtid.value = `${res.data.data}`
+        const res=await axios({
+        method:'POST',
+        url:'/boards/list',
+        data
+      })
+        cmtid.value=`${res.data.data}` 
       } catch (error) {
         console.log(error)
       }
     }
 
     async function register() {
-      const data = {
-        id: cmtid.value,
-        comment: comment.value
+      const data={
+        id:cmtid.value,
+        comment:comment.value
       }
       try {
-        const res = await axios({
-          method: 'POST',
-          url: '/boards/register',
+        const res=await axios({
+          method:'POST',
+          url:'/boards/register',
           data,
         })
         console.log(`${res.data.data}번 게시물에 대한 댓글:${res.data.message}`)
       } catch (error) {
-
+        
       }
     }
   </script>
 </body>
-
 </html>
