@@ -105,7 +105,7 @@ exports.connection = (io, socket) => {
         return users;
     }
 
-    // userid를 받아서 해당 사용자가 속해있는 방들의 roomid와 해당 방에 속해있는 사용자들의 userid들을 반환
+    // userid를 받아서 해당 사용자가 속해있는 방들의 roomid와 해당 방에 속해있는 사용자들의 userid, 이름들을 반환
     async function getChatList(id) {
         try {
             const user = await User.findOne({
@@ -123,7 +123,7 @@ exports.connection = (io, socket) => {
                         include: [
                             {
                                 model: User,
-                                attributes: ['userid'],
+                                attributes: ['userid','name'],
                                 through: {
                                     attributes: []
                                 }
@@ -134,12 +134,16 @@ exports.connection = (io, socket) => {
             })
             const chatList = user.rooms.map((room) => {
                 return {
-                    roomid: room.roomid, users: room.users.map((user) => {
+                    roomid: room.roomid, 
+                    users: room.users.map((user) => {
                         return user.userid
+                    }), 
+                    names: room.users.map((user) => {
+                        return user.name
                     })
                 }
             })
-            // chatList = [ {roomid:'', users:['userid','userid'] }, ... ]
+            // chatList = [ {roomid:'', users:['userid','userid'], names:['',''] }, ... ]
 
             const arrayOfRoomid = chatList.map((room) => {
                 return room.roomid

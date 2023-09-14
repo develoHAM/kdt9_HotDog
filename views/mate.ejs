@@ -4,39 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산책메이트</title>
+    <!-- favicon -->
+    <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
     <!-- socket.io -->
     <script src="socket.io/socket.io.js"></script>
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-
-    </style>
-    <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <!-- css -->
     <link rel="stylesheet" href="../css/mate.css">
-    <title>Document</title>
 </head>
 
 <body>
-    <header>
-        <button onclick="hideFooter()" id="byefooter">푸터 숨겨~</button>
-    </header>
-
-    <script>
-        function hideFooter() {
-            console.log('hideFooter')
-            const footer = document.querySelector('footer')
-            const hideFooterBtn = document.querySelector('#byefooter')
-            if (footer.style.display == 'block') {
-                footer.style.display = 'none'
-                hideFooterBtn.textContent = '푸터 보여~'
-            } else {
-                footer.style.display = 'block'
-                hideFooterBtn.textContent = '푸터 숨겨~'
-            }
-        }
-
-    </script>
+    <header></header>
 
     <!-- -------------------------산책 메이트 찾기--------------------------- -->
     <main>
@@ -66,18 +48,18 @@
                             </form>
                         </fieldset>
                         <fieldset class="field">
-                            <legend>희망 산책 시간</legend>
+                            <legend>산책 시간</legend>
                             <form name="form-walkingTime">
                                 <input type="radio" name="walkingTime" value="60" id="60" />
-                                <label for="60">60분 이하</label>
+                                <label for="60">60min <i class="bi bi-arrow-down"></i></label>
                                 <input type="radio" name="walkingTime" value="90" id="90" />
-                                <label for="90">90분 정도</label>
+                                <label for="90">90min</label>
                                 <input type="radio" name="walkingTime" value="120" id="120" />
-                                <label for="120">120분 이상</label>
+                                <label for="120">120min <i class="bi bi-arrow-up"></i></label>
                             </form>
                         </fieldset>
                         <fieldset class="field">
-                            <legend>희망 산책 장소</legend>
+                            <legend>산책 장소</legend>
                             <form name="form-walkingLocation">
                                 <input type="radio" name="walkingLocation" value="indoor" id="indoor" />
                                 <label for="indoor">실내</label>
@@ -103,34 +85,28 @@
             <section id="found-mate-section">
                 <div id="found-mate-wrapper">
                     <p>사용자들</p>
-                    <ul id="mate-list"></ul>
+                    <ul id="mate-list">
+                    </ul>
                 </div>
             </section>
         </div>
     </main>
 
-
-
-
     <!-- -------------------------------------------------------------------------- -->
-    <footer>
-        <!-- -------------------------------------------------------------------------- -->
-        <!-- -------------------------내 대화 목록--------------------------- -->
-        <div id="chat-list-wrapper" style="background-color: blanchedalmond;">
-            <p>=============대화목록===========</p>
-            <ul id="chat-list">
-            </ul>
-        </div>
+    <div id="chatting-wrapper" onclick="toggleChatList()">
+        <i class="bi bi-chat-right-text" id="chatbox-icon"></i>
+    </div>
 
-        <!-- 채팅창 -->
-        <div id="chat-wrapper"></div>
-        <div id="id-input-container">
-            <input type="text" id="myID" placeholder="내 ID는?" />
-            <button type="button" onclick="submitID()">아이디 입력</button>
-            <div>내 아이디:
-                <div id="myInfo"></div>
-            </div>
-        </div>
+    <div id="chat-list-wrapper">
+        <p>대화목록</p>
+        <ul id="chat-list">
+        </ul>
+    </div>
+
+    <div id="chat-room-wrapper" style="display:none;"></div>
+    <!-- -------------------------------------------------------------------------- -->
+
+    <footer>
     </footer>
 
 </body>
@@ -149,12 +125,45 @@
 <!-- ========================================================================================== -->
 
 <script>
+    function toggleChatList() {
+        const chatListWrapper = document.querySelector('#chat-list-wrapper')
+        const chatRoomWrapper = document.querySelector('#chat-room-wrapper')
+        switch (chatListWrapper.style.display || chatRoomWrapper.style.display) {
+            case 'flex':
+                chatListWrapper.style.display = 'none';
+                chatRoomWrapper.style.display = 'none'
+                break;
+
+            default:
+                chatListWrapper.style.display = 'flex';
+                break;
+        }
+    }
+
+
     //로컬 스토리지에서 'token' 이름의 아이템 불러오기
     const token = window.localStorage.getItem('token')
-
     //아이디 담길 변수 선언
     let myID;
     let otherID;
+    // token 유효성 검사
+    const res = await axios({
+        method: 'post',
+        url: '/mate/verify',
+        data: {
+            token
+        }
+    })
+    if (res.data.result) {
+        myID = res.data.userinfo.userid
+        myLocation = res.data.userinfo.address
+        console.log('myUserInfo', res.data.userinfo)
+        showMyID(myID)
+        socket.emit('getChatList', myID)
+    } else {
+        alert('로그인 해주세요')
+        document.location.href = '/'
+    }
 
     //소켓 연결
     const socket = io()
@@ -169,28 +178,8 @@
 
     //찾기 조건 담길 변수 선언
     let filter;
+    let myLocation;
 
-    // token 유효성 검사
-    async function submitID() {
-        const node = document.querySelector('#myID')
-        const token = window.localStorage.getItem(`${node.value}`);
-        const res = await axios({
-            method: 'post',
-            url: '/mate/verify',
-            data: {
-                token
-            }
-        })
-        if (res.data.result) {
-            myID = res.data.userinfo.userid
-            console.log('myUserInfo', res.data.userinfo)
-            showMyID(myID)
-            socket.emit('getChatList', myID)
-        } else {
-            alert('로그인 해주세요')
-            document.location.href = '/'
-        }
-    }
 
     // 대화목록 보여주기
     function showChatList(chatList) {
@@ -212,61 +201,82 @@
             }
             const li = document.createElement('li')
             const span = document.createElement('span')
-            span.textContent = otherUser
+            const btnsContainer = document.createElement('span')
+            btnsContainer.classList.add('chat-list-btn-container')
+            span.textContent = `${otherUser}님`
+
             const enterChatBtn = document.createElement('button')
-            enterChatBtn.textContent = '대화방 참가'
             enterChatBtn.setAttribute('type', 'button')
             enterChatBtn.setAttribute('onclick', `enterChat('${room.roomid}','${otherUser}')`)
+            enterChatBtn.innerHTML = `<i class="bi bi-box-arrow-in-right"></i>`
 
             const leaveChatBtn = document.createElement('button')
-            leaveChatBtn.textContent = '대화방 나가기'
             leaveChatBtn.setAttribute('type', 'button')
             leaveChatBtn.setAttribute('onclick', `leaveChat('${room.roomid}','${otherUser}')`)
+            leaveChatBtn.innerHTML = `<i class="bi bi-x-lg"></i>`
+
             li.id = `${room.roomid}`
+            btnsContainer.appendChild(enterChatBtn)
+            btnsContainer.appendChild(leaveChatBtn)
             li.appendChild(span)
-            li.appendChild(enterChatBtn)
-            li.appendChild(leaveChatBtn)
+            li.appendChild(btnsContainer)
             ul.appendChild(li)
         })
     }
 
     // HTML 채팅방 만드는 함수
     function createChatRoom(otherID, roomID, messages) {
-        const chatWrapper = document.querySelector('#chat-wrapper')
+        const chatWrapper = document.querySelector('#chat-room-wrapper')
         chatWrapper.innerHTML = ''
-        const notice = document.createElement('div')
-        notice.textContent = `${myID}와 ${otherID}의 대화방`
-        const chat = document.createElement('div')
-        chat.id = `${roomID}`
-        chat.classList.add('chatInterface')
-        const chatScreen = document.createElement('div')
-        chatScreen.id = 'chatScreen'
-        chatScreen.style.backgroundColor = 'skyblue'
-        chatScreen.style.height = '300px'
-        const inputContainer = document.createElement('div')
-        const input = document.createElement('input')
-        input.id = 'messageInput'
-        const btn = document.createElement('button')
-        btn.textContent = '전송'
-        btn.id = 'sendMessage'
-        btn.setAttribute('onclick', `sendMessage('${otherID}','${roomID}')`)
 
-        const leaveBtn = document.createElement('button')
-        leaveBtn.textContent = '뒤로가기'
-        leaveBtn.onclick = function () {
+        const topBarInterface = document.createElement('div')
+        topBarInterface.classList.add('top-bar-interface')
+
+        const span = document.createElement('span')
+        span.textContent = `${otherID}님과의 대화방`
+
+        const exitChatroomBtn = document.createElement('button')
+        exitChatroomBtn.classList.add('exit-chat-room-btn')
+        const exitRoomIcon = `<i class="bi bi-box-arrow-left exit-chat-room-btn-icon"></i>`
+        exitChatroomBtn.innerHTML = exitRoomIcon
+        exitChatroomBtn.onclick = function () {
             chatWrapper.innerHTML = ''
+            chatWrapper.style.display = 'none'
         }
 
+        topBarInterface.appendChild(exitChatroomBtn)
+        topBarInterface.appendChild(span)
+        // topBarInterface
 
-        inputContainer.appendChild(input)
-        inputContainer.appendChild(btn)
-        inputContainer.appendChild(leaveBtn)
+        const chatInterface = document.createElement('div')
+        chatInterface.classList.add('chat-interface')
+        chatInterface.id = `${roomID}`
+        // chatInterface
 
-        chat.appendChild(chatScreen)
-        chat.appendChild(inputContainer)
+        const inputInterface = document.createElement('div')
+        inputInterface.classList.add('input-interface')
+        const messageInputContainer = document.createElement('div')
+        messageInputContainer.classList.add('message-input-container')
+        const textarea = document.createElement('textarea')
+        textarea.name = 'message-input'
+        textarea.id = 'message-input'
+        messageInputContainer.appendChild(textarea)
 
-        chatWrapper.appendChild(notice)
-        chatWrapper.appendChild(chat)
+        const sendButtonContainer = document.createElement('div')
+        sendButtonContainer.classList.add('send-button-container')
+        const sendButton = document.createElement('button')
+        sendButton.id = 'sendMessage'
+        sendButton.setAttribute('onclick', `sendMessage('${otherID}','${roomID}')`)
+        sendButton.innerHTML = `<i class="bi bi-send-fill fa-sm"></i>`
+        sendButtonContainer.appendChild(sendButton)
+
+        inputInterface.appendChild(messageInputContainer)
+        inputInterface.appendChild(sendButtonContainer)
+        // inputInterface
+
+        chatWrapper.appendChild(topBarInterface)
+        chatWrapper.appendChild(chatInterface)
+        chatWrapper.appendChild(inputInterface)
 
         if (messages.length == 0) {
             return;
@@ -303,11 +313,15 @@
         const { myID, otherID, roomID, messages } = chatRoomInfo
         console.log('messages', messages)
         // messages => [{id, content. senderid, createdAt},...]
+        // <div id="chat-room-wrapper" style="display:none;"></div>
+        document.getElementById('chat-room-wrapper').style.display = 'flex'
         createChatRoom(otherID, roomID, messages)
     })
 
     function sendMessage(otherID, roomID) {
-        const content = document.querySelector('#messageInput').value
+        const content = document.querySelector('#message-input').value
+        const chatInterface = document.querySelector('.chat-interface')
+        chatInterface.scrollTop = chatInterface.scrollHeight;
         const data = {
             myID,
             otherID,
@@ -319,13 +333,11 @@
 
     socket.on('newMessage', (msgData) => {
         const { senderID, receiverID, roomID, message } = msgData
-        const chatWrapper = document.querySelector('#chat-wrapper')
-        const chatInterface = document.querySelector('.chatInterface')
 
         if (myID != senderID) {
             socket.emit('getChatList', myID)
             appendNotification(roomID, message)
-            if (document.querySelector('#chatScreen')) {
+            if (document.querySelector('#chat-room-wrapper')) {
                 appendChatMessage(senderID, roomID, message)
             }
         } else {
@@ -334,13 +346,20 @@
     })
 
     function appendChatMessage(senderID, roomID, message) {
-        chatScreen = document.querySelector('#chatScreen')
-        chatBubbleContainer = document.createElement('div')
-        chatBubbleContainer.style.textAlign = myID == senderID ? 'right' : 'left'
-        chatBubbleMessage = document.createElement('span')
-        chatBubbleMessage.textContent = message
-        chatBubbleContainer.appendChild(chatBubbleMessage)
-        chatScreen.appendChild(chatBubbleContainer)
+        const chatInterface = document.querySelector('.chat-interface')
+        const chatBubbleContainer = document.createElement('div')
+        chatBubbleContainer.classList.add('chat')
+        if (myID == senderID) {
+            chatBubbleContainer.classList.add('me')
+        } else {
+            chatBubbleContainer.classList.add('other')
+        }
+        const chat = document.createElement('div')
+        chat.classList.add('textbox')
+        chat.textContent = message
+        chatBubbleContainer.appendChild(chat)
+        chatInterface.appendChild(chatBubbleContainer)
+        chatInterface.scrollTop = chatInterface.scrollHeight;
     }
 
     function appendNotification(roomID, message) {
@@ -406,7 +425,7 @@
             const walkingTime = document.forms['form-walkingTime']
             const walkingLocation = document.forms['form-walkingLocation']
 
-            filter = `${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
+            filter = `${myLocation}${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
 
             const data = {
                 userid: myID,
@@ -452,7 +471,8 @@
             } else {
                 const li = document.createElement('li')
                 li.setAttribute('onclick', `chat('${user.userid}','${user.socketid}')`)
-                li.textContent = `${user.userid}님과 대화하기`
+                const icon = `<i class="bi bi-chat-text-fill"></i>`
+                li.innerHTML = `${icon}  ${user.userid}님`
                 ul.appendChild(li)
             }
         })
