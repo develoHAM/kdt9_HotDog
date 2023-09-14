@@ -5,137 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- <link rel="stylesheet" href="/css/qnaDetail.css"> -->
+    <link rel="stylesheet" href="/css/qnaDetail.css">
     <link rel="icon" href="/images/7Tf1NS6R.ico" type="image/x-icon" sizes="32x32">
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
     <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
     <title>게시글 상세 조회</title>
 </head>
-<style>
-    body {
-        font-family: 'Comic Sans MS', sans-serif;
-        background-color: #f4e0d6;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        margin-top: 20px;
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-
-    .d-flex {
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .btn {
-        margin-right: 10px;
-    }
-
-    label {
-        font-weight: bold;
-    }
-
-    input[type="text"],
-    textarea {
-        width: 96%;
-        padding: 10px;
-        margin-bottom: 0px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: none;
-    }
-
-    button {
-        padding: 10px 20px;
-        background-color: #DCADA4;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    #toggleCommentButton {
-        margin: 20px auto;
-        display: block;
-    }
-
-    .comment-container {
-        display: none;
-        max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-top: 20px;
-    }
-
-    .comment-list {
-        margin-top: 10px;
-        white-space: pre-wrap;
-    }
-    #commentarea{
-        overflow-y: scroll; 
-        height:200px;
-        border: 1px solid #ccc;
-    }
-    #commentarea p {
-        margin-top: 10px;
-        white-space: pre-wrap;
-        background-color: #f9f9f9;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-    /* 추가된 CSS: 768px 미만 화면에 대한 스타일링 */
-    @media (max-width: 768px) {
-        .container {
-            padding: 10px; /* 좀 더 작은 padding 적용 */
-            width: 475px;
-        }
-
-        input[type="text"],
-        textarea {
-            margin-bottom: 10px; /* 작은 간격으로 변경 */
-            width: 95%;
-        }
-
-        button {
-            padding: 8px 16px; /* 작은 크기로 변경 */
-        }
-
-        #comment-container {
-            padding: 10px; /* 좀 더 작은 padding 적용 */
-            width: 475px;
-    border-radius: 8px;
-        }
-    }
-    .writer {
-        margin-top: 10px;
-    }
-    #toggleBtn_listBtn {
-        display: flex;
-    }
-</style>
     <title>Q&A</title>
 </head>
 
 <body>
+    <nav>
+        <div>
+        </div>
+    </nav>
     <div class="container">
         <h1>Q&A</h1>
         <div class="d-flex justify-content-between align-items-center">
@@ -171,12 +53,7 @@
     </div>
 </div>
 </body>
-<!-- <input type="hidden" id="id" value="<%=data.id%>">
-<label for="writer">작성자</label>
-<input type="hidden" id="writer_other" value="<%=data.writer%>" readonly><br>
-<label for="comment-content">댓글</label><br>
-<textarea id="comment-content" rows="4" placeholder="댓글을 입력하세요"></textarea><br>
-<button onclick="postComment()">댓글 작성</button> -->
+
 <script>
     // 댓글 입력 폼을 토글하는 함수
     function toggleCommentForm() {
@@ -190,9 +67,22 @@
             commentContainers.style.display = 'none';
         }
     }
-</script>
+    // 스크롤 대상 엘리먼트
+var commentContainer = document.querySelector("#comment-container");
 
-<script>
+// 주기적으로 스크롤 대상 업데이트
+setInterval(function() {
+    commentContainer = document.querySelector("#comment-container");
+}, 1000);
+
+// 스크롤 부드럽게 이동하는 함수
+function scrollToCommentContainer() {
+    if (commentContainer) {
+        commentContainer.scrollIntoView({ behavior: "smooth" });
+    }
+}
+document.getElementById("toggleCommentButton").addEventListener("click", scrollToCommentContainer);
+
     const token = localStorage.getItem('token');
     const writer = document.querySelector('#writer').value
     const editBtn = document.getElementById("editBtn");
@@ -209,19 +99,6 @@
             deleteBtn.style.display = 'none'
         }
     })
-
-    // axios({
-    //     method: 'GET',
-    //     url: `/boards/comment/${document.getElementById("id").value}`
-    // }).then(res => {
-    //     console.log(res.data)
-    //     const div = document.createElement('p')
-    //     res.data.comments.forEach(value => {
-
-    //         div.textContent += `${value.writerid}님의 댓글:${value.content}\n`
-    //         commentarea.append(div);
-    //     })
-    // })
     axios({
         method: 'GET',
         url: `/boards/comment/${document.getElementById("id").value}`
@@ -323,7 +200,12 @@
     div.style.whiteSpace = 'pre-wrap';
     async function postComment() {
         const id = document.getElementById("id").value;
+        const commentContent = contents.value.trim();
         console.log(b_t, writer, contents)
+        if (!commentContent.trim()) { // 댓글 내용이 비어있을 때
+        alert('댓글을 입력하세요.');
+        return;
+    }
         const data = {
             writerid: writer_other.value,
             content: contents.value,
@@ -340,6 +222,7 @@
                 div.textContent += `${res.data.id}님의 댓글:${res.data.contents}\n`
                 commentarea.append(div);
                 contents.value = '';
+                location.reload();
             }
 
         } catch (error) {
