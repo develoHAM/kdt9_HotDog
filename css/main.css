@@ -1,4 +1,8 @@
-/* 기본 스타일 */
+/* ------------------------------
+   기본 스타일 설정
+------------------------------ */
+
+/* HTML 기본 설정 */
 html {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -17,115 +21,63 @@ html {
   font-style: normal;
 }
 
-/* 기본 페이지 스타일 */
+/* Body 설정 */
 body {
   margin: 0;
   font-family: 'SUITE-Regular';
 }
 
-/* 모달 스타일 */
-.modal-body {
-  display: flex;
-  justify-content: center;
-}
+/* ------------------------------
+   Navbar 스타일
+------------------------------ */
 
-/* Navbar 스타일 */
+/* 기본 Navbar 스타일 */
 .navbar {
   height: 70px;
   background-color: #F4E0D6;
-  padding: 0;
+  padding: 0 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: auto;
-  padding: 0 50px;
 }
 
-.navbar-brand {
+/* Navbar 내부 요소 */
+.navbar-brand,
+.nav-link {
   font-weight: bold;
-  margin-right: 20px;
-  margin-right: 50px;
+  color: black;
 }
 
+/* Navbar 토글러 */
 .navbar-toggler-icon {
   background-color: black;
 }
 
-.nav-link {
-  color: black;
-  font-weight: bold;
-  padding: 5px 10px;
-}
-
-.myLog {
-  display: flex;
-  align-items: center;
-  margin-top: 0;
-}
-
-.navbar-toggler {
-  margin-right: 10px;
-  /* 또는 원하는 px 값 */
-}
-
-/* Navbar 반응형 스타일 */
+/* 반응형 Navbar 설정 */
 @media (max-width: 991px) {
   .navbar {
-      height: auto;
-      padding: 10px;
+    height: auto;
+    padding: 10px;
   }
-
-  .navbar-brand {
-      margin-right: 0;
-      order: 2;
-      /* 로고를 가운데 정렬 */
-  }
-
-  /* .nav-link {
-      display: none;
-      일반 메뉴 숨기기
-  } */
 
   .myLog {
-      flex-direction: column;
-      align-items: flex-start;
-  }
-
-  .navbar-toggler-icon {
-      background-color: black;
-      margin-right: 0;
-      order: 1;
-      /* 햄버거 아이콘을 가운데 정렬 */
-  }
-
-  .navbar-collapse {
-      order: 3;
-      width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .navbar-nav.ms-auto {
-      flex-direction: column;
-      align-items: flex-start;
-  }
-
-  .nav-link {
-      margin-top: 1px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
-
-/* hamberger icon */
+/* 햄버거 아이콘 스타일 */
 .navbar-toggler-icon {
   background-image: none;
-  /* 기존 배경이미지를 제거 */
   width: 18px;
-  /* 아이콘의 너비 */
   height: 1.5px;
-  /* 각 막대의 높이 */
   background-color: black;
-  /* 막대의 색깔 */
   position: relative;
-  /* 하위 요소의 위치를 상대적으로 설정 */
 }
 
 .navbar-toggler-icon::before,
@@ -138,49 +90,36 @@ body {
   background-color: black;
 }
 
-.navbar-toggler-icon::before {
-  top: -7px;
-  /* 첫 번째 막대의 상단 위치 */
-}
+.navbar-toggler-icon::before { top: -7px; }
+.navbar-toggler-icon::after { bottom: -7px; }
 
-.navbar-toggler-icon::after {
-  bottom: -7px;
-  /* 두 번째 막대의 하단 위치 */
-}
+/* ------------------------------
+   버튼 및 컨테이너 스타일
+------------------------------ */
 
-/* Container 및 버튼 스타일 */
-.container-fluid {
-  height: 70px;
-  border-radius: 10px;
-}
-
-.btn_my:hover,
-.btn_log:hover {
-  background-color: #FFDCC1;
-}
-
-.btn_my,
-.btn_log {
+/* 공통 버튼 스타일 */
+.btn_my, .btn_log {
   border: none;
   color: black;
   margin-top: 0;
   font-weight: bold;
 }
 
-.btn_my,
-.btn_log {
-  border: none;
-  color: black;
-  margin-top: 0;
+/* 버튼 호버 스타일 */
+.btn_my:hover, .btn_log:hover {
+  background-color: #FFDCC1;
 }
 
-.btns:hover {
-  display: flex;
-  justify-content: center;
-  align-content: space-evenly;
+/* 컨테이너 설정 */
+.container-fluid {
+  height: 70px;
+  border-radius: 10px;
 }
 
-/* Footer 스타일 */
+/* ------------------------------
+   Footer 스타일
+------------------------------ */
+
 .footer-container {
   display: flex;
   justify-content: space-between;
@@ -192,28 +131,8 @@ body {
   border-radius: 10px;
 }
 
-.footer-container-1 {
-  flex: 1;
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.footer-container-1 a {
-  color: black;
-  text-decoration: none;
-  margin: 0 10px;
-  display: inline-block;
-  text-align: center;
-  line-height: 1;
-}
-
-.footer-container-1 a:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.footer-container-2 {
+/* 기타 Footer 설정 */
+.footer-container-1, .footer-container-2 {
   flex: 1;
   margin: 10px;
 }
