@@ -47,9 +47,20 @@ router.get('/share/:id', controller.user_verify)
 router.post('/verify', controller.user_verify)
 router.post('/shareCommit', upload.single('dynamic_file') , controller.post_shareCommit)
 router.patch('/edit/:id', controller.patch_editShare)
-router.delete('/delete', controller.delete_share)
+router.delete('/delete/:id', controller.delete_share)
 
-router.post('/share/comments/:postId', controller.createComment);
+// router.post('/share/comments/:postId', controller.post_createComment);
+// 서버 시작점에 로그 추가
+console.log('Server is running');
+
+// 라우터에 로그 추가
+router.post('/share/comments/:postId', (req, res, next) => {
+  console.log('Route reached');
+  next();
+  console.log('Passed to controller');
+}, controller.post_createComment);
+
+
 router.delete('/share/comments/:commentId', controller.deleteComment);
 
 module.exports = router;
