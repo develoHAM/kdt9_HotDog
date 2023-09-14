@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Cafe24Supermagic-Bold-v1.0';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
 body,
 h1,
 h2,
@@ -10,7 +16,12 @@ table {
     padding: 0;
     list-style: none;
     text-decoration: none;
-    font-family: 'Comic Sans MS', sans-serif;
+    font-family: 'Cafe24Supermagic-Bold-v1.0', sans-serif;
+}
+
+.logo__img {
+    width: 80px;
+    height: 55px;
 }
 
 /* Global Styles */
@@ -39,7 +50,8 @@ main {
     /* 높이 자동 조절 */
     text-align: center;
     /* 내용 가운데 정렬 */
-    margin-top: 45px
+    margin-top: 45px;
+    margin-bottom: 50px
 }
 
 @media screen and (max-width: 768px) {
