@@ -18,94 +18,112 @@
 </head>
 
 <body>
-    <header></header>
+    <header>
+        <button onclick="hideFooter()" id="byefooter">푸터 숨겨~</button>
+    </header>
+
+    <script>
+        function hideFooter() {
+            console.log('hideFooter')
+            const footer = document.querySelector('footer')
+            const hideFooterBtn = document.querySelector('#byefooter')
+            if (footer.style.display == 'block') {
+                footer.style.display = 'none'
+                hideFooterBtn.textContent = '푸터 보여~'
+            } else {
+                footer.style.display = 'block'
+                hideFooterBtn.textContent = '푸터 숨겨~'
+            }
+        }
+
+    </script>
 
     <!-- -------------------------산책 메이트 찾기--------------------------- -->
     <main>
-        <section id="find-mate-section">
-            <div id="find-mate-wrapper">
-                <p>동네에 있는 산책 메이트를 찾아보세요</p>
-                <div id="find-mate-fieldset-container">
-                    <fieldset>
-                        <legend>견종 크기</legend>
-                        <form name="form-type">
-                            <input type="radio" name="type" value="small" id="small" />
-                            <label for="small">소형</label>
-                            <input type="radio" name="type" value="medium" id="medium" />
-                            <label for="medium">중형</label>
-                            <input type="radio" name="type" value="large" id="large" />
-                            <label for="large">대형</label>
-                        </form>
-                    </fieldset>
-                    <fieldset>
-                        <legend>견종 성격</legend>
-                        <form name="form-character">
-                            <input type="radio" name="character" value="introvert" id="introvert" />
-                            <label for="introvert">소심</label>
-                            <input type="radio" name="character" value="extrovert" id="extrovert" />
-                            <label for="extrovert">활발</label>
-                        </form>
-                    </fieldset>
-                    <fieldset>
-                        <legend>희망 산책 시간</legend>
-                        <form name="form-walkingTime">
-                            <input type="radio" name="walkingTime" value="60" id="60" />
-                            <label for="60">60분 이하</label>
-                            <input type="radio" name="walkingTime" value="90" id="90" />
-                            <label for="90">90분 정도</label>
-                            <input type="radio" name="walkingTime" value="120" id="120" />
-                            <label for="120">120분 이상</label>
-                        </form>
-                    </fieldset>
-                    <fieldset>
-                        <legend>희망 산책 장소</legend>
-                        <form name="form-walkingLocation">
-                            <input type="radio" name="walkingLocation" value="indoor" id="indoor" />
-                            <label for="indoor">실내</label>
-                            <input type="radio" name="walkingLocation" value="outdoor" id="outdoor" />
-                            <label for="outdoor">실외</label>
-                        </form>
-                    </fieldset>
-                </div>
+        <div id="wrapper">
+            <section id="find-mate-section">
+                <div id="find-mate-wrapper">
+                    <p>동네에 있는 산책 메이트를 찾아보세요!</p>
+                    <div id="find-mate-fieldset-container">
+                        <fieldset class="field">
+                            <legend>견종 크기</legend>
+                            <form name="form-type">
+                                <input type="radio" name="type" value="small" id="small" />
+                                <label for="small">소형견</label>
+                                <input type="radio" name="type" value="medium" id="medium" />
+                                <label for="medium">중형견</label>
+                                <input type="radio" name="type" value="large" id="large" />
+                                <label for="large">대형견</label>
+                            </form>
+                        </fieldset>
+                        <fieldset class="field">
+                            <legend>견종 성격</legend>
+                            <form name="form-character">
+                                <input type="radio" name="character" value="introvert" id="introvert" />
+                                <label for="introvert">소심</label>
+                                <input type="radio" name="character" value="extrovert" id="extrovert" />
+                                <label for="extrovert">활발</label>
+                            </form>
+                        </fieldset>
+                        <fieldset class="field">
+                            <legend>희망 산책 시간</legend>
+                            <form name="form-walkingTime">
+                                <input type="radio" name="walkingTime" value="60" id="60" />
+                                <label for="60">60분 이하</label>
+                                <input type="radio" name="walkingTime" value="90" id="90" />
+                                <label for="90">90분 정도</label>
+                                <input type="radio" name="walkingTime" value="120" id="120" />
+                                <label for="120">120분 이상</label>
+                            </form>
+                        </fieldset>
+                        <fieldset class="field">
+                            <legend>희망 산책 장소</legend>
+                            <form name="form-walkingLocation">
+                                <input type="radio" name="walkingLocation" value="indoor" id="indoor" />
+                                <label for="indoor">실내</label>
+                                <input type="radio" name="walkingLocation" value="outdoor" id="outdoor" />
+                                <label for="outdoor">실외</label>
+                            </form>
+                        </fieldset>
+                    </div>
 
-                <div id="find-mate-search-container">
-                    <div id="search">
-                        <button type="button" onclick="search()" id="search">찾기</button>
-                    </div>
-                    <div id="onSearch" hidden>
-                        <p>동일한 조건의 산책메이트를 찾는중입니다.</p>
-                        <div class="loader"></div>
-                        <button type="button" onclick="cancelSearch()" id="cancelSearch">찾기 취소</button>
+                    <div id="find-mate-search-container">
+                        <div id="search-btn-container">
+                            <button type="button" onclick="search()" id="search-btn">찾기</button>
+                        </div>
+                        <div id="onsearch-btn-container" hidden>
+                            <p>동일한 조건의 산책메이트를 찾는중입니다.</p>
+                            <div class="loader"></div>
+                            <button type="button" onclick="cancelSearch()" id="cancelSearch">찾기 취소</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- -------------------------산책 메이트 조회 리스트 --------------------------- -->
-        <section id="found-mate-section">
-            <div id="found-mate-wrapper">
-                <p>사용자들</p>
-                <ul id="mate-list"></ul>
-            </div>
-        </section>
+            </section>
+            <!-- -------------------------산책 메이트 조회 리스트 --------------------------- -->
+            <section id="found-mate-section">
+                <div id="found-mate-wrapper">
+                    <p>사용자들</p>
+                    <ul id="mate-list"></ul>
+                </div>
+            </section>
+        </div>
     </main>
 
-
-    <!-- -------------------------------------------------------------------------- -->
-    <!-- -------------------------내 대화 목록--------------------------- -->
-
-    <div id="chat-list-wrapper" style="background-color: blanchedalmond;">
-        <p>=============대화목록===========</p>
-        <ul id="chat-list">
-        </ul>
-    </div>
-
-    <!-- 채팅창 -->
-    <div id="chat-wrapper"></div>
 
 
 
     <!-- -------------------------------------------------------------------------- -->
     <footer>
+        <!-- -------------------------------------------------------------------------- -->
+        <!-- -------------------------내 대화 목록--------------------------- -->
+        <div id="chat-list-wrapper" style="background-color: blanchedalmond;">
+            <p>=============대화목록===========</p>
+            <ul id="chat-list">
+            </ul>
+        </div>
+
+        <!-- 채팅창 -->
+        <div id="chat-wrapper"></div>
         <div id="id-input-container">
             <input type="text" id="myID" placeholder="내 ID는?" />
             <button type="button" onclick="submitID()">아이디 입력</button>
@@ -114,9 +132,22 @@
             </div>
         </div>
     </footer>
+
 </body>
 
 <!-- ========================================================================================== -->
+<!-- ========================================================================================== -->
+
+<!-- ========================================================================================== -->
+
+<!-- ========================================================================================== -->
+
+<!-- ========================================================================================== -->
+
+<!-- ========================================================================================== -->
+
+<!-- ========================================================================================== -->
+
 <script>
     //로컬 스토리지에서 'token' 이름의 아이템 불러오기
     const token = window.localStorage.getItem('token')
@@ -130,8 +161,8 @@
 
     //산책페이트 찾기 필터 요소, 찾기 버튼 요소, 찾는 중 안내 요소
     const findMateForm = document.querySelector('#find-mate-wrapper')
-    const searchBtn = document.querySelector('#search')
-    const onSearch = document.querySelector('#onSearch')
+    const searchBtn = document.querySelector('#search-btn-container')
+    const onSearch = document.querySelector('#onsearch-btn-container')
 
     //아이디 입력 요소
     const id = document.querySelector('#userid')

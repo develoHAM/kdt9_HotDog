@@ -1,58 +1,163 @@
-#chat-list-wrapper,
-#chat-wrapper {
-    display: none;
+@font-face {
+    font-family: 'Cafe24Supermagic-Bold-v1.0';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
 }
 
-body {
-    background-color: whitesmoke;
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cafe24Supermagic-Bold-v1.0';
 }
 
 main {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 5rem 0rem;
+    box-sizing: inherit;
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    height: auto;
 }
 
-#find-mate-section, #found-mate-section {
+#wrapper {
+    width: 100%;
+    height: 36rem;
+    margin-top: 8rem;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+#find-mate-section {
+    flex-basis: 40%;
     height: 100%;
+    border-radius: 15px;
 }
 
 #find-mate-wrapper {
-    background-color: #f4e0d6;
-    border-radius: 10px;
     width: 100%;
     height: 100%;
-    padding: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#find-mate-wrapper > p {
+    flex-basis: 5%;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
 }
 
 #find-mate-fieldset-container {
+    flex-basis: 80%;
+    flex-shrink: 0;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    align-items: center;
 }
 
-#found-mate-wrapper {
-    background-color: #f4e0d6;
-    border-radius: 10px;
+.field {
+    margin: 0;
+    padding: 0;
+    margin: 0.5rem 0;
     width: 100%;
     height: 100%;
-    padding: 10%;
+    border-radius: 15px;
+    border: none;
+    background-color: #F4E0D6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
-
-header,
-footer {
-    background-color: #f4e0d6;
-    height: 5rem;
-    width: 65%;
+.field legend {
+    text-align: center;
+    background-color: #F4E0D6;
     border-radius: 10px;
-    margin: auto;
+    font-size: 1.2rem;
+    padding: 0.5rem;
 }
+
+.field form {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.field form input {
+    display: none;
+}
+
+.field label {
+    flex-basis: 20%;
+    padding: 1rem 1.8rem;
+    background-color: #dcada4;
+    border-radius: 15px;
+    color: antiquewhite;
+    text-align: center;
+}
+
+form input[type="radio"]:checked+label {
+    background-color: #8c6666ec;
+  }
+
+.field label:hover {
+    background-color: #c69f9fec;
+}
+
+#find-mate-search-container {
+    flex-basis: 15%;
+    flex-shrink: 0;
+    width: 100%;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#find-mate-search-container:first-child {
+    flex-basis: 100%;
+}
+
+#find-mate-search-container button {
+    font-family: inherit;
+    width: 100%;
+    padding: 0.6rem 1.2rem;
+    font-weight: 700;   
+    border: none;
+}
+
+
+
+
+
+#found-mate-section {
+    flex-basis: 20%;
+    height: 100%;
+    background-color: whitesmoke;
+    border-radius: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* 찾는중입니다 로딩 버튼 애니메이션 */
 .loader {
@@ -72,3 +177,24 @@ footer {
         transform: rotate(360deg);
     }
 }
+
+header,
+footer {
+    background-color: #f4e0d6;
+    height: 7rem;
+    width: 100%;
+    border-radius: 10px;
+    margin: auto;
+}
+
+header {
+    position: fixed;
+    top: 0px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    display: none;
+}
+
