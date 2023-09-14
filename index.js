@@ -21,23 +21,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
-
 app.use('/css', express.static(__dirname + '/css'))
-
-
 app.use('/images', express.static(__dirname + '/images'))
 
 //http 라우터
 const indexRouter = require('./routes/main.js')
 app.use('/', indexRouter);
 
+
 //산책 메이트 라우터
 const mateRouter = require('./routes/mate.js')
 app.use('/mate', mateRouter)
 
+
 //소켓 라우터
 const socketRouter = require('./routes/socket.js');
 socketRouter(io)
+
 
 //게시판
 const boardsRouter = require("./routes/boards.js");
@@ -59,8 +59,8 @@ app.use('*', (req, res) => {
     res.render('404');
 })
 
-//서버 열기
 
+//서버 열기
 db.sequelize.sync({ force: false }).then(() => {
     server.listen(PORT, () => {
         console.log(`http://localhost:${PORT}`)

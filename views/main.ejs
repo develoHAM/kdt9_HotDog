@@ -70,6 +70,7 @@
         <a href="/boards/qna">Q&A</a>
       </div>
       <a href="/mypage">마이페이지</a>
+      <a href="/faq" target="_blank">FAQ</a>
       <!-- Button trigger modal -->
       <button type="button" class="loginoutbtn" id="logoutBtn" onclick="logout()"
         style="background-color: #F4E0D6; border: none ;color:black; border-radius: 10px;">
@@ -111,6 +112,45 @@
       </div>
     </div>
   </div>
+<!-- 바디 -->
+  <body>
+        <div class="main1">
+            
+          <img id="mainImg"  src="/산책.jpg" alt="">
+          <div class="main-back">
+              <div class="text-main">
+                <div class="animated-text">With a walking mate <br> Experience a special experience!</div>
+                <!-- <div class="animated-text">Experience a special experience!</div> -->
+                <button class="animated-text" id="startBtn">START</button>
+                
+              </div>
+          </div>
+        </div>
+      <div class="items">
+        <div class="item" >
+            <img src="/강아지2마리.jpg" alt="강아지 1">
+            <div class="bord-hover">
+                <p>강아지 찾기</p>
+                <button>Click me</button>
+            </div>
+        </div>
+        <div class="item">
+            <img src="/강아지.jpg" alt="강아지 2">
+            <div class="bord-hover">
+                <p>용품나눔</p>
+                <button>Click me</button>
+            </div>
+        </div>
+        <div class="item">
+            <img src="/강아지병원.jpg" alt="강아지 병원">
+            <div class="bord-hover">
+                <p>강아지 sns</p>
+                <button>Click me</button>
+            </div>
+        </div>
+    </div>
+  </body>
+
   <script>
     window.onload = function () {
       const loginbutton = document.querySelector("#modalbtn");
