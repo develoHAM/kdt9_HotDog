@@ -7,11 +7,14 @@ const CommentModel = (sequelize) => {
             allowNull: false,
         },
         writer: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.STRING(20),
             allowNull: false,
-        },postId: {
+        },
+        postId: {
             type: DataTypes.INTEGER, 
             allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
         },
     }, {
     });

@@ -1,0 +1,29 @@
+@font-face {
+    font-family: "KCC-Ganpan";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCC-Ganpan.woff2")
+      format("woff2");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "NanumSquareNeo-Variable";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2")
+      format("woff2");
+    font-weight: normal;
+    font-style: normal;
+  }
+  body {
+    text-align: center;
+  }
+  div {
+    margin-top: 20px;
+    font-weight: bold;
+    font-family: "NanumSquareNeo-Variable";
+  }
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+  }
