@@ -27,8 +27,13 @@ db.Comment.belongsTo(db.Qna, { foreignKey: 'qnaId'})
 db.User.hasMany(db.Share, { foreignKey: 'writer', sourceKey: 'userid'});
 db.Share.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
 
+
+db.User.hasMany(db.Qna, { foreignKey: 'writer', sourceKey: 'userid'});
+db.ShareComments.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
+
 db.Share.hasMany(db.ShareComments, { foreignKey: 'writer', sourceKey: 'userid'});
 db.ShareComments.belongsTo(db.User, { foreignKey: 'writer', targetKey: 'userid'});
+
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
