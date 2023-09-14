@@ -16,7 +16,7 @@
 </head>
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Comic Sans MS', sans-serif;
         background-color: #f4e0d6;
         margin: 0;
         padding: 0;
@@ -27,7 +27,7 @@
         margin: 0 auto;
         padding: 20px;
         background-color: #fff;
-        border-radius: 5px;
+        border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         margin-top: 20px;
     }
@@ -52,9 +52,9 @@
 
     input[type="text"],
     textarea {
-        width: 100%;
+        width: 96%;
         padding: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 0px;
         border: 1px solid #ccc;
         border-radius: 4px;
         resize: none;
@@ -89,6 +89,11 @@
         margin-top: 10px;
         white-space: pre-wrap;
     }
+    #commentarea{
+        overflow-y: scroll; 
+        height:200px;
+        border: 1px solid #ccc;
+    }
     #commentarea p {
         margin-top: 10px;
         white-space: pre-wrap;
@@ -97,20 +102,48 @@
         border-radius: 5px;
         border: 1px solid #ccc;
     }
-</style>
+    /* 추가된 CSS: 768px 미만 화면에 대한 스타일링 */
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px; /* 좀 더 작은 padding 적용 */
+            width: 475px;
+        }
 
-    <title>게시글 상세 조회</title>
+        input[type="text"],
+        textarea {
+            margin-bottom: 10px; /* 작은 간격으로 변경 */
+            width: 95%;
+        }
+
+        button {
+            padding: 8px 16px; /* 작은 크기로 변경 */
+        }
+
+        #comment-container {
+            padding: 10px; /* 좀 더 작은 padding 적용 */
+            width: 475px;
+    border-radius: 8px;
+        }
+    }
+    .writer {
+        margin-top: 10px;
+    }
+    #toggleBtn_listBtn {
+        display: flex;
+    }
+</style>
+    <title>Q&A</title>
 </head>
 
 <body>
     <div class="container">
-        <h1>게시글 상세 조회</h1>
+        <h1>Q&A</h1>
         <div class="d-flex justify-content-between align-items-center">
             <div>
                 <button id="editBtn" class="btn btn-primary" type="button" onclick="edit()">수정</button>
                 <button id="deleteBtn" class="btn btn-danger" type="button" onclick="deleteBoards()">삭제</button>
             </div>
-            <div>
+            <div class="writer">
                 <label for="writer">작성자</label>
                 <input type="text" id="writer" class="form-control" value="<%=data.writer%>" readonly>
             </div>
@@ -119,8 +152,11 @@
         <input type="text" id="title" class="form-control" value="<%=data.title%>"><br>
         <label for="contents">내용</label><br>
         <textarea id="contents" class="form-control" rows="10"><%=data.contents%></textarea>
+        <button type="button" onclick="location.href='/boards/qna'">목록으로</button>
     </div>
+    <div class="toggleBtn_listBtn">
     <button id="toggleCommentButton" class="btn btn-primary" onclick="toggleCommentForm()">댓글 보기</button>
+</div>
     <div id="comment-container" class="comment-container"><br>
         <!-- <div class="comment-list"></div> -->
         <input type="hidden" id="boardtype" value="qna" />
