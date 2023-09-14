@@ -20,7 +20,7 @@ main {
 
 #wrapper {
     width: 100%;
-    height: 25rem;
+    height: calc(100vh - 7rem);
     margin-top: 8rem;
     display: flex;
     justify-content: space-evenly;
@@ -81,6 +81,7 @@ main {
     border-radius: 10px;
     font-size: 1.2rem;
     padding: 0.5rem;
+    width: 40%;
 }
 
 .field form {
@@ -127,7 +128,6 @@ form input[type="radio"]:checked+label {
     flex-basis: 100%;
 }
 
-
 #find-mate-search-container button {
     font-family: inherit;
     width: 100%;
@@ -139,16 +139,257 @@ form input[type="radio"]:checked+label {
 #found-mate-section {
     flex-basis: 20%;
     height: 100%;
-    background-color: whitesmoke;
     border-radius: 15px;
 }
+
+#found-mate-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#found-mate-wrapper > p {
+    flex-basis: 5%;
+    flex-shrink: 0;
+    text-align: center;
+    margin: 0 0 1rem 0;
+    padding: 0;
+    font-size: 1.5rem;
+}
+
+#found-mate-wrapper > ul {
+    flex-grow: 0.9;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    margin: 1rem 0;
+    padding-top: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+}
+
+#mate-list li {
+    width: 60%;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0.4rem 0;
+    margin: 0.4rem auto;
+    border-radius: 10px;
+    background-color: #c69f9fec;
+    cursor: pointer;
+}
+
+#chatting-wrapper {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 1rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #c69f9fec;
+    text-align: center;
+    line-height: 4rem;
+}
+
+#chatting-wrapper:hover {
+    background-color: #8c6666ec;
+}
+
+#chatbox-icon {
+    color: antiquewhite;
+    font-size: 1.5rem;
+}
+
+#chat-list-wrapper {
+    position: fixed;
+    width: 18rem;
+    height: 30rem;
+    border-radius: 15px;
+    background-color: #c69f9fec;
+    right: 1rem;
+    bottom: 7rem;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chat-list-wrapper > p {
+    flex-basis: 10%;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#chat-list-wrapper > ul {
+    flex-basis: 70%;
+    width: 100%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+    text-align: center;
+}
+
+#chat-list-wrapper li {
+    list-style: none;
+    background-color: antiquewhite;
+    border-radius: 15px;
+    width: 80%;
+    height: 3rem;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-list-btn-container {
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.chat-list-btn-container button {
+    border: none;
+    background-color: antiquewhite;
+    padding: 0;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: 0;
+}
+
+#chat-room-wrapper {
+    position: fixed;
+    width: 18rem;
+    height: 30rem;
+    border-radius: 15px;
+    right: 1rem;
+    bottom: 7rem;
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#chat-room-wrapper button {
+    border: none;
+    background-color: antiquewhite;
+    padding: 0;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: 0;
+    cursor: pointer;
+}
+
+.top-bar-interface {
+    flex-basis: 10%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.1rem solid grey;
+}
+
+.exit-chat-room-btn {
+    flex-basis: 15%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-radius: 15px;
+}
+
+.exit-chat-room-btn-icon {
+    font-size: 1.4rem;
+}
+
+.top-bar-interface span {
+    flex-basis: 50%;
+    font-size: 1.4rem;
+    flex-grow: 1;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.chat-interface {
+    flex-basis: 75%;
+    flex-shrink: 0;
+    border-bottom: 0.1rem solid grey;
+    overflow-y: scroll;
+}
+
+.chat-interface .chat {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem 0;
+    text-wrap: balance;
+}
+
+.chat-interface .chat .textbox {
+    max-width: 60%;
+    border-radius: 10px;
+    padding: 0.5rem;
+    overflow-wrap: break-word;
+}
+
+.chat-interface .me {
+    flex-direction: row-reverse;
+}
+
+.chat-interface .me .textbox {
+    background-color: ghostwhite;
+    margin-right: 0.6rem;
+}
+
+.chat-interface .other .textbox {
+    background-color: #c69f9fec;
+    margin-left: 0.6rem;
+}
+
+.input-interface {
+    flex-basis: 15%;  
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.input-interface .message-input-container {
+    flex-basis: 80%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.input-interface .send-button-container {
+    flex-basis: 20%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.input-interface .send-button-container i {
+    width: 1rem;
+    height: 1rem;
+    font-size: 1.5rem;
+    color: #8c6666ec;
+}
+
 #search-btn{
     background-color: #F4E0D6;
     border-radius: 15px;
 }
+
 #search-btn:hover{
     background-color: #c69f9fec;
 }
+
 /* 찾는중입니다 로딩 버튼 애니메이션 */
 .loader {
     border: 5px solid #f3f3f3; /* Light grey */
