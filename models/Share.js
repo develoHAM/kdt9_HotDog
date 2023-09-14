@@ -8,10 +8,6 @@ const ShareModel = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        userid: {
-            type: DataTypes.STRING(20),
-            allowNull: false,
-        },
         title:{
             type:DataTypes.STRING(255),
             allowNull:false,
@@ -25,8 +21,8 @@ const ShareModel = (sequelize) => {
             allowNull:true
         },
         writer:{
-            type:DataTypes.STRING(255),
-            allowNull:true
+            type:DataTypes.STRING(20),
+            allowNull:false
         },
     });
 };

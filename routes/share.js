@@ -47,7 +47,7 @@ router.get('/share/:id', controller.user_verify)
 router.post('/verify', controller.user_verify)
 router.post('/shareCommit', upload.single('dynamic_file') , controller.post_shareCommit)
 router.patch('/edit/:id', controller.patch_editShare)
-router.delete('/delete/:id', controller.delete_share)
+router.delete('/delete', controller.delete_share)
 
 // router.post('/share/comments/:postId', controller.post_createComment);
 // 서버 시작점에 로그 추가

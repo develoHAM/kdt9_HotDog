@@ -1,77 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <title>Document</title>
-    <style>
-      @font-face {
-        font-family: "KCC-Ganpan";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCC-Ganpan.woff2")
-          format("woff2");
-        font-weight: normal;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: "NanumSquareNeo-Variable";
-        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2")
-          format("woff2");
-        font-weight: normal;
-        font-style: normal;
-      }
-      body {
-        text-align: center;
-      }
-      div {
-        margin-top: 20px;
-        font-weight: bold;
-        font-family: "NanumSquareNeo-Variable";
-      }
-    .material-symbols-outlined {
-        font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24
-      }
-</style>
-    </style>
-  </head>
-  <body>
-    <h1><span class="material-symbols-outlined">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/Faq.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <header>
+<!-- main start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">로고</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active walk" aria-current="page" href="/mate">산책친구 찾기</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">게시판</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/Share">용품나눔</a></li>
+            <li><a class="dropdown-item" href="/Share">나의 펫을 자랑합니다</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">강아지 찾기</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/boards/qna">Q&A</a>
+        </li>
+      </ul>
+      <hr class="d-lg-none">
+      <div class="d-lg-none ">
+        <a class="btn btn_my" href="/mypage">마이페이지</a>
+        <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnSmall"
+          type="button">로그인</button>
+        <button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
+
+      </div>
+      <div class="myLog d-none d-lg-flex"> <!-- Only display on large screens -->
+        <a class="btn btn_my" href="/mypage">마이페이지</a>
+        <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnLarge"
+          type="button">로그인</button>
+        <button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="modal fade" id="exampleModal-log" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: #F4E0D6;">
+      <div class="modal-header text-center">
+        <div class="modal-title fs-5" id="exampleModalLabel">로그인</div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="login-form">
+          <div class="mb-3">
+            <label for="userid" class="form-label">아이디</label>
+            <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;">
+          </div>
+          <div class="mb-3">
+            <label for="pw" class="form-label">비밀번호</label>
+            <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;">
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="signin()"
+              style="background-color:#DBC2BD; border: none;">로그인</button>
+            <button type="button" class="btn btn-primary" onclick="signup()"
+              style="background-color:#DBC2BD; border: none;">회원가입</button>
+            <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal"
+              style="background-color:#DBC2BD; border: none;">Close</button> <!-- 회원가입 버튼 추가 -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main end -->
+  </header>
+  
+
+  <h1><span class="material-symbols-outlined">
       pets
-      </span>FAQ<span class="material-symbols-outlined">
-        pets
-        </span></h1>
-    <div>Q1. HotDog에서 제공하는 서비스는 무엇인가요?</div>
-    <div>A. HotDog는 강아지와 관련된 서비스를 제공하는 사이트입니다. 
-      현재는 강아지 산책 친구 찾기,  가까운 동물 병원 찾기,용품 나눔, 질문 게시판 등의 서비스를 제공하고 있습니다. 
-      추후 이용자 분들의 소중한 의견을 귀담아 듣고 더 좋은 서비스를 제공드릴 것을 약속드리겠습니다.</div>
-    <div>Q2. 회원가입을 할 때 왜 상세주소 입력이 안될까요?</div>
-    <div>
-      A. 핫도그는 필요 이상의 개인정보를 수집하지 않습니다. 산책메이트 찾기 기능
-      이용시 같은 동에 거주하고 있는 사용자들끼리만 서로 조회할 수 있도록 구현이
-      되어 있습니다. 
-    </div>
-    <div>Q3. 산책메이트는 어떻게 조회하고 찾나요?</div>
-    <div>
-      A.산책메이트 찾기에 들어가셔서 원하는 조건을 선택하시고 그 조건과 부합하는
-      사용자와 매칭이됩니다. 
-    </div>
-    <div>Q4. 동물 병원페이지에 개인적인 위치확인 동의를 꼭 해야할까요?</div>
-    <div>A. 해당 서비스는 고객의 위치에 따라서 병원리스트를 검색해주는 기능으로 동의를 해주셔야 꼭 필요로 합니다 </div>
-    <div><span class="material-symbols-outlined">
+    </span>FAQ<span class="material-symbols-outlined">
+      pets
+    </span></h1>
+  <div>Q1. HotDog에서 제공하는 서비스는 무엇인가요?</div>
+  <div>A. HotDog는 강아지와 관련된 서비스를 제공하는 사이트입니다.
+    현재는 강아지 산책 친구 찾기, 가까운 동물 병원 찾기,용품 나눔, 질문 게시판 등의 서비스를 제공하고 있습니다.
+    추후 이용자 분들의 소중한 의견을 귀담아 듣고 더 좋은 서비스를 제공드릴 것을 약속드리겠습니다.</div>
+  <div>Q2. 회원가입을 할 때 왜 상세주소 입력이 안될까요?</div>
+  <div>
+    A. 핫도그는 필요 이상의 개인정보를 수집하지 않습니다. 산책메이트 찾기 기능
+    이용시 같은 동에 거주하고 있는 사용자들끼리만 서로 조회할 수 있도록 구현이
+    되어 있습니다.
+  </div>
+  <div>Q3. 산책메이트는 어떻게 조회하고 찾나요?</div>
+  <div>
+    A.산책메이트 찾기에 들어가셔서 원하는 조건을 선택하시고 그 조건과 부합하는
+    사용자와 매칭이됩니다.
+  </div>
+  <div>Q4. 동물 병원페이지에 개인적인 위치확인 동의를 꼭 해야할까요?</div>
+  <div>A. 해당 서비스는 고객의 위치에 따라서 병원리스트를 검색해주는 기능으로 동의를 해주셔야 꼭 필요로 합니다 </div>
+  <div><span class="material-symbols-outlined">
       sound_detection_dog_barking
-      </span><span class="material-symbols-outlined">
-        sound_detection_dog_barking
-        </span><span class="material-symbols-outlined">
-          sound_detection_dog_barking
-          </span><span class="material-symbols-outlined">
-            sound_detection_dog_barking
-            </span><span class="material-symbols-outlined">
-              sound_detection_dog_barking
-              </span></div>
-  </body>
+    </span><span class="material-symbols-outlined">
+      sound_detection_dog_barking
+    </span><span class="material-symbols-outlined">
+      sound_detection_dog_barking
+    </span><span class="material-symbols-outlined">
+      sound_detection_dog_barking
+    </span><span class="material-symbols-outlined">
+      sound_detection_dog_barking
+    </span></div>
+
+  <!-- footer start -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-container-1">
+        <a href="#" onclick="scrollToTop()">사이트맵</a>
+        <a href="#">FAQ</a>
+        <a href="#">웹사이트</a>
+        <div class="copyright">&copy; 2023 Hotdog. All rights reserved.</div>
+      </div>
+      <div class="footer-container-2">
+        <div>김민현</div>
+        <div>김대원</div>
+        <div>강석주</div>
+        <div>이영경</div>
+        <div>김명준</div>
+      </div>
+    </div>
+  </footer>
+  <!-- footer end -->
+
+  <script>
+    // script start
+
+
+    window.onload = function () {
+      const loginbuttonSmall = document.querySelector("#loginBtnSmall");
+      const logoutbuttonSmall = document.querySelector("#logoutBtnSmall");
+      const loginbuttonLarge = document.querySelector("#loginBtnLarge");
+      const logoutbuttonLarge = document.querySelector("#logoutBtnLarge");
+
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        loginbuttonSmall.style.display = "none";
+        logoutbuttonSmall.style.display = "block";
+        loginbuttonLarge.style.display = "none";
+        logoutbuttonLarge.style.display = "block";
+      } else {
+        loginbuttonSmall.style.display = "block";
+        logoutbuttonSmall.style.display = "none";
+        loginbuttonLarge.style.display = "block";
+        logoutbuttonLarge.style.display = "none";
+      }
+    }
+
+    function signup() {
+      window.location.href = "/signup";
+    }
+
+    function authKaKao() {
+      document.location.href = "/signup/kakao";
+    }
+
+    async function signin() {
+      const userid = document.querySelector("#userid").value;
+      const pw = document.querySelector("#pw").value;
+      const loginbutton = document.querySelector("#loginBtn");
+      const logoutbutton = document.querySelector("#logoutBtn");
+      const data = {
+        userid,
+        pw,
+      };
+
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "/login",
+          data,
+        });
+        console.log(res.data);
+        if (res.data.result) {
+          localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
+          localStorage.setItem(`token`, res.data.token);
+          alert(`${res.data.userinfo.name}님 로그인 성공`);
+          window.location.reload();
+        } else {
+          alert(`${res.data.message}`);
+          document.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    async function logout() {
+      window.localStorage.clear();
+      const loginbutton = document.querySelector("#loginBtn");
+      const logoutbutton = document.querySelector("#logoutBtn");
+      document.location.href = "/";
+    }
+
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth" // 부드러운 스크롤 효과를 사용하려면 "smooth"를 설정합니다.
+      });
+    }
+    // script end
+  </script>
+</body>
+
 </html>

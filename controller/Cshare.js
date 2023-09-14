@@ -5,21 +5,6 @@ const jwt = require("jsonwebtoken");
 const SECRET = process.env.login_SECRET;
 
 
-const user_verify = async (req ,res) => {
-  const { token, writer } = req.body;
-  try {
-    const decoded = jwt.verify(token, SECRET);
-    const userId = decoded.userid;
-    if(userId === writer) {
-      res.json({ data: true });
-  }
-  return res.json({ data: false, message: '본인 게시물만 수정 가능' });
-
-  } catch (error) {
-    return res.status(500).json({ data: false, message: 'Internal Server Error' });
-  }
-}
-
 const get_main = (req, res) => {
   // 토큰 추출 (예시)
   const authHeader = req.headers['authorization'];
@@ -28,8 +13,8 @@ const get_main = (req, res) => {
   Share.findAll().then((result) => {
     if (result.length > 0) {
       // data와 함께 writer와 token도 전달
-      res.render('share', {data : '반갑습니다.'})
-      // res.render('share', { data: result, writer: '작성자ID_here', token: token });
+      // res.render('share', {data : result + '반갑습니다.', writer: '작성자ID_here', token: token })
+      res.render('share', { data: result, writer: '작성자ID_here', token: token });
       console.log("Token from request body:", req.body.token);
 
     } else {
@@ -67,6 +52,22 @@ async function post_shareCommit(req, res) {
       res.status(500).json({ error: '글 작성 실패' });
     }
   }
+
+
+const user_verify = async (req ,res) => {
+  const { token, writer } = req.body;
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    const userId = decoded.userid;
+    if(userId === writer) {
+      res.json({ data: true });
+  }
+  return res.json({ data: false, message: '본인 게시물만 수정 가능' });
+
+  } catch (error) {
+    return res.status(500).json({ data: false, message: 'Internal Server Error' });
+  }
+}
 
 const patch_editShare = async (req, res) => {
   console.log('asdasd');
@@ -110,20 +111,22 @@ async function post_createComment(req, res) {
     console.log('Request body:', req.body);  // Log 추가
 
     const { comment, token } = req.body; 
+
     const postId = req.params.postId;
 
     if (!token) {
-      return res.status(400).json({ error: 'Token is missing' });
+      return res.status(400).json({ error: '토큰이 없습니다.' });
     }
 
     const user = jwt.verify(token, SECRET);
+    const id = user.userid
 
-    if (!comment || !postId || !user) {
-      return res.status(400).json({ error: 'Invalid request' });
-    }
+    // if (!comment || !postId || !user) {
+    //   return res.status(400).json({ error: '못합니다.' });
+    // }
 
-    const writer = user.userid;
-    const newComment = await ShareComments.create({ comment, writer, postId });
+    // const writer = user.userid;
+    const newComment = await ShareComments.create({ comment, writer:id, postId });
     res.status(201).json(newComment);
   } catch (error) {
     console.error('An error occurred:', error);  // 로그 추가
