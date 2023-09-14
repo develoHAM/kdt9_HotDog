@@ -28,8 +28,8 @@ const get_main = (req, res) => {
   Share.findAll().then((result) => {
     if (result.length > 0) {
       // data와 함께 writer와 token도 전달
-      // res.render('share', {data : '반갑습니다.'})
-      res.render('share', { data: result, writer: '작성자ID_here', token: token });
+      res.render('share', {data : '반갑습니다.'})
+      // res.render('share', { data: result, writer: '작성자ID_here', token: token });
       console.log("Token from request body:", req.body.token);
 
     } else {
