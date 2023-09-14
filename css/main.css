@@ -31,6 +31,10 @@ body {
    Navbar 스타일
 ------------------------------ */
 
+.container > LogoImg {
+  width: 10px;
+}
+
 /* 기본 Navbar 스타일 */
 .navbar {
   height: 70px;
