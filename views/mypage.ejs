@@ -103,8 +103,6 @@
   <body>
     <div class="mypage-container">
       <h1>mypage</h1>
-      <input type="text" id="myID" placeholder="내 ID는?" />
-      <button type="button" onclick="myID()">아이디 입력</button><br />
       <input type="hidden" id="id" />
       <label for="userid">아이디</label>
       <input type="text" id="userid" readonly /><br />
@@ -141,7 +139,7 @@
       const dogname = document.querySelector("#dogname");
       const rfid = document.querySelector("#rfid");
       const id = document.querySelector("#id");
-      const token = window.localStorage.getItem(myID);
+      const token = window.localStorage.getItem('token');
 
       function addressAPI() {
         const addressInput = document.getElementById("address");
@@ -153,9 +151,6 @@
         }).open();
       }
 
-      function myID() {
-        const myID = document.querySelector("#myID");
-        const token = window.localStorage.getItem(`${myID.value}`);
         axios({
           method: "post",
           url: "/mypage",
@@ -178,11 +173,8 @@
             document.location.href = "/";
           }
         });
-      }
 
       async function edit() {
-        const myID = document.querySelector("#myID");
-        const token = window.localStorage.getItem(`${myID.value}`);
         const data = {
           id: Number(id.value),
           userid: userid.value,
