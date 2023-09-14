@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use('/css', express.static(__dirname + '/css'))
 app.use('/images', express.static(__dirname + '/images'))
 
-//http 라우터
+// http 라우터
 const indexRouter = require('./routes/main.js')
 app.use('/', indexRouter);
 
