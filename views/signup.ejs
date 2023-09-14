@@ -11,9 +11,16 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   </head>
   <style>
+    @font-face {
+        font-family: "Cafe24Supermagic-Bold-v1.0";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2")
+          format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
     /* 전체 페이지 스타일 */
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Cafe24Supermagic-Bold-v1.0";
       background-color: #f0f0f0;
       margin: 0;
       padding: 0;
@@ -85,7 +92,7 @@
 
   <body>
     <div class="signup-container">
-      <h1>회원가입 페이지</h1>
+      <h1>회원가입</h1>
       <label for="userid">아이디</label>
       <input type="text" id="userid" minlength="4" maxlength="12" /><br />
       <label for="pw">패스워드</label>
