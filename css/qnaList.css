@@ -6,11 +6,15 @@ p,
 ul,
 li,
 table {
+
+body, h1, h2, h3, p, ul, li, table {
+
     margin: 0;
     padding: 0;
     list-style: none;
     text-decoration: none;
     font-family: 'Comic Sans MS', sans-serif;
+
 }
 
 /* Global Styles */
@@ -27,10 +31,27 @@ body {
 
 main {
     min-height: 85vh; /* 최소 화면 높이 만큼 확장 */
+
+  }
+
+  /* Global Styles */
+  body {
+    background-color: #f4e0d6;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  main {
+
     padding: 20px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
     width: 80%;
     /* 가로 크기 조절 */
     max-width: 800px;
@@ -57,12 +78,33 @@ main {
 }
 
 .btn {
+
+    width: 80%; /* 가로 크기 조절 */
+    max-width: 800px; /* 최대 가로 크기 지정 */
+    height: 80%; /* 높이 자동 조절 */
+    text-align: center; /* 내용 가운데 정렬 */
+  }
+  @media screen and (max-width: 768px) {
+    /* 화면 너비가 768px 이하인 경우에 적용될 스타일 */
+    main{
+      max-width: 400px;
+    }
+  }
+  .btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+
     padding: 10px 20px;
     background-color: #dcada4;
     color: black;
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+
 }
 
 .btn:hover {
@@ -101,8 +143,49 @@ a:hover {
 }
 
 footer {
+
+  }
+
+  .btn:hover {
+    background-color: #c69f9fec;
+    text-decoration-line: none;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+  footer {
+
     background-color: #333;
     color: #fff;
     text-align: center;
     padding: 10px;
+
 }
+
+  }
+
