@@ -1,30 +1,6 @@
 /* #hospitalList id */
 
-.container-fluid  {
-    background-color: #F4E0D6;
-    height: 70px;
-    border-radius: 10px;
-
-}
-.myLog{
-    margin-top: 0;
-}
-.btn_my, .btn_log{
-    background-color: #F4E0D6;
-    border:none;
-    color: black;
-    margin-top: 0;
-}
-.btns:hover{
-    
-    display: flex;
-    justify-content: center;
-    align-content: space-evenly;
-
-}
-
-
-.container {
+.container-hos {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -58,47 +34,8 @@
     text-align: center;
 }
 
-
-
 #hospitalList div:hover {
     background-color: #FFDCC1;
-}
-
-.navbar {
-    background-color: #F4E0D6;
-    padding: 0%;
-}
-
-.navbar-brand {
-    font-weight: bold;
-}
-
-.navbar-toggler-icon {
-    background-color: black;
-}
-
-.nav-link {
-    color: black;
-    font-weight: bold;
-}
-
-.btn_my,
-.btn_log {
-    background-color: #F4E0D6;
-    border: none;
-    color: black;
-    margin-top: 0;
-    font-weight: bold;
-}
-
-.btn_my:hover,
-.btn_log:hover {
-    background-color: #FFDCC1;
-}
-
-.myLog {
-    display: flex;
-    align-items: center;
 }
 
 .custom-marker {
@@ -109,7 +46,7 @@
     border: 2px solid white; 
 }
 @media screen and (max-width: 1024px) {
-    .container {
+    .container-hos {
         flex-direction: column;
         align-items: center;
     }

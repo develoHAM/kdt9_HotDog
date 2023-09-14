@@ -1,334 +1,149 @@
+/* ------------------------------
+   기본 스타일 설정
+------------------------------ */
+
+/* HTML 기본 설정 */
 html {
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    font-family: sans-serif;
-    /* 1 */
-    line-height: 1.4;
-    /* 3 */
-    font-size: 1em;
-    /* 3 */
-    -ms-text-size-adjust: 100%;
-    /* 2 */
-    -webkit-text-size-adjust: 100%;
-    /* 2 */
-  }
-  
-  @font-face {
-    font-family: 'SUITE-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  body {
-    margin: 0;
-    font-family: 'SUITE-Regular';
-  }
-
-.modal-body {
-    display: flex;
-    justify-content: center;
-}
-
-
-.navbar {
-    background-color: #F4E0D6;
-    padding: 0%;
-}
-
-.navbar-brand {
-    font-weight: bold;
-}
-
-.navbar-toggler-icon {
-    background-color: black;
-}
-
-.nav-link {
-    color: black;
-    font-weight: bold;
-}
-
-.myLog {
-    display: flex;
-    align-items: center;
-    margin-top: 0;
-}
-
-.container-fluid  {
-    background-color: #F4E0D6;
-    height: 70px;
-    border-radius: 10px;
-
-}
-
-.btn_my:hover,
-.btn_log:hover {
-    background-color: #FFDCC1;
-}
-
-.btn_my,
-.btn_log {
-    background-color: #F4E0D6;
-    border: none;
-    color: black;
-    margin-top: 0;
-    font-weight: bold;
-}
-
-.btn_my, .btn_log{
-    background-color: #F4E0D6;
-    border:none;
-    color: black;
-    margin-top: 0;
-}
-
-.btns:hover{
-    
-    display: flex;
-    justify-content: center;
-    align-content: space-evenly;
-
-}
-
-/* footer */
-
-.footer-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color:#E2ceca;
-    color: black;
-    padding: 20px;
-    text-align: center;
-    height: 20%;
-    border-radius: 10px;
-}
-
-.footer-container-1 {
-    flex: 1;
-    margin: 10px;
-    display: flex;
-    flex-direction: column; /* 요소를 세로로 나열합니다. */
-    align-items: center; /* 내부 요소를 수직으로 가운데 정렬합니다. */
-}
-
-.footer-container-1 a {
-    color: black;
-    text-decoration: none;
-    margin: 0 10px;
-    display: inline-block;
-    text-align: center;
-    line-height: 1;
-}
-.footer-container-1 a:not(:last-child) {
-    margin-bottom: 10px; /* 링크 사이에 아래쪽 여백을 추가합니다. */
-}
-
-.footer-container-2 {
-    flex: 1;
-    margin: 10px;
-}
- .copyright {
-font-size: 15px;
-color: #888;
-margin-top: 10px;
-text-align: center;
-}
-
-
-/* 바디 */
-
-body {
-
-    margin: 0;
-    padding: 0;
-}
-/* - */
-.main1 {
-  /* background-color: #FCEEEF; */
-  height: 20%;
-  display: flex;
-  
-  align-items: center;
-  /* padding: 10px; */
-  border: solid gray 1px;
-  
-}
-
-#mainImg{
-  width: 60%;
-
-  /* margin-right: 20px; */
-  box-shadow: 0 4px 6px gray;
-
-}
-.text-main {
-  margin-top: 10%;
-  font-size: 30px;
- text-align: center;
- font-family: 'Cafe24Supermagic-Bold-v1.0';
- margin-bottom: 20px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   font-family: sans-serif;
-  font-weight: 700;
+  line-height: 1.4;
+  font-size: 1em;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
-.animated-text {
-  /* animation: slide 3s ease;  */
-  /* padding-left: 3%; */
-  text-align: start;
-  margin-left: 50px;
-  letter-spacing: 1px;
-
-  
-}
-#startBtn{
-  background-color: white;
-  border-radius: 45px;
-  margin-top: 10%;
-  padding:10px;
-  
+/* 웹 폰트 */
+@font-face {
+  font-family: 'SUITE-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
-.main-back > .text-main > #startBtn:hover {
-  background-color: gray;
+/* Body 설정 */
+body {
+  margin: 0;
+  font-family: 'SUITE-Regular';
 }
 
-.items {
-  padding-top: 5%;
+/* ------------------------------
+   Navbar 스타일
+------------------------------ */
+
+.container > LogoImg {
+  width: 10px;
+}
+
+/* 기본 Navbar 스타일 */
+.navbar {
+  height: 70px;
+  background-color: #F4E0D6;
+  padding: 0 50px;
   display: flex;
-  padding-left: 5%;
-  padding-right: 5%;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.item {
-  flex-grow: 1;
-  text-align: center;
-  border: 1px solid gray;
-  margin-right: 25px;
-  margin-bottom: 5%;
-  width: 30%;
-  border-radius: 35px;
+/* Navbar 내부 요소 */
+.navbar-brand,
+.nav-link {
+  font-weight: bold;
+  color: black;
+}
+
+/* Navbar 토글러 */
+.navbar-toggler-icon {
+  background-color: black;
+}
+
+/* 반응형 Navbar 설정 */
+@media (max-width: 991px) {
+  .navbar {
+    height: auto;
+    padding: 10px;
+  }
+
+  .myLog {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-nav.ms-auto {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* 햄버거 아이콘 스타일 */
+.navbar-toggler-icon {
+  background-image: none;
+  width: 18px;
+  height: 1.5px;
+  background-color: black;
   position: relative;
-  overflow: hidden; /* 이미지의 오버플로우를 숨깁니다. */
 }
 
-/* 이미지 스타일 */
-.item img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: filter 0.3s; 
-}
-
-/* 이미지 호버시 블러 처리 스타일 */
-.item:hover img {
-  filter: blur(5px); /* 호버 시 블러 처리 적용 */
-}
-
-/* 마우스 호버시 텍스트 및 버튼 표시 스타일 */
-.bord-hover {
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: '';
   position: absolute;
-  top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  /* background: rgba(0, 0, 0, 0.7);  */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0; /* 초기에 숨깁니다. */
-  transition: opacity 0.3s; /* 효과를 부드럽게 만듭니다. */
+  height: 1.5px;
+  background-color: black;
 }
 
-/* 텍스트와 버튼 스타일 */
-.bord-hover p,
-.bord-hover button {
-  color: white;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
+.navbar-toggler-icon::before { top: -7px; }
+.navbar-toggler-icon::after { bottom: -7px; }
 
-.bord-hover button,
-.bord-hover a {
-  background-color: white;
-  color: gray;
-  padding: 10px 20px;
+/* ------------------------------
+   버튼 및 컨테이너 스타일
+------------------------------ */
+
+/* 공통 버튼 스타일 */
+.btn_my, .btn_log {
   border: none;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 35px;
-  transition: background-color 0.3s;
+  color: black;
+  margin-top: 0;
+  font-weight: bold;
 }
 
-/* 이미지 호버 시 텍스트와 버튼 표시 */
-.item:hover .bord-hover {
-  opacity: 1;
+/* 버튼 호버 스타일 */
+.btn_my:hover, .btn_log:hover {
+  background-color: #FFDCC1;
 }
 
-
-.items > img:last-child {
-  margin-right: 0;
+/* 컨테이너 설정 */
+.container-fluid {
+  height: 70px;
+  border-radius: 10px;
 }
 
+/* ------------------------------
+   Footer 스타일
+------------------------------ */
 
-/* 핸드폰 반응형 */
-@media screen and (max-width: 767px) {
-    .main1 {
-      height: auto; 
-      flex-direction: column; 
-    }
-  
-    #mainImg {
-      width: 100%;
-    }
-  
-    .text-main {
-      margin-top: 5%;
-      font-size: 20px; 
-    }
-  
-    .animated-text {
-      margin-left: 0; 
-      text-align: center; /* 가운데 정렬 */
-    }
-  
-    #startBtn {
-      margin-top: 5%;
-    }
-  
-    .items {
-      flex-direction: column; 
-      padding-left: 0; 
-      padding-right: 0;
-    }
-  
-    .item {
-      width: 100%; 
-      margin-right: 0; 
-      margin-bottom: 20px; 
-    }
-  
-  }
-  
-  
-  /* 테블릿 화면 크기 (중간 크기) */
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
-    .items {
-      flex-direction: row; /* 아이템들을 다시 가로로 정렬 */
-      margin-left: -10px; /* 아이템 사이의 간격 보정 */
-      margin-right: -10px;
-    }
-  
-    .item {
-      width: calc(33.33% - 20px); /* 아이템 너비를 화면 너비에 맞게 조정 */
-      margin-right: 20px; /* 아이템 사이의 간격 설정 */
-      margin-bottom: 0; /* 아이템들 사이의 간격 초기화 */
-    }
-  
-    .bord-hover {
-      background: transparent; /* 배경 제거 */
-    }
-  }
-  
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  height: 20%;
+  border-radius: 10px;
+}
+
+/* 기타 Footer 설정 */
+.footer-container-1, .footer-container-2 {
+  flex: 1;
+  margin: 10px;
+}
+
+.copyright {
+  font-size: 15px;
+  color: #888;
+  margin-top: 10px;
+  text-align: center;
+}

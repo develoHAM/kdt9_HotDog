@@ -1,209 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Axios -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <!-- 주소 API -->
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
-  <title>Document</title>
-  <style>
-    /* 전체 페이지 스타일 */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* 컨테이너 스타일 */
-    .mypage-container {
-      max-width: 600px;
-      margin: 20px auto;
-      display: flex;
-      background-color: #F4E0D6;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    @media screen and (max-width: 768px) {
-      /* 화면 너비가 768px 이하인 경우에 적용될 스타일 */
-      .mypage-container{
-        max-width: 400px;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- 주소 API -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link
+      rel="icon"
+      href="../images/HotDog-Logo.png"
+      type="image/x-icon"
+      sizes="32x32"
+    />
+    <title>mypage</title>
+    <style>
+      @font-face {
+        font-family: "Cafe24Supermagic-Bold-v1.0";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2")
+          format("woff2");
+        font-weight: 700;
+        font-style: normal;
       }
-    }
-    /* 제목 스타일 */
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+      /* 전체 페이지 스타일 */
+      body {
+        font-family: "Cafe24Supermagic-Bold-v1.0";
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
 
-    /* 입력란 스타일 */
-    input[type="text"],
-    input[type="password"],
-    input[type="date"],
-    input[type="number"] {
-      width: 70%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    input[readonly] {
-      background-color: #eee;
-    }
-
-    button {
-      background-color: #dcada4;
-      color: black;
-      border: none;
-      width: 70%;
-      padding: 10px 20px;
-      margin-top: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #c69f9fec;
-    }
-
-    /* 삭제 버튼 스타일 */
-    button[type="button"]:last-child {
-      background-color: #dcada4;
-    }
-
-    button[type="button"]:last-child:hover {
-      background-color: #c69f9fec;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="mypage-container">
-    <h1>mypage</h1>
-    <input type="text" id="myID" placeholder="내 ID는?" />
-    <button type="button" onclick="myID()">아이디 입력</button><br />
-    <input type="hidden" id="id" />
-    <label for="userid">아이디</label>
-    <input type="text" id="userid" readonly /><br />
-    <label for="pw">패스워드</label>
-    <input type="password" id="pw" /><br />
-    <label for="name">닉네임</label>
-    <input type="text" id="name" /><br />
-    <label for="birth">생년월일</label>
-    <input type="date" id="birth" /><br />
-    <label for="phonenumber">전화번호</label>
-    <input type="number" id="phonenumber" /><br />
-    <label for="address">주소</label>
-    <input type="text" id="address" disabled/><button type="button" onclick="addressAPI()" id="addressAPI">동네 찾기</button><br />
-    <label for="dogname">강아지 이름</label>
-    <input type="text" id="dogname" readonly /><br />
-    <label for="rfid">RFID</label>
-    <input type="text" id="rfid" readonly /><br />
-    <button type="button" onclick="edit()">수정하기</button>
-    <button type="button" onclick="delete_user()">탈퇴하기</button>
-  </div>
-  <script>
-    const userid = document.querySelector("#userid");
-    const pw = document.querySelector("#pw");
-    const name = document.querySelector("#name");
-    const birth = document.querySelector("#birth");
-    const phonenumber = document.querySelector("#phonenumber");
-    const address = document.querySelector("#address");
-    const dogname = document.querySelector("#dogname");
-    const rfid = document.querySelector("#rfid");
-    const id = document.querySelector("#id");
-    const token = window.localStorage.getItem(myID);
-
-    function addressAPI() {
-      const addressInput = document.getElementById('address')
-      new daum.Postcode({
-        oncomplete: function (data) {
-          console.log(data)
-          addressInput.value = `${data.sido} ${data.sigungu} ${data.bname2}`
+      /* 컨테이너 스타일 */
+      .mypage-container {
+        max-width: 600px;
+        margin: 20px auto;
+        display: flex;
+        background-color: #f4e0d6;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      @media screen and (max-width: 768px) {
+        /* 화면 너비가 768px 이하인 경우에 적용될 스타일 */
+        .mypage-container {
+          max-width: 400px;
         }
-      }).open();
-    }
+      }
+      /* 제목 스타일 */
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-    function myID() {
-      const myID = document.querySelector("#myID");
-      const token = window.localStorage.getItem(`${myID.value}`);
-      axios({
-        method: "post",
-        url: "/mypage",
-        data: {
-          token,
-        },
-      }).then((res) => {
-        console.log(res.data);
+      /* 입력란 스타일 */
+      input[type="text"],
+      input[type="password"],
+      input[type="date"],
+      input[type="number"] {
+        width: 70%;
+        padding: 10px;
+        margin-top: 5px;
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 1;
+        background-color: #f4e0d6;
+        border-radius: 5px;
+      }
+
+      input[readonly] {
+        background-color: #f4e0d6;
+      }
+
+      button {
+        background-color: #dcada4;
+        color: black;
+        border: none;
+        width: 70%;
+        padding: 10px 20px;
+        margin-top: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #c69f9fec;
+      }
+
+      /* 삭제 버튼 스타일 */
+      button[type="button"]:last-child {
+        background-color: #dcada4;
+      }
+
+      button[type="button"]:last-child:hover {
+        background-color: #c69f9fec;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="mypage-container">
+      <h1>mypage</h1>
+      <input type="hidden" id="id" />
+      <label for="userid">아이디</label>
+      <input type="text" id="userid" readonly /><br />
+      <label for="pw">패스워드</label>
+      <input type="password" id="pw" /><br />
+      <label for="name">닉네임</label>
+      <input type="text" id="name" /><br />
+      <label for="birth">생년월일</label>
+      <input type="date" id="birth" /><br />
+      <label for="phonenumber">전화번호</label>
+      <input type="number" id="phonenumber" /><br />
+      <label for="address">주소</label>
+      <input type="text" id="address" disabled /><button
+        type="button"
+        onclick="addressAPI()"
+        id="addressAPI"
+      >
+        동네 찾기</button
+      ><br />
+      <label for="dogname">강아지 이름</label>
+      <input type="text" id="dogname" readonly /><br />
+      <label for="rfid">RFID</label>
+      <input type="text" id="rfid" readonly /><br />
+      <button type="button" onclick="edit()">수정하기</button>
+      <button type="button" onclick="delete_user()">탈퇴하기</button>
+    </div>
+    <script>
+      const userid = document.querySelector("#userid");
+      const pw = document.querySelector("#pw");
+      const name = document.querySelector("#name");
+      const birth = document.querySelector("#birth");
+      const phonenumber = document.querySelector("#phonenumber");
+      const address = document.querySelector("#address");
+      const dogname = document.querySelector("#dogname");
+      const rfid = document.querySelector("#rfid");
+      const id = document.querySelector("#id");
+      const token = window.localStorage.getItem('token');
+
+      function addressAPI() {
+        const addressInput = document.getElementById("address");
+        new daum.Postcode({
+          oncomplete: function (data) {
+            console.log(data);
+            addressInput.value = `${data.sido} ${data.sigungu} ${data.bname2}`;
+          },
+        }).open();
+      }
+
+        axios({
+          method: "post",
+          url: "/mypage",
+          data: {
+            token,
+          },
+        }).then((res) => {
+          console.log(res.data);
+          if (res.data.result) {
+            id.value = res.data.id;
+            userid.value = res.data.userid;
+            name.value = res.data.name;
+            birth.value = res.data.birth;
+            phonenumber.value = res.data.phonenumber;
+            address.value = res.data.address;
+            dogname.value = res.data.dogname;
+            rfid.value = res.data.RFIDcode;
+          } else {
+            alert("로그인 해주세요");
+            document.location.href = "/";
+          }
+        });
+
+      async function edit() {
+        const data = {
+          id: Number(id.value),
+          userid: userid.value,
+          pw: pw.value,
+          name: name.value,
+          birth: birth.value,
+          phonenumber: phonenumber.value,
+          address: address.value,
+          dogname: dogname.value,
+          rfid: rfid.value,
+        };
+        const res = await axios({
+          method: "PATCH",
+          url: "/mypage",
+          data,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res);
         if (res.data.result) {
-          id.value = res.data.id;
-          userid.value = res.data.userid;
-          name.value = res.data.name;
-          birth.value = res.data.birth;
-          phonenumber.value = res.data.phonenumber;
-          address.value = res.data.address;
-          dogname.value = res.data.dogname;
-          rfid.value = res.data.RFIDcode;
-        } else {
-          alert("로그인 해주세요");
+          alert("회원 정보 수정 완료");
           document.location.href = "/";
         }
-      });
-    }
-
-    async function edit() {
-      const myID = document.querySelector("#myID");
-      const token = window.localStorage.getItem(`${myID.value}`);
-      const data = {
-        id: Number(id.value),
-        userid: userid.value,
-        pw: pw.value,
-        name: name.value,
-        birth: birth.value,
-        phonenumber: phonenumber.value,
-        address: address.value,
-        dogname: dogname.value,
-        rfid: rfid.value,
-      };
-      const res = await axios({
-        method: "PATCH",
-        url: "/mypage",
-        data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res);
-      if (res.data.result) {
-        alert("회원 정보 수정 완료");
-        document.location.href = "/";
       }
-    }
-    async function delete_user() {
-      if (!confirm("회원탈퇴 하시겠습니까?")) {
-        return;
+      async function delete_user() {
+        if (!confirm("회원탈퇴 하시겠습니까?")) {
+          return;
+        }
+        const res = await axios({
+          method: "DELETE",
+          url: "/delete",
+          data: {
+            id: Number(id.value),
+          },
+        });
+        if (res.data.data) {
+          alert("회원탈퇴 완료되었습니다");
+          document.location.href = "/";
+        }
       }
-      const res = await axios({
-        method: "DELETE",
-        url: "/delete",
-        data: {
-          id: Number(id.value),
-        },
-      });
-      if (res.data.data) {
-        alert("회원탈퇴 완료되었습니다");
-        document.location.href = "/";
-      }
-    }
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

@@ -1,23 +1,38 @@
+@font-face {
+    font-family: 'Cafe24Supermagic-Bold-v1.0';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    font-family: 'Cafe24Supermagic-Bold-v1.0', sans-serif;
+    background-color: #f4e0d6;
     margin: 0;
-    background-color: #f3ebe8;
+    padding: 0;
 }
 
 .container {
-    background-color: #F4E0D6;
-    border-radius: 5px;
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    width: 400px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
 }
 
 h1 {
     text-align: center;
+    color: #333;
+}
+
+.d-flex {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    margin-right: 10px;
 }
 
 label {
@@ -26,50 +41,82 @@ label {
 
 input[type="text"],
 textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-#commentarea {
-    margin-top: 20px;
-}
-
-/* #commentarea p {
-
-} */
-
-h2 {
-    text-align: center;
-}
-
-.comment-container {
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 96%;
     padding: 10px;
-}
-
-.comment.list { 
-    background-color: #f2f2f2; /* 배경색 지정 */
-    padding: 10px; /* 안쪽 여백 지정 */
-    border-radius: 5px; /* 모서리 둥글게 처리 */
-}
-
-.comment-list p {
-    margin: 5px 0; /* 댓글 간격 조정 */
-    padding: 5px; /* 댓글 내부 여백 조정 */
-    border: 1px solid #ccc; /* 테두리 추가 */
-    border-radius: 5px; /* 모서리 둥글게 처리 */
-    background-color: #fff; /* 댓글 배경색 지정 */
+    margin-bottom: 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
 }
 
 button {
-    padding: 8px 16px;
-    background-color: #007bff;
+    padding: 10px 20px;
+    background-color: #DCADA4;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+}
+
+#toggleCommentButton {
+    margin: 20px auto;
+    display: block;
+}
+
+.comment-container {
+    display: none;
+    max-width: 600px;
+margin: 0 auto;
+padding: 20px;
+background-color: #fff;
+border-radius: 5px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+margin-top: 20px;
+}
+
+.comment-list {
+    margin-top: 10px;
+    white-space: pre-wrap;
+}
+#commentarea{
+    overflow-y: scroll; 
+    height:200px;
+    border: 1px solid #ccc;
+}
+#commentarea p {
+    margin-top: 10px;
+    white-space: pre-wrap;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+/* 추가된 CSS: 768px 미만 화면에 대한 스타일링 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px; /* 좀 더 작은 padding 적용 */
+        width: 450px;
+    }
+
+    input[type="text"],
+    textarea {
+        margin-bottom: 10px; /* 작은 간격으로 변경 */
+        width: 95%;
+    }
+
+    button {
+        padding: 8px 16px; /* 작은 크기로 변경 */
+    }
+
+    #comment-container {
+        padding: 10px; /* 좀 더 작은 padding 적용 */
+        width: 450px;
+border-radius: 8px;
+    }
+}
+.writer {
+    margin-top: 10px;
+}
+#toggleBtn_listBtn {
+    display: flex;
 }

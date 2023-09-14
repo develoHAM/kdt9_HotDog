@@ -1,7 +1,9 @@
 const { Share } = require('../models')
 const { User } = require('../models')
+const { ShareComments } = require('../models')
 const jwt = require("jsonwebtoken");
 const SECRET = process.env.login_SECRET;
+
 
 const get_main = (req, res) => {
   // 토큰 추출 (예시)
@@ -11,6 +13,7 @@ const get_main = (req, res) => {
   Share.findAll().then((result) => {
     if (result.length > 0) {
       // data와 함께 writer와 token도 전달
+      // res.render('share', {data : result + '반갑습니다.', writer: '작성자ID_here', token: token })
       res.render('share', { data: result, writer: '작성자ID_here', token: token });
       console.log("Token from request body:", req.body.token);
 
@@ -21,76 +24,13 @@ const get_main = (req, res) => {
     console.log(err);
     res.status(500).send('Internal Server Error');
   });
+
 };
 
 const get_User = (req, res) => {
     
 }
-const user_verify = async (req ,res) => {
-  const { token, writer } = req.body;
-  try {
-    const decoded = jwt.verify(token, SECRET);
-    const userId = decoded.userid;
-    if(userId === writer) {
-      res.json({ data: true });
-  }
-  return res.json({ data: false, message: '본인 게시물만 수정 가능' });
 
-  } catch (error) {
-    return res.status(500).json({ data: false, message: 'Internal Server Error' });
-  }
-}
-
-
-// const user_verify = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const token = req.headers.authorization.split(' ')[1]; // "Bearer [토큰]" 형식에서 토큰만 추출
-//     const decoded = jwt.verify(token, SECRET);
-//     const userId = decoded.userid;
-
-//     const result = await Share.findOne({
-//       where: { id },
-//       include: [{ model: User, attributes: ['userid'] }]
-//     });
-
-//     const writer = userId === result.User.userid ? true : false;
-
-//     res.render('share', {
-//       data: result,
-//       writer
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// };
-
-
-// const user_verify = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const token = req.headers.authorization.split(' ')[1]; // "Bearer [토큰]" 형식에서 토큰만 추출
-//     const decoded = jwt.verify(token, SECRET);
-//     const userId = decoded.userid;
-
-//     const result = await Share.findOne({
-//       where: { id },
-//       include: [{ model: User, attributes: ['userid'] }]
-//     });
-
-//     const writer = userId === result.User.userid ? true : false;
-
-//     res.render('share', {
-//       data: result,
-//       writer
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// };
-/////////
 
 async function post_shareCommit(req, res) {
     try {
@@ -113,19 +53,22 @@ async function post_shareCommit(req, res) {
     }
   }
 
-// const patch_editShare = async (req,res) => {
-//     console.log('asdasd')
-//     const { userid, title, content } = req.body;
-//     console.log(req.body);
-//     const share = await Share.update ({
-//         userid : req.body.userid,
-//         title : req.body.title,
-//         content : req.body.content
-//     }, {where : {id : req.body.id}})
-//     if(share){
-//         res.json({result:true,userid,title,content})
-//     }
-// }
+
+const user_verify = async (req ,res) => {
+  const { token, writer } = req.body;
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    const userId = decoded.userid;
+    if(userId === writer) {
+      res.json({ data: true });
+  }
+  return res.json({ data: false, message: '본인 게시물만 수정 가능' });
+
+  } catch (error) {
+    return res.status(500).json({ data: false, message: 'Internal Server Error' });
+  }
+}
+
 const patch_editShare = async (req, res) => {
   console.log('asdasd');
   const { id, userid, title, content } = req.body;
@@ -162,34 +105,49 @@ const delete_share = async (req,res) => {
     }
 }
 
-
-async function createComment(req, res) {
+async function post_createComment(req, res) {
   try {
-    const { content, token, postId } = req.body;
-    const user = jwt.verify(token, SECRET);
-    const writer = user.userid;
+    console.log('post_createComment has been called');
+    console.log('Request body:', req.body);  // Log 추가
 
-    const newComment = await Comment.create({ content, writer, postId });
+    const { comment, token } = req.body; 
+
+    const postId = req.params.postId;
+
+    if (!token) {
+      return res.status(400).json({ error: '토큰이 없습니다.' });
+    }
+
+    const user = jwt.verify(token, SECRET);
+    const id = user.userid
+
+    // if (!comment || !postId || !user) {
+    //   return res.status(400).json({ error: '못합니다.' });
+    // }
+
+    // const writer = user.userid;
+    const newComment = await ShareComments.create({ comment, writer:id, postId });
     res.status(201).json(newComment);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: '댓글 작성 실패' });
+    console.error('An error occurred:', error);  // 로그 추가
+    res.status(500).json({ error: 'Failed to write comment' });
   }
 }
+
 
 async function deleteComment(req, res) {
   try {
     const commentId = req.params.commentId;
-    const user = jwt.verify(req.body.token, 'your_secret_key');
+    const user = jwt.verify(req.body.token, SECRET);
     const writer = user.userid;
     
-    const comment = await Comment.findOne({ where: { id: commentId } });
+    const comment = await ShareComments.findOne({ where: { id: commentId } });
     
     if (comment.writer !== writer) {
       return res.status(403).json({ error: '작성자만 댓글을 삭제할 수 있습니다.' });
     }
     
-    await Comment.destroy({ where: { id: commentId, writer, postId: comment.postId } });
+    await Comment.destroy({ where: { id: commentId, writer, postId } });
     
     res.status(200).json({ message: '댓글 삭제 성공' });
   } catch (error) {
@@ -206,6 +164,6 @@ module.exports = {
     post_shareCommit,
     patch_editShare,
     delete_share,
-    createComment,
+    post_createComment,
     deleteComment
 }

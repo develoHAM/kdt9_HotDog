@@ -9,80 +9,62 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
   <link rel="stylesheet" href="../css/initialize.css" />
+  <link rel="stylesheet" href="../css/mainPage.css" />
   <link rel="stylesheet" href="../css/main.css" />
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
-    .modal-body {
-      display: flex;
-      justify-content: center;
-    }
-
-    .navbar {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 0;
-      display: flex;
-      justify-content: space-evenly;
-    }
-
-    .navbar a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0 15px;
-    }
-
-    /* Navbar 로고 스타일 */
-    .navbar-logo img {
-      width: 50px;
-      /* 로고 이미지 너비 조정 */
-      height: auto;
-    }
+    
   </style>
 </head>
 
 <body>
-  <!-- <div>
-      <a href="/boards/qna">Q&A</a>
-      <nav class="navbar">
-        <div class="navbar-logo">
-          <a href="">
-            <img src="../images/HotDog-Logo.png" alt="" />
-          </a>
-        </div>
-        <div class="navbar-menu">
-          <ul>
-            <li><a href="">산책친구찾기</a></li>
-            <li><a href="">용품나눔</a></li>
-            <li><a href="">게시판</a></li>
-            <li><a href="">강아지를 찾아요</a></li>
-          </ul>
-        </div>
-      </nav>
-    </div> -->
-  <nav class="navbar">
+  <header>
+
+  <!-- main start -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <div class="navbar-logo">
-        <img>
-      </div>
-      <div class="navbar-menu">
-        <a href="/mate">산책메이트 찾기</a>
-        <a href="/hospital">병원찾아가기</a>
-        <a href="/boards/qna">Q&A</a>
-      </div>
-      <a href="/mypage">마이페이지</a>
-      <a href="/faq" target="_blank">FAQ</a>
-      <!-- Button trigger modal -->
-      <button type="button" class="loginoutbtn" id="logoutBtn" onclick="logout()"
-        style="background-color: #F4E0D6; border: none ;color:black; border-radius: 10px;">
-        로그아웃
+      <a class="navbar-brand" href="/">로고</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <button type="button" class="btn btn-primary loginoutbtn" id="modalbtn" data-bs-toggle="modal"
-        data-bs-target="#exampleModal" style="background-color: #F4E0D6; border: none ;color:black;">
-        로그인
-      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active walk" aria-current="page" href="/mate">산책친구 찾기</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">게시판</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/share">용품나눔</a></li>
+              <li><a class="dropdown-item" href="/share">나의 펫을 자랑합니다</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/hospital">병원 찾기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/boards/qna">Q&A</a>
+          </li>
+        </ul>
+        <hr class="d-lg-none">
+        <div class="d-lg-none ">
+          <a class="btn btn_my" href="/mypage">마이페이지</a>
+          <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnSmall" type="button">로그인</button>
+<button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
+
+        </div>
+        <div class="myLog d-none d-lg-flex"> <!-- Only display on large screens -->
+          <a class="btn btn_my" href="/mypage">마이페이지</a>
+          <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnLarge" type="button">로그인</button>
+<button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
+        </div>
+      </div>
     </div>
   </nav>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <div class="modal fade" id="exampleModal-log" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" style="background-color: #F4E0D6;">
         <div class="modal-header text-center">
@@ -112,6 +94,10 @@
       </div>
     </div>
   </div>
+
+  <!-- main end -->
+  </header>
+  
 <!-- 바디 -->
   <body>
         <div class="main1">
@@ -128,92 +114,126 @@
         </div>
       <div class="items">
         <div class="item" >
-            <img src="/images/산책.jpg" alt="강아지 1">
+            <img src="/images/강아지2.jpg" alt="강아지 1">
             <div class="bord-hover">
-                <p>용품나눔</p>
+                <p>share</p>
                 <button id="itemBtn1">Click me</button>
             </div>
         </div>
         <div class="item">
-            <img src="/images/산책.jpg" alt="강아지 2">
+            <img src="/images/강아지.jpg" alt="강아지 2">
             <div class="bord-hover">
-                <p>우리집 강아지 좀 보세요 그냥 귀여우니깐요</p>
+                <p>Woof Social</p>
                 <button id="itemBtn2">Click me</button>
             </div>
         </div>
         <div class="item">
-            <img src="/images/산책.jpg" alt="강아지 병원">
+            <img src="/images/강아지2마리.jpg" alt="강아지 병원">
             <div class="bord-hover">
-                <p>무엇이든 물어보세요</p>
+                <p>Bark Share</p>
                 <button id="itemBtn3">Click me</button>
             </div>
         </div>
     </div>
+    <!-- footer start -->
+   <footer>
+    <div class="footer-container">
+      <div class="footer-container-1">
+        <a href="#" onclick="scrollToTop()">사이트맵</a>
+        <a href="FAQ.ejs">FAQ</a>
+        <a href="#">웹사이트</a>
+        <div class="copyright">&copy; 2023 Hotdog. All rights reserved.</div>
+      </div>
+      <div class="footer-container-2">
+        <div>김민현</div>
+        <div>김대원</div>
+        <div>강석주</div>
+        <div>이영경</div>
+        <div>김명준</div>
+      </div>
+    </div>
+  </footer>
+  <!-- footer end -->
   </body>
 
+   
+
   <script>
-    window.onload = function () {
-      const loginbutton = document.querySelector("#modalbtn");
-      const logoutbutton = document.querySelector("#logoutBtn");
+    // script start
+window.onload = function () {
+    const loginbuttonSmall = document.querySelector("#loginBtnSmall");
+    const logoutbuttonSmall = document.querySelector("#logoutBtnSmall");
+    const loginbuttonLarge = document.querySelector("#loginBtnLarge");
+    const logoutbuttonLarge = document.querySelector("#logoutBtnLarge");
 
-      const token = localStorage.getItem("token");
-      if (token) {
-        loginbutton.style.display = "none";
-        logoutbutton.style.display = "block";
-      } else {
-        loginbutton.style.display = "block";
-        logoutbutton.style.display = "none";
-      }
-    }
+    const token = localStorage.getItem("token");
 
-    function signup() {
-      window.location.href = "/signup";
+    if (token) {
+        loginbuttonSmall.style.display = "none";
+        logoutbuttonSmall.style.display = "block";
+        loginbuttonLarge.style.display = "none";
+        logoutbuttonLarge.style.display = "block";
+    } else {
+        loginbuttonSmall.style.display = "block";
+        logoutbuttonSmall.style.display = "none";
+        loginbuttonLarge.style.display = "block";
+        logoutbuttonLarge.style.display = "none";
     }
+}
 
-    function authKaKao() {
-      document.location.href = "/signup/kakao";
-    }
+            function signup() {
+              window.location.href = "/signup";
+            }
 
-    async function signin() {
-      const userid = document.querySelector("#userid").value;
-      const pw = document.querySelector("#pw").value;
-      const loginbutton = document.querySelector("#modalbtn");
-      const logoutbutton = document.querySelector("#logoutBtn");
-      const data = {
-        userid,
-        pw,
-      };
+            function authKaKao() {
+              document.location.href = "/signup/kakao";
+            }
 
-      try {
-        const res = await axios({
-          method: "POST",
-          url: "/login",
-          data,
-        });
-        console.log(res.data);
-        if (res.data.result) {
-          localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
-          localStorage.setItem(`token`, res.data.token);
-          alert(`${res.data.userinfo.name}님 로그인 성공`);
-          loginbutton.style.display = "none";
-          logoutbutton.style.display = "block";
-          window.location.reload();
-        } else {
-          alert(`${res.data.message}`);
-          document.location.reload();
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    async function logout() {
-      window.localStorage.clear();
-      const loginbutton = document.querySelector("#modalbtn");
-      const logoutbutton = document.querySelector("#logoutBtn");
-      loginbutton.style.display = "block";
-      logoutbutton.style.display = "none";
-      document.location.href = "/";
-    }
+            async function signin() {
+              const userid = document.querySelector("#userid").value;
+              const pw = document.querySelector("#pw").value;
+              const loginbutton = document.querySelector("#loginBtn");
+              const logoutbutton = document.querySelector("#logoutBtn");
+              const data = {
+                userid,
+                pw,
+              };
+
+              try {
+                const res = await axios({
+                  method: "POST",
+                  url: "/login",
+                  data,
+                });
+                console.log(res.data);
+                if (res.data.result) {
+                  localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
+                  localStorage.setItem(`token`, res.data.token);
+                  alert(`${res.data.userinfo.name}님 로그인 성공`);
+                  window.location.reload();
+                } else {
+                  alert(`${res.data.message}`);
+                  document.location.reload();
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            }
+            async function logout() {
+              window.localStorage.clear();
+              const loginbutton = document.querySelector("#loginBtn");
+              const logoutbutton = document.querySelector("#logoutBtn");
+              document.location.href = "/";
+            }
+
+
+            function scrollToTop() {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth" // 부드러운 스크롤 효과를 사용하려면 "smooth"를 설정합니다.
+              });
+            }
+            // script end
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

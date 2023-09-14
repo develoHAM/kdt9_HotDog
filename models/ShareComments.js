@@ -1,14 +1,20 @@
 const { DataTypes } = require('sequelize');
 
 const CommentModel = (sequelize) => {
-    return sequelize.define('Comment', {
-        content: {
+    return sequelize.define('shareComments', {
+        comment: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
         writer: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.STRING(20),
             allowNull: false,
+        },
+        postId: {
+            type: DataTypes.INTEGER, 
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
         },
     }, {
     });

@@ -381,10 +381,21 @@ form input[type="radio"]:checked+label {
     color: #8c6666ec;
 }
 
+#search-btn{
+    background-color: #F4E0D6;
+    border-radius: 15px;
+}
+
+#search-btn:hover{
+    background-color: #c69f9fec;
+}
+
 /* 찾는중입니다 로딩 버튼 애니메이션 */
 .loader {
     border: 5px solid #f3f3f3; /* Light grey */
     border-top: 5px solid #c69f9fec; /* Blue */
+    margin-left: 40%;
+    margin-bottom: 5%;
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -399,8 +410,14 @@ form input[type="radio"]:checked+label {
         transform: rotate(360deg);
     }
 }
-
-header,
+#cancelSearch{
+    background-color: #F4E0D6;
+    border-radius: 15px;
+}
+#cancelSearch:hover{
+    background-color:#c69f9fec;
+}
+/* header,
 footer {
     background-color: #f4e0d6;
     height: 7rem;
@@ -418,5 +435,5 @@ footer {
     position: absolute;
     bottom: 0px;
     display: none;
-}
+} */
 

@@ -4,16 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
-    <title>Document</title>
+    <title>signuppage</title>
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- 주소 API -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   </head>
   <style>
+    @font-face {
+        font-family: "Cafe24Supermagic-Bold-v1.0";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2")
+          format("woff2");
+        font-weight: 700;
+        font-style: normal;
+      }
     /* 전체 페이지 스타일 */
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Cafe24Supermagic-Bold-v1.0";
       background-color: #f0f0f0;
       margin: 0;
       padding: 0;
@@ -58,7 +65,11 @@
       width: 70%;
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 1;
+      background-color: #f4e0d6;
       border-radius: 5px;
     }
 
@@ -81,7 +92,7 @@
 
   <body>
     <div class="signup-container">
-      <h1>회원가입 페이지</h1>
+      <h1>회원가입</h1>
       <label for="userid">아이디</label>
       <input type="text" id="userid" minlength="4" maxlength="12" /><br />
       <label for="pw">패스워드</label>
