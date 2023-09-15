@@ -300,17 +300,6 @@
         await socket.emit('fetchChatRoomData', data)
     }
 
-    //clientList를 받아서 보여준 특정 클라이언트 li태그 onclick
-    async function chat(otherID, otherSocketID) {
-        console.log('chat', otherID, otherSocketID)
-        const data = {
-            myID: myID,
-            otherID: otherID,
-            otherSocketID: otherSocketID,
-        }
-        await socket.emit('startChat', data)
-    }
-
     //대화방 입장시
     socket.on('openChatRoom', (chatRoomInfo) => {
         const { myID, otherID, roomID, messages } = chatRoomInfo
@@ -475,6 +464,17 @@
                 ul.appendChild(li)
             }
         })
+    }
+
+    //clientList를 받아서 보여준 특정 클라이언트 li태그 onclick
+    function chat(otherID, otherSocketID) {
+        console.log('chat', otherID, otherSocketID)
+        const data = {
+            myID: myID,
+            otherID: otherID,
+            otherSocketID: otherSocketID,
+        }
+        socket.emit('startChat', data)
     }
 
     function toggleChatList() {
