@@ -290,23 +290,23 @@
     }
 
     //대화방 입장 onclick
-    function enterChat(roomID, otherID) {
+    async function enterChat(roomID, otherID) {
         const data = {
             myID: myID,
             otherID: otherID,
             roomID: roomID
         }
-        socket.emit('fetchChatRoomData', data)
+        await socket.emit('fetchChatRoomData', data)
     }
 
     //clientList를 받아서 보여준 특정 클라이언트 li태그 onclick
-    function chat(otherID, otherSocketID) {
+    async function chat(otherID, otherSocketID) {
         const data = {
             myID: myID,
             otherID: otherID,
             otherSocketID: otherSocketID,
         }
-        socket.emit('startChat', data)
+        await socket.emit('startChat', data)
     }
 
     //대화방 입장시
@@ -319,7 +319,7 @@
         createChatRoom(otherID, roomID, messages)
     })
 
-    function sendMessage(otherID, roomID) {
+    async function sendMessage(otherID, roomID) {
         const content = document.querySelector('#message-input').value
         const chatInterface = document.querySelector('.chat-interface')
         chatInterface.scrollTop = chatInterface.scrollHeight;
@@ -329,7 +329,7 @@
             roomID,
             content
         }
-        socket.emit('message', data)
+        await socket.emit('message', data)
     }
 
     socket.on('newMessage', (msgData) => {
@@ -346,7 +346,7 @@
         }
     })
 
-    function appendChatMessage(senderID, roomID, message) {
+    async function appendChatMessage(senderID, roomID, message) {
         const chatInterface = document.querySelector('.chat-interface')
         const chatBubbleContainer = document.createElement('div')
         chatBubbleContainer.classList.add('chat')
@@ -417,7 +417,7 @@
     })
 
     //필터조건으로 찾기 버튼 onclick 
-    function search() {
+    async function search() {
         const type = document.forms['form-type']
         const character = document.forms['form-character']
         const walkingTime = document.forms['form-walkingTime']
@@ -430,7 +430,7 @@
             filter: filter
         }
 
-        socket.emit('joinRoom', data)
+        await socket.emit('joinRoom', data)
 
         findMateForm.hidden = false;
         searchBtn.hidden = true;
@@ -438,12 +438,12 @@
     }
 
     //필터조건으로 찾기 중지 버튼 onclick 
-    function cancelSearch() {
+    async function cancelSearch() {
         const data = {
             myID: myID,
             filter: filter
         }
-        socket.emit('leaveRoom', data)
+        await socket.emit('leaveRoom', data)
         const ul = document.querySelector('#mate-list')
         ul.innerHTML = ''
 
