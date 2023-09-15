@@ -138,6 +138,9 @@
     //아이디 담길 변수 선언
     let myID;
     let otherID;
+
+    //소켓 연결
+    const socket = io()
     // token 유효성 검사
     (async function () {
         //로컬 스토리지에서 'token' 이름의 아이템 불러오기
@@ -165,9 +168,6 @@
         window.location.href = "/signup";
     }
 
-
-    //소켓 연결
-    const socket = io()
 
     //산책페이트 찾기 필터 요소, 찾기 버튼 요소, 찾는 중 안내 요소
     const findMateForm = document.querySelector('#find-mate-wrapper')
