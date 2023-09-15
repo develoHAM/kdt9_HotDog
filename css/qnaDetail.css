@@ -11,6 +11,18 @@ body {
     padding: 0;
 }
 
+.logo__img__contaniner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.logo__img {
+    width: 100px;
+    height: 80px;
+  }
+
 .container {
     max-width: 600px;
     margin: 0 auto;
@@ -18,7 +30,7 @@ body {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 h1 {
@@ -41,7 +53,7 @@ label {
 
 input[type="text"],
 textarea {
-    width: 96%;
+    width: 100%;
     padding: 10px;
     margin-bottom: 0px;
     border: 1px solid #ccc;
@@ -72,6 +84,7 @@ background-color: #fff;
 border-radius: 5px;
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 margin-top: 20px;
+margin-bottom: 15px;
 }
 
 .comment-list {
@@ -95,13 +108,15 @@ margin-top: 20px;
 @media (max-width: 768px) {
     .container {
         padding: 10px; /* 좀 더 작은 padding 적용 */
-        width: 450px;
+        width: 96%;;
     }
+
+
 
     input[type="text"],
     textarea {
         margin-bottom: 10px; /* 작은 간격으로 변경 */
-        width: 95%;
+        width: 100%;
     }
 
     button {
@@ -110,7 +125,7 @@ margin-top: 20px;
 
     #comment-container {
         padding: 10px; /* 좀 더 작은 padding 적용 */
-        width: 450px;
+        width: 96%;
 border-radius: 8px;
     }
 }

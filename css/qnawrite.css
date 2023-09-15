@@ -13,6 +13,12 @@ body {
     background-color: #f4e0d6;
 }
 
+.logo__img {
+    width: 80px;
+    height: 55px;
+  }
+
+
 h1 {
     text-align: center;
     color: #333;
@@ -27,7 +33,8 @@ h1 {
     padding: 65px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-top: 80px;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 label {
@@ -44,7 +51,7 @@ textarea {
     resize: none;
 }
 
-button {
+.bt_n {
     padding: 10px 20px;
     background-color: #DCADA4;
     color: #fff;
@@ -53,16 +60,16 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.bt_n:hover {
     background-color: #d69a8e;
 }
 
-button[type="button"]:last-child {
+.bt_n[type="button"]:last-child {
     background-color: #DCADA4;
     margin-left: 10px;
 }
 
-button[type="button"]:last-child:hover {
+.bt_n[type="button"]:last-child:hover {
     background-color: #d69a8e;
 }
 
@@ -79,7 +86,7 @@ button[type="button"]:last-child:hover {
 
     /* 폼 높이는 그대로 유지하고 다른 스타일만 조정 */
     #boardForm-container {
-        width: 80%;
+        width: 92%;
         padding: 30px;
     }
 

@@ -132,7 +132,8 @@ body {
   padding: 20px;
   text-align: center;
   height: 20%;
-  border-radius: 10px;
+  /* border-radius: 10px; */
+  background-color: #333;
 }
 
 /* 기타 Footer 설정 */
