@@ -20,7 +20,7 @@ main {
 
 #wrapper {
     width: 100%;
-    height: calc(100vh - 7rem);
+    height: calc(90vh - 7rem);
     margin-top: 8rem;
     display: flex;
     justify-content: space-evenly;
@@ -117,10 +117,9 @@ form input[type="radio"]:checked+label {
     flex-basis: 15%;
     flex-shrink: 0;
     width: 100%;
-    align-content: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -417,7 +416,7 @@ form input[type="radio"]:checked+label {
 #cancelSearch:hover{
     background-color:#c69f9fec;
 }
-/* header,
+header,
 footer {
     background-color: #f4e0d6;
     height: 7rem;
@@ -435,5 +434,5 @@ footer {
     position: absolute;
     bottom: 0px;
     display: none;
-} */
+}
 
