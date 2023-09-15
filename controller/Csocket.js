@@ -38,11 +38,11 @@ exports.connection = (io, socket) => {
     })
 
     socket.on('startChat', async (data) => {
-        startChat(data)
+        await startChat(data)
     })
 
     socket.on('leaveChat', async (data) => {
-        leaveChat(data)
+        await leaveChat(data)
     })
 
     socket.on('fetchChatRoomData', async (data) => {
