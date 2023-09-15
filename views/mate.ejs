@@ -22,7 +22,7 @@
 
 <body>
     <header>
-        
+
     </header>
 
     <!-- -------------------------산책 메이트 찾기--------------------------- -->
@@ -141,28 +141,28 @@
 
     //소켓 연결
     const socket = io()
-    // token 유효성 검사
-    (async function () {
-        //로컬 스토리지에서 'token' 이름의 아이템 불러오기
-        const token = window.localStorage.getItem('token')
+        // token 유효성 검사
+        (async function () {
+            //로컬 스토리지에서 'token' 이름의 아이템 불러오기
+            const token = window.localStorage.getItem('token')
 
-        const res = await axios({
-            method: 'post',
-            url: '/mate/verify',
-            data: {
-                token
+            const res = await axios({
+                method: 'post',
+                url: '/mate/verify',
+                data: {
+                    token
+                }
+            })
+            if (res.data.result) {
+                myID = res.data.userinfo.userid
+                myLocation = res.data.userinfo.address
+                console.log('myUserInfo', res.data.userinfo)
+                socket.emit('getChatList', myID)
+            } else {
+                alert('로그인 해주세요')
+                document.location.href = '/'
             }
-        })
-        if (res.data.result) {
-            myID = res.data.userinfo.userid
-            myLocation = res.data.userinfo.address
-            console.log('myUserInfo', res.data.userinfo)
-            socket.emit('getChatList', myID)
-        } else {
-            alert('로그인 해주세요')
-            document.location.href='/'
-        }
-    })()
+        })()
 
     function signup() {
         window.location.href = "/signup";
@@ -418,27 +418,23 @@
 
     //필터조건으로 찾기 버튼 onclick 
     function search() {
-        if (!myID) {
-            alert('아이디를 입력해주세요')
-        } else {
-            const type = document.forms['form-type']
-            const character = document.forms['form-character']
-            const walkingTime = document.forms['form-walkingTime']
-            const walkingLocation = document.forms['form-walkingLocation']
+        const type = document.forms['form-type']
+        const character = document.forms['form-character']
+        const walkingTime = document.forms['form-walkingTime']
+        const walkingLocation = document.forms['form-walkingLocation']
 
-            filter = `${myLocation}${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
+        filter = `${myLocation}${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
 
-            const data = {
-                userid: myID,
-                filter: filter
-            }
-
-            socket.emit('joinRoom', data)
-
-            findMateForm.hidden = false;
-            searchBtn.hidden = true;
-            onSearch.hidden = false;
+        const data = {
+            userid: myID,
+            filter: filter
         }
+
+        socket.emit('joinRoom', data)
+
+        findMateForm.hidden = false;
+        searchBtn.hidden = true;
+        onSearch.hidden = false;
     }
 
     //필터조건으로 찾기 중지 버튼 onclick 
