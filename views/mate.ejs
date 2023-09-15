@@ -140,29 +140,29 @@
     let otherID;
 
     //소켓 연결
-    const socket = io()
-        // token 유효성 검사
-        (async function () {
-            //로컬 스토리지에서 'token' 이름의 아이템 불러오기
-            const token = window.localStorage.getItem('token')
+    const socket = io();
+    // token 유효성 검사
+    (async function () {
+        //로컬 스토리지에서 'token' 이름의 아이템 불러오기
+        const token = window.localStorage.getItem('token')
 
-            const res = await axios({
-                method: 'post',
-                url: '/mate/verify',
-                data: {
-                    token
-                }
-            })
-            if (res.data.result) {
-                myID = res.data.userinfo.userid
-                myLocation = res.data.userinfo.address
-                console.log('myUserInfo', res.data.userinfo)
-                socket.emit('getChatList', myID)
-            } else {
-                alert('로그인 해주세요')
-                document.location.href = '/'
+        const res = await axios({
+            method: 'post',
+            url: '/mate/verify',
+            data: {
+                token
             }
-        })()
+        })
+        if (res.data.result) {
+            myID = res.data.userinfo.userid
+            myLocation = res.data.userinfo.address
+            console.log('myUserInfo', res.data.userinfo)
+            socket.emit('getChatList', myID)
+        } else {
+            alert('로그인 해주세요')
+            document.location.href = '/'
+        }
+    })();
 
     function signup() {
         window.location.href = "/signup";
