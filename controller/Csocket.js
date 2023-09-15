@@ -46,7 +46,7 @@ exports.connection = (io, socket) => {
     })
 
     socket.on('fetchChatRoomData', async (data) => {
-        fetchChatRoomData(data)
+        await fetchChatRoomData(data)
     })
 
     socket.on('message', async (data) => {
