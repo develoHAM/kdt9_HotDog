@@ -35,7 +35,7 @@ const get_User = (req, res) => {
 async function post_shareCommit(req, res) {
     try {
       console.log("옴")
-      const { userid, title, content, token } = req.body;
+      const { title, content, token } = req.body;
       const user = jwt.verify(token, SECRET);
       const id = user.userid;
 
@@ -44,7 +44,7 @@ async function post_shareCommit(req, res) {
       const now = new Date();
       const formattedCreatedAt = now.toISOString();
 
-      const newShare = await Share.create({ userid, title, content, dynamic_file, 
+      const newShare = await Share.create({ title, content, dynamic_file, 
         writer:id , createdAt: formattedCreatedAt});
       res.status(201).json(newShare);
     } catch (error) {
@@ -76,7 +76,6 @@ const patch_editShare = async (req, res) => {
   try {
     const share = await Share.update(
       {
-        userid: userid,
         title: title,
         content: content,
       },
@@ -84,7 +83,7 @@ const patch_editShare = async (req, res) => {
     );
     if (share[0] === 1) {
       // Check if exactly 1 row was updated
-      res.json({ result: true, id, userid, title, content });
+      res.json({ result: true, id, title, content });
     } else {
       res.json({ result: false, message: '수정에 실패했습니다.' });
     }
@@ -97,6 +96,7 @@ const patch_editShare = async (req, res) => {
 
 const delete_share = async (req,res) => {
     console.log('asdasdasd')
+    const {id} = req.body;
     const share = await Share.destroy ({
         where: {id :req.body.id}
     })
