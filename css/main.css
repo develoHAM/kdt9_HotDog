@@ -27,6 +27,11 @@ body {
   font-family: 'SUITE-Regular';
 }
 
+.logo__img {
+  width: 80px;
+  height: 55px;
+}
+
 /* ------------------------------
    Navbar 스타일
 ------------------------------ */
