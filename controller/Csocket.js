@@ -37,8 +37,8 @@ exports.connection = (io, socket) => {
         }
     })
 
-    socket.on('startChat', async (data) => {
-        await startChat(data)
+    socket.on('startChat', (data) => {
+        startChat(data)
     })
 
     socket.on('leaveChat', async (data) => {
