@@ -38,6 +38,7 @@ exports.connection = (io, socket) => {
     })
 
     socket.on('startChat', (data) => {
+        console.log('startChat')
         startChat(data)
     })
 
@@ -165,6 +166,7 @@ exports.connection = (io, socket) => {
 
     //사용자가 본인 userid와 상대방의 userid, 그리고 상대방의 socketid를 보내고 이미 둘이 대화하고 있는 roomid가 있는지 확인한다. 있다면 해당 roomid를 반환, 없다면 새로운 uuid로 해당 roomid에 할당하여 새로운 room table row 생성, 그리고 두 userid 모두 생성된 방과 관계를 지어준다.
     async function startChat(data) {
+        console.log("startChatFunction")
         try {
             const { myID, otherID, otherSocketID } = data
             const usersToCheck = [myID, otherID]
