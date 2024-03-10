@@ -12,269 +12,243 @@
   <link rel="stylesheet" href="../css/mainPage.css" />
   <link rel="stylesheet" href="../css/main.css" />
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <style>
-    
-  </style>
 </head>
 
 <body>
+  <!-- header -->
   <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link walk" aria-current="page" onclick="authenticate()">산책친구 찾기</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">게시판</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/share">용품나눔</a></li>
+                <li><a class="dropdown-item" href="/share">나의 펫을 자랑합니다</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/hospital">병원 찾기</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/boards/qna">Q&A</a>
+            </li>
+          </ul>
+          <hr class="d-lg-none">
 
-  <!-- main start -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt=""></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active walk" aria-current="page" href="/mate">산책친구 찾기</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">게시판</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/share">용품나눔</a></li>
-              <li><a class="dropdown-item" href="/share">나의 펫을 자랑합니다</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/hospital">병원 찾기</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/boards/qna">Q&A</a>
-          </li>
-        </ul>
-        <hr class="d-lg-none">
-        <div class="d-lg-none ">
-          <a class="btn btn_my" href="/mypage">마이페이지</a>
-          <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnSmall" type="button">로그인</button>
-<button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
+          <div class="d-lg-none ">
+            <a class="btn btn_my" href="/mypage">마이페이지</a>
+            <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnSmall"
+              type="button">로그인</button>
+            <button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
+          </div>
 
-        </div>
-        <div class="myLog d-none d-lg-flex"> <!-- Only display on large screens -->
-          <a class="btn btn_my" href="/mypage">마이페이지</a>
-          <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnLarge" type="button">로그인</button>
-<button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
-        </div>
-      </div>
-    </div>
-  </nav>
+          <div class="myLog d-none d-lg-flex"> <!-- Only display on large screens -->
+            <a class="btn btn_my" href="/mypage">마이페이지</a>
+            <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnLarge"
+              type="button">로그인</button>
+            <button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
+          </div>
 
-  <div class="modal fade" id="exampleModal-log" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="background-color: #F4E0D6;">
-        <div class="modal-header text-center">
-          <div class="modal-title fs-5" id="exampleModalLabel">로그인</div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="login-form">
-            <div class="mb-3">
-              <label for="userid" class="form-label">아이디</label>
-              <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;">
-            </div>
-            <div class="mb-3">
-              <label for="pw" class="form-label">비밀번호</label>
-              <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;">
-            </div>
-            <div class="text-center">
-              <button type="button" class="btn btn-primary" onclick="signin()"
-                style="background-color:#DBC2BD; border: none;">로그인</button>
-              <button type="button" class="btn btn-primary" onclick="signup()"
-                style="background-color:#DBC2BD; border: none;">회원가입</button>
-              <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal"
-                style="background-color:#DBC2BD; border: none;">Close</button> <!-- 회원가입 버튼 추가 -->
-            </div>
-          </form>
         </div>
       </div>
-    </div>
-  </div>
+    </nav>
 
-  <!-- main end -->
-  </header>
-  
-<!-- 바디 -->
-  <body>
-        <div class="main1">
-            
-          <img id="mainImg"  src="/images/산책.jpg" alt="">
-          <div class="main-back">
-              <div class="text-main">
-                <div class="animated-text">With a walking mate <br> Experience a special experience!</div>
-                <!-- <div class="animated-text">Experience a special experience!</div> -->
-                <button class="animated-text" id="startBtn">START</button>
-                
+    <div class="modal fade" id="exampleModal-log" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #F4E0D6;">
+          <div class="modal-header text-center">
+            <div class="modal-title fs-5" id="exampleModalLabel">로그인</div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="login-form">
+              <div class="mb-3">
+                <label for="userid" class="form-label">아이디</label>
+                <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;" value="user1">
               </div>
+              <div class="mb-3">
+                <label for="pw" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;" value="user1">
+              </div>
+              <div class="text-center">
+                <button type="button" class="btn btn-primary" onclick="signin()"
+                  style="background-color:#DBC2BD; border: none;">로그인</button>
+                <button type="button" class="btn btn-primary" onclick="signup()"
+                  style="background-color:#DBC2BD; border: none;">회원가입</button>
+                <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal"
+                  style="background-color:#DBC2BD; border: none;">Close</button> <!-- 회원가입 버튼 추가 -->
+              </div>
+            </form>
           </div>
         </div>
-      <div class="items">
-        <div class="item" >
-            <img src="/images/강아지2.jpg" alt="강아지 1">
-            <div class="bord-hover">
-                <p>share</p>
-                <button id="itemBtn1">Click me</button>
-            </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- body -->
+
+  <main>
+    <div class="main1">
+
+      <img id="mainImg" src="/images/산책.jpg" alt="">
+      <div class="main-back">
+        <div class="text-main">
+          <div class="animated-text">With a walking mate <br> Experience a special experience!</div>
+          <!-- <div class="animated-text">Experience a special experience!</div> -->
+          <button class="animated-text" id="startBtn">START</button>
+
         </div>
-        <div class="item">
-            <img src="/images/강아지.jpg" alt="강아지 2">
-            <div class="bord-hover">
-                <p>Woof Social</p>
-                <button id="itemBtn2">Click me</button>
-            </div>
+      </div>
+    </div>
+    <div class="items">
+      <div class="item">
+        <img src="/images/강아지2.jpg" alt="강아지 1">
+        <div class="bord-hover">
+          <p>share</p>
+          <button id="itemBtn1">Click me</button>
         </div>
-        <div class="item">
-            <img src="/images/강아지2마리.jpg" alt="강아지 병원">
-            <div class="bord-hover">
-                <p>Bark Share</p>
-                <button id="itemBtn3">Click me</button>
-            </div>
+      </div>
+      <div class="item">
+        <img src="/images/강아지.jpg" alt="강아지 2">
+        <div class="bord-hover">
+          <p>Woof Social</p>
+          <button id="itemBtn2">Click me</button>
         </div>
+      </div>
+      <div class="item">
+        <img src="/images/강아지2마리.jpg" alt="강아지 병원">
+        <div class="bord-hover">
+          <p>Bark Share</p>
+          <button id="itemBtn3">Click me</button>
+        </div>
+      </div>
     </div>
     <!-- footer start -->
-   <footer>
-    <div class="footer-container">
-      <div class="footer-container-1">
-        <a href="#" onclick="scrollToTop()">사이트맵</a>
-        <a href="FAQ.ejs">FAQ</a>
-        <a href="#">웹사이트</a>
-        <div class="copyright">&copy; 2023 Hotdog. All rights reserved.</div>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-container-1">
+          <a href="#" onclick="scrollToTop()">사이트맵</a>
+          <a href="FAQ.ejs">FAQ</a>
+          <a href="#">웹사이트</a>
+          <div class="copyright">&copy; 2023 Hotdog. All rights reserved.</div>
+        </div>
+        <div class="footer-container-2">
+          <div>김민현</div>
+          <div>김대원</div>
+          <div>강석주</div>
+          <div>이영경</div>
+          <div>김명준</div>
+        </div>
       </div>
-      <div class="footer-container-2">
-        <div>김민현</div>
-        <div>김대원</div>
-        <div>강석주</div>
-        <div>이영경</div>
-        <div>김명준</div>
-      </div>
-    </div>
-  </footer>
-  <!-- footer end -->
-  </body>
+    </footer>
+    <!-- footer end -->
+  </main>
 
-   
+  <!-- JavaScript -->
+  <script src="/js/header.js"></script>
 
   <script>
-    // script start
-window.onload = function () {
-    const loginbuttonSmall = document.querySelector("#loginBtnSmall");
-    const logoutbuttonSmall = document.querySelector("#logoutBtnSmall");
-    const loginbuttonLarge = document.querySelector("#loginBtnLarge");
-    const logoutbuttonLarge = document.querySelector("#logoutBtnLarge");
-
-    const token = localStorage.getItem("token");
-
-    if (token) {
-        loginbuttonSmall.style.display = "none";
-        logoutbuttonSmall.style.display = "block";
-        loginbuttonLarge.style.display = "none";
-        logoutbuttonLarge.style.display = "block";
-    } else {
-        loginbuttonSmall.style.display = "block";
-        logoutbuttonSmall.style.display = "none";
-        loginbuttonLarge.style.display = "block";
-        logoutbuttonLarge.style.display = "none";
+    function signup() {
+      window.location.href = "/signup";
     }
-}
+    async function signin() {
+      const userid = document.querySelector("#userid").value;
+      const pw = document.querySelector("#pw").value;
+      const loginbutton = document.querySelector("#loginBtn");
+      const logoutbutton = document.querySelector("#logoutBtn");
+      const data = {
+        userid,
+        pw,
+      };
 
-            function signup() {
-              window.location.href = "/signup";
-            }
-
-            function authKaKao() {
-              document.location.href = "/signup/kakao";
-            }
-
-            async function signin() {
-              const userid = document.querySelector("#userid").value;
-              const pw = document.querySelector("#pw").value;
-              const loginbutton = document.querySelector("#loginBtn");
-              const logoutbutton = document.querySelector("#logoutBtn");
-              const data = {
-                userid,
-                pw,
-              };
-
-              try {
-                const res = await axios({
-                  method: "POST",
-                  url: "/login",
-                  data,
-                });
-                console.log(res.data);
-                if (res.data.result) {
-                  localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
-                  localStorage.setItem(`token`, res.data.token);
-                  alert(`${res.data.userinfo.name}님 로그인 성공`);
-                  window.location.reload();
-                } else {
-                  alert(`${res.data.message}`);
-                  document.location.reload();
-                }
-              } catch (error) {
-                console.log(error);
-              }
-            }
-            async function logout() {
-              window.localStorage.clear();
-              const loginbutton = document.querySelector("#loginBtn");
-              const logoutbutton = document.querySelector("#logoutBtn");
-              document.location.href = "/";
-            }
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "/login",
+          data,
+        });
+        console.log(res.data);
+        if (res.data.result) {
+          // localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
+          localStorage.setItem(`token`, res.data.token);
+          alert(`${res.data.userinfo.name}님 로그인 성공`);
+          window.location.reload();
+        } else {
+          alert(`${res.data.message}`);
+          document.location.reload();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    async function logout() {
+      window.localStorage.clear();
+      const loginbutton = document.querySelector("#loginBtn");
+      const logoutbutton = document.querySelector("#logoutBtn");
+      document.location.href = "/";
+    }
 
 
-            function scrollToTop() {
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth" // 부드러운 스크롤 효과를 사용하려면 "smooth"를 설정합니다.
-              });
-            }
-            // script end
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth" // 부드러운 스크롤 효과를 사용하려면 "smooth"를 설정합니다.
+      });
+    }
+    // script end
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-    <script>
-      // 산책메이트로 찾아가는 btn function
-      document.addEventListener("DOMContentLoaded",function(){
-        const startBtn = document.getElementById("startBtn")
-        startBtn.addEventListener("click",function(){
-          const mateURL = "http://localhost:8000/mate"
-          window.location.href = '/mate';
-        })
-      })
 
-      // item1 용품나눔
-      document.addEventListener("DOMContentLoaded",function(){
-        const itemBtn1 = document.getElementById("itemBtn1")
-        itemBtn1.addEventListener("click",function(){
-          const carrotURL = "http://localhost:8000/share"
-          window.location.href = carrotURL;
-        })
+  <!-- <script>
+    // 산책메이트로 찾아가는 btn function
+    document.addEventListener("DOMContentLoaded",function(){
+      const startBtn = document.getElementById("startBtn")
+      startBtn.addEventListener("click",function(){
+        const mateURL = "http://localhost:8000/mate"
+        window.location.href = '/mate';
       })
+    })
 
-      // item2 강아지 sns/
-      document.addEventListener("DOMContentLoaded",function(){
-        const itemBtn2 = document.getElementById("itemBtn2")
-        itemBtn2.addEventListener("click",function(){
-          const dogURL = "http://localhost:8000/boards"
-          window.location.href = '/sns';
-        })
+    // item1 용품나눔
+    document.addEventListener("DOMContentLoaded",function(){
+      const itemBtn1 = document.getElementById("itemBtn1")
+      itemBtn1.addEventListener("click",function(){
+        const carrotURL = "http://localhost:8000/share"
+        window.location.href = carrotURL;
       })
-      //item3 q&a
-      document.addEventListener("DOMContentLoaded",function(){
-        const itemBtn3 = document.getElementById("itemBtn3")
-        itemBtn3.addEventListener("click",function(){
-          const QnaURL = "..."
-          window.location.href = QnaURL;
-        })
-      })
+    })
 
-    </script>
+    // item2 강아지 sns/
+    document.addEventListener("DOMContentLoaded",function(){
+      const itemBtn2 = document.getElementById("itemBtn2")
+      itemBtn2.addEventListener("click",function(){
+        const dogURL = "http://localhost:8000/boards"
+        window.location.href = '/sns';
+      })
+    })
+    //item3 q&a
+    document.addEventListener("DOMContentLoaded",function(){
+      const itemBtn3 = document.getElementById("itemBtn3")
+      itemBtn3.addEventListener("click",function(){
+        const QnaURL = "..."
+        window.location.href = QnaURL;
+      })
+    })
+
+  </script> -->
 </body>
 
 </html>

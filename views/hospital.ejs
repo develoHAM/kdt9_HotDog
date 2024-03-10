@@ -5,23 +5,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>지도</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="../css/initialize.css" />
-        <link rel="stylesheet" href="../css/hospital.css">
-        <link rel="stylesheet" href="../css/main.css">
-    <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
-    <title>지도</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../css/initialize.css" />
+  <link rel="stylesheet" href="../css/hospital.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="icon" href="../images/HotDog-Logo.png" type="image/x-icon" sizes="32x32">
+  <title>지도</title>
 </head>
+
 <body>
   <header>
-    <!-- main start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt=""></a>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active walk" aria-current="page" href="/mate">산책친구 찾기</a>
+              <a class="nav-link walk" aria-current="page" onclick="authenticate()">산책친구 찾기</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -47,21 +47,25 @@
             </li>
           </ul>
           <hr class="d-lg-none">
+
           <div class="d-lg-none ">
             <a class="btn btn_my" href="/mypage">마이페이지</a>
-            <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnSmall" type="button">로그인</button>
-  <button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
-  
+            <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnSmall"
+              type="button">로그인</button>
+            <button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
           </div>
+
           <div class="myLog d-none d-lg-flex"> <!-- Only display on large screens -->
             <a class="btn btn_my" href="/mypage">마이페이지</a>
-            <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnLarge" type="button">로그인</button>
-  <button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
+            <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnLarge"
+              type="button">로그인</button>
+            <button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
           </div>
+
         </div>
       </div>
     </nav>
-  
+
     <div class="modal fade" id="exampleModal-log" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="background-color: #F4E0D6;">
@@ -73,11 +77,11 @@
             <form id="login-form">
               <div class="mb-3">
                 <label for="userid" class="form-label">아이디</label>
-                <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;">
+                <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;" value="user1">
               </div>
               <div class="mb-3">
                 <label for="pw" class="form-label">비밀번호</label>
-                <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;">
+                <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;" value="user1">
               </div>
               <div class="text-center">
                 <button type="button" class="btn btn-primary" onclick="signin()"
@@ -92,217 +96,195 @@
         </div>
       </div>
     </div>
-  
-    <!-- main end -->
   </header>
 
-   
 
-    <p style="margin-top: -12px"></p>
-    <div class="container-hos">
-        <div id="map"></div>
-        <div id="hospitalList">
-            
-        </div>
+  <p style="margin-top: -12px"></p>
+  <div class="container-hos">
+    <div id="map"></div>
+    <div id="hospitalList">
+
     </div>
+  </div>
 
-     <!-- footer start -->
-     <footer>
-      <div class="footer-container">
-        <div class="footer-container-1">
-          <a href="#" onclick="scrollToTop()">사이트맵</a>
-          <a href="#">FAQ</a>
-          <a href="#">웹사이트</a>
-          <div class="copyright">&copy; 2023 Hotdog. All rights reserved.</div>
-        </div>
-        <div class="footer-container-2">
-          <div>김민현</div>
-          <div>김대원</div>
-          <div>강석주</div>
-          <div>이영경</div>
-          <div>김명준</div>
-        </div>
+  <!-- footer start -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-container-1">
+        <a href="#" onclick="scrollToTop()">사이트맵</a>
+        <a href="#">FAQ</a>
+        <a href="#">웹사이트</a>
+        <div class="copyright">&copy; 2023 Hotdog. All rights reserved.</div>
       </div>
-    </footer>
-    <!-- footer end -->
+      <div class="footer-container-2">
+        <div>김민현</div>
+        <div>김대원</div>
+        <div>강석주</div>
+        <div>이영경</div>
+        <div>김명준</div>
+      </div>
+    </div>
+  </footer>
+  <!-- footer end -->
 
- 
 
-    <script type="text/javascript"
+
+  <script type="text/javascript"
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ff451025e6a49a350d94998d64c37028&libraries=services"></script>
+  <script src="/js/header.js"></script>
 
-    <script>
+  <script>
 
-       // script start
-
-
-window.onload = function () {
-    const loginbuttonSmall = document.querySelector("#loginBtnSmall");
-    const logoutbuttonSmall = document.querySelector("#logoutBtnSmall");
-    const loginbuttonLarge = document.querySelector("#loginBtnLarge");
-    const logoutbuttonLarge = document.querySelector("#logoutBtnLarge");
-
-    const token = localStorage.getItem("token");
-
-    if (token) {
-        loginbuttonSmall.style.display = "none";
-        logoutbuttonSmall.style.display = "block";
-        loginbuttonLarge.style.display = "none";
-        logoutbuttonLarge.style.display = "block";
-    } else {
-        loginbuttonSmall.style.display = "block";
-        logoutbuttonSmall.style.display = "none";
-        loginbuttonLarge.style.display = "block";
-        logoutbuttonLarge.style.display = "none";
+    // script start
+    function signup() {
+      window.location.href = "/signup";
     }
-}
 
-            function signup() {
-              window.location.href = "/signup";
-            }
+    function authKaKao() {
+      document.location.href = "/signup/kakao";
+    }
 
-            function authKaKao() {
-              document.location.href = "/signup/kakao";
-            }
+    async function signin() {
+      const userid = document.querySelector("#userid").value;
+      const pw = document.querySelector("#pw").value;
+      const loginbutton = document.querySelector("#loginBtn");
+      const logoutbutton = document.querySelector("#logoutBtn");
+      const data = {
+        userid,
+        pw,
+      };
 
-            async function signin() {
-              const userid = document.querySelector("#userid").value;
-              const pw = document.querySelector("#pw").value;
-              const loginbutton = document.querySelector("#loginBtn");
-              const logoutbutton = document.querySelector("#logoutBtn");
-              const data = {
-                userid,
-                pw,
-              };
-
-              try {
-                const res = await axios({
-                  method: "POST",
-                  url: "/login",
-                  data,
-                });
-                console.log(res.data);
-                if (res.data.result) {
-                  localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
-                  localStorage.setItem(`token`, res.data.token);
-                  alert(`${res.data.userinfo.name}님 로그인 성공`);
-                  window.location.reload();
-                } else {
-                  alert(`${res.data.message}`);
-                  document.location.reload();
-                }
-              } catch (error) {
-                console.log(error);
-              }
-            }
-            async function logout() {
-              window.localStorage.clear();
-              const loginbutton = document.querySelector("#loginBtn");
-              const logoutbutton = document.querySelector("#logoutBtn");
-              document.location.href = "/";
-            }
-
-
-            function scrollToTop() {
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth" // 부드러운 스크롤 효과를 사용하려면 "smooth"를 설정합니다.
-              });
-            }
-            // script end
-
-        // 마커를 클릭하면 장소명을 표출할 인포윈도우
-        const infowindow = new kakao.maps.InfoWindow({
-            zIndex: 1
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "/login",
+          data,
         });
-
-        const mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-            mapOption = {
-                center: new kakao.maps.LatLng(37.300008, 126.600040), // 지도의 중심좌표
-                level: 2 // 지도의 확대 레벨
-            };
-
-        // 지도를 만듬
-        const map = new kakao.maps.Map(mapContainer, mapOption);
-
-        // 장소 검색 객체를 생성합니다
-        const ps = new kakao.maps.services.Places(map);
-
-        // 유저의 현재 위치 가져오기
-        // 위도 latitude/ 경도 longitude
-
-        // success 
-        navigator.geolocation.getCurrentPosition((position) => {
-            console.log(position.coords)
-            console.log(position.coords.latitude)
-            console.log(position.coords.longitude)
-            const customOverlay = new kakao.maps.CustomOverlay({
-            map: map,
-            position: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude),
-            content: '<div class="custom-marker"></div>',
-            yAnchor: 1,
-        });
-        
-            ps.keywordSearch('동물 병원', placesSearchCB, {
-                location: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude)
-            });
-
-        })
-
-        // 키워드 검색 완료 시 
-        function placesSearchCB(data, status, pagination) {
-            if (status === kakao.maps.services.Status.OK) {
-                var bounds = new kakao.maps.LatLngBounds()
-
-                for (var i = 0; i < data.length; i++) {
-                    displayMarker(data[i]);
-                    bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-                    displayHospitalInfo(data[i]); // Display hospital info in the list
-                }
-                map.setBounds(bounds);
-            }
+        console.log(res.data);
+        if (res.data.result) {
+          // localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
+          localStorage.setItem(`token`, res.data.token);
+          alert(`${res.data.userinfo.name}님 로그인 성공`);
+          window.location.reload();
+        } else {
+          alert(`${res.data.message}`);
+          document.location.reload();
         }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    async function logout() {
+      window.localStorage.clear();
+      const loginbutton = document.querySelector("#loginBtn");
+      const logoutbutton = document.querySelector("#logoutBtn");
+      document.location.href = "/";
+    }
+
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth" // 부드러운 스크롤 효과를 사용하려면 "smooth"를 설정합니다.
+      });
+    }
+    // script end
+
+    // 마커를 클릭하면 장소명을 표출할 인포윈도우
+    const infowindow = new kakao.maps.InfoWindow({
+      zIndex: 1
+    });
+
+    const mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+      mapOption = {
+        center: new kakao.maps.LatLng(37.300008, 126.600040), // 지도의 중심좌표
+        level: 2 // 지도의 확대 레벨
+      };
+
+    // 지도를 만듬
+    const map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 장소 검색 객체를 생성합니다
+    const ps = new kakao.maps.services.Places(map);
+
+    // 유저의 현재 위치 가져오기
+    // 위도 latitude/ 경도 longitude
+
+    // success 
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position.coords);
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
+      const customOverlay = new kakao.maps.CustomOverlay({
+        map: map,
+        position: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude),
+        content: '<div class="custom-marker"></div>',
+        yAnchor: 1,
+      });
+
+      ps.keywordSearch('동물 병원', placesSearchCB, {
+        location: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude)
+      });
+
+    });
+
+    // 키워드 검색 완료 시 
+    function placesSearchCB(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        var bounds = new kakao.maps.LatLngBounds();
+
+        for (var i = 0; i < data.length; i++) {
+          displayMarker(data[i]);
+          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+          displayHospitalInfo(data[i]); // Display hospital info in the list
+        }
+        map.setBounds(bounds);
+      }
+    }
 
 
     //리스트
-        function displayHospitalInfo(place) {
-            const hospitalList = document.getElementById('hospitalList');
-            const listItem = document.createElement('div');
-            listItem.innerHTML = '<b>' + place.place_name + '</b><br>' + place.address_name;
-            listItem.style.cursor = 'pointer';
-            listItem.addEventListener('click', function () {
-                infowindow.setContent('<div>' + place.place_name + '</div>');
-                infowindow.open(map, new kakao.maps.Marker({
-                    position: new kakao.maps.LatLng(place.y, place.x)
-                }));
-            });
-            hospitalList.appendChild(listItem);
-        }
+    function displayHospitalInfo(place) {
+      const hospitalList = document.getElementById('hospitalList');
+      const listItem = document.createElement('div');
+      listItem.innerHTML = '<b>' + place.place_name + '</b><br>' + place.address_name;
+      listItem.style.cursor = 'pointer';
+      listItem.addEventListener('click', function () {
+        infowindow.setContent('<div>' + place.place_name + '</div>');
+        infowindow.open(map, new kakao.maps.Marker({
+          position: new kakao.maps.LatLng(place.y, place.x)
+        }));
+      });
+      hospitalList.appendChild(listItem);
+    }
 
-        // 지도에 마커를 표시하는 함수
-        function displayMarker(place) {
-            // 마커를 생성하고 지도에 
-            const marker = new kakao.maps.Marker({
-                map: map,
-                position: new kakao.maps.LatLng(place.y, place.x)
-            });
+    // 지도에 마커를 표시하는 함수
+    function displayMarker(place) {
+      // 마커를 생성하고 지도에 
+      const marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(place.y, place.x)
+      });
 
-                // 마커에 클릭 이벤트
-    kakao.maps.event.addListener(marker, 'click', function () {
+      // 마커에 클릭 이벤트
+      kakao.maps.event.addListener(marker, 'click', function () {
         // 마커를 클릭하면 장소명이 인포윈도우에 표출
         infowindow.setContent('<div>' + place.place_name + '</div>');
         infowindow.open(map, marker);
 
         // 클릭 시 Kakao 지도 검색 URL을 생성
         var kakaoMapURL = `https://map.kakao.com/link/search/${place.address_name},${place.place_name}`;
-        
+
         // 생성된 URL을 새 창에서 열기
         window.open(kakaoMapURL, '_blank');
-    });
+      });
 
 
-        }
-    </script>
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -16,86 +16,197 @@
     <!-- css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="../css/mainPage.css" />
+    <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/mate.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"
+        integrity="sha512-FwNWaxyfy2XlEINoSnZh1JQ5TRRtGow0D6XcmAWmYCRgvqOUTnzCxPc9uF35u5ZEpirk1uhlPVA19tflhvnW1g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/locale/ko.min.js"
+        integrity="sha512-ycjm4Ytoo3TvmzHEuGNgNJYSFHgsw/TkiPrGvXXkR6KARyzuEpwDbIfrvdf6DwXm+b1Y+fx6mo25tBr1Icg7Fw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Document</title>
 </head>
 
 <body>
     <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt="logo"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link walk" aria-current="page" onclick="authenticate()">산책친구 찾기</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">게시판</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/share">용품나눔</a></li>
+                                <li><a class="dropdown-item" href="/share">나의 펫을 자랑합니다</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/hospital">병원 찾기</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/boards/qna">Q&A</a>
+                        </li>
+                    </ul>
+                    <hr class="d-lg-none">
 
-    </header>
-
-    <!-- -------------------------산책 메이트 찾기--------------------------- -->
-    <main>
-
-
-
-
-
-        <div id="wrapper">
-            <section id="find-mate-section">
-                <div id="find-mate-wrapper">
-                    <p>동네에 있는 산책 메이트를 찾아보세요!</p>
-                    <div id="find-mate-fieldset-container">
-                        <fieldset class="field">
-                            <legend>견종 크기</legend>
-                            <form name="form-type">
-                                <input type="radio" name="type" value="small" id="small" />
-                                <label for="small">소형견</label>
-                                <input type="radio" name="type" value="medium" id="medium" />
-                                <label for="medium">중형견</label>
-                                <input type="radio" name="type" value="large" id="large" />
-                                <label for="large">대형견</label>
-                            </form>
-                        </fieldset>
-                        <fieldset class="field">
-                            <legend>견종 성격</legend>
-                            <form name="form-character">
-                                <input type="radio" name="character" value="introvert" id="introvert" />
-                                <label for="introvert">소심</label>
-                                <input type="radio" name="character" value="extrovert" id="extrovert" />
-                                <label for="extrovert">활발</label>
-                            </form>
-                        </fieldset>
-                        <fieldset class="field">
-                            <legend>산책 시간</legend>
-                            <form name="form-walkingTime">
-                                <input type="radio" name="walkingTime" value="60" id="60" />
-                                <label for="60">60min <i class="bi bi-arrow-down"></i></label>
-                                <input type="radio" name="walkingTime" value="90" id="90" />
-                                <label for="90">90min</label>
-                                <input type="radio" name="walkingTime" value="120" id="120" />
-                                <label for="120">120min <i class="bi bi-arrow-up"></i></label>
-                            </form>
-                        </fieldset>
-                        <fieldset class="field">
-                            <legend>산책 장소</legend>
-                            <form name="form-walkingLocation">
-                                <input type="radio" name="walkingLocation" value="indoor" id="indoor" />
-                                <label for="indoor">실내</label>
-                                <input type="radio" name="walkingLocation" value="outdoor" id="outdoor" />
-                                <label for="outdoor">실외</label>
-                            </form>
-                        </fieldset>
+                    <div class="d-lg-none ">
+                        <a class="btn btn_my" href="/mypage">마이페이지</a>
+                        <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log"
+                            id="loginBtnSmall" type="button">로그인</button>
+                        <button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
                     </div>
 
+                    <div class="myLog d-none d-lg-flex"> <!-- Only display on large screens -->
+                        <a class="btn btn_my" href="/mypage">마이페이지</a>
+                        <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log"
+                            id="loginBtnLarge" type="button">로그인</button>
+                        <button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="exampleModal-log" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="background-color: #F4E0D6;">
+                    <div class="modal-header text-center">
+                        <div class="modal-title fs-5" id="exampleModalLabel">로그인</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label for="userid" class="form-label">아이디</label>
+                                <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;"
+                                    value="user1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="pw" class="form-label">비밀번호</label>
+                                <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;"
+                                    value="user1">
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" onclick="signin()"
+                                    style="background-color:#DBC2BD; border: none;">로그인</button>
+                                <button type="button" class="btn btn-primary" onclick="signup()"
+                                    style="background-color:#DBC2BD; border: none;">회원가입</button>
+                                <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal"
+                                    style="background-color:#DBC2BD; border: none;">Close</button> <!-- 회원가입 버튼 추가 -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <script src="/js/header.js"></script>
+    <!-- -------------------------산책 메이트 찾기--------------------------- -->
+    <main>
+        <div id="page-wrapper container-md">
+            <section>
+                <!-- ------------------------------ -->
+                <!-- find-mate-wrapper -->
+                <div id="find-mate-wrapper" class="container-md">
+                    <p>같은 동네에서 산책 메이트를 찾아보세요!</p>
+                    <div id="find-mate-fieldset-container" class="row row-cols-2 row-cols-lg-4 g-2">
+                        <div class="col">
+                            <fieldset class="field">
+                                <legend>견종 크기</legend>
+                                <form name="form-type">
+                                    <input type="radio" name="type" value="small" id="small" data-description="소형견" />
+                                    <label for="small">소형</label>
+                                    <input type="radio" name="type" value="medium" id="medium" data-description="중형견" />
+                                    <label for="medium">중형</label>
+                                    <input type="radio" name="type" value="large" id="large" data-description="대형견" />
+                                    <label for="large">대형</label>
+                                </form>
+                            </fieldset>
+                        </div>
+                        <div class="col">
+                            <fieldset class="field">
+                                <legend>견종 성격</legend>
+                                <form name="form-character">
+                                    <input type="radio" name="character" value="introvert" id="introvert"
+                                        data-description="소심한" />
+                                    <label for="introvert">소심</label>
+                                    <input type="radio" name="character" value="extrovert" id="extrovert"
+                                        data-description="활발한" />
+                                    <label for="extrovert">활발</label>
+                                </form>
+                            </fieldset>
+                        </div>
+                        <div class="col">
+                            <fieldset class="field">
+                                <legend>산책 시간 (분)</legend>
+                                <form name="form-walkingTime">
+                                    <input type="radio" name="walkingTime" value="60" id="60" data-description="60분" />
+                                    <label for="60">60</i></label>
+                                    <input type="radio" name="walkingTime" value="90" id="90" data-description="90분" />
+                                    <label for="90">90</label>
+                                    <input type="radio" name="walkingTime" value="120" id="120"
+                                        data-description="120분" />
+                                    <label for="120">120</i></label>
+                                </form>
+
+                            </fieldset>
+                        </div>
+                        <div class="col">
+                            <fieldset class="field">
+                                <legend>산책 장소</legend>
+                                <form name="form-walkingLocation">
+                                    <input type="radio" name="walkingLocation" value="indoor" id="indoor"
+                                        data-description="실내" />
+                                    <label for="indoor">실내</label>
+                                    <input type="radio" name="walkingLocation" value="outdoor" id="outdoor"
+                                        data-description="실외" />
+                                    <label for="outdoor">실외</label>
+                                </form>
+                            </fieldset>
+                        </div>
+
+                    </div>
                     <div id="find-mate-search-container">
                         <div id="search-btn-container">
-                            <button type="button" onclick="search()" id="search-btn">찾기</button>
-                        </div>
-                        <div id="onsearch-btn-container" hidden>
-                            <p>동일한 조건의 산책메이트를 찾는중입니다.</p>
-                            <div class="loader"></div>
-                            <button type="button" onclick="cancelSearch()" id="cancelSearch">찾기 취소</button>
+                            <button type="button" onclick="search()" id="search-btn" class="btn btn-success">찾기</button>
                         </div>
                     </div>
                 </div>
-            </section>
-            <!-- -------------------------산책 메이트 조회 리스트 --------------------------- -->
-            <section id="found-mate-section">
+                <!-- ------------------------------------ -->
+                <!-- found-mate-wrapper -->
                 <div id="found-mate-wrapper">
-                    <p>사용자들</p>
+
+
+                    <div id="search-filter"></div>
+
+                    <div id="searching-ui">
+                        <div id="searching-message">산책메이트를 찾는중이에요</div>
+
+                        <div class="spinner-border spinner-grow spinner-grow mx-auto d-flex justify-content-center"
+                            style="width: 1.2rem; height: 1.2rem;" role="status" aria-hidden="true">
+                        </div>
+
+                        <button type="button" onclick="cancelSearch()" id="cancelSearch"
+                            class="btn btn-sm btn-outline-danger mx-auto d-block">취소</button>
+                    </div>
+
+
+                    <div id="found-users">조회되는 산책메이트들</div>
                     <ul id="mate-list">
+
                     </ul>
                 </div>
             </section>
@@ -103,19 +214,34 @@
     </main>
 
     <!-- -------------------------------------------------------------------------- -->
-    <div id="chatting-wrapper" onclick="toggleChatList()">
-        <i class="bi bi-chat-right-text" id="chatbox-icon"></i>
+    <div id="chat-container">
+        <input type="checkbox" id="click" />
+        <label for="click">
+            <i class="bi bi-chat-fill open-chat"></i>
+            <i class="bi bi-x-lg close-chat"></i>
+        </label>
+        <div class="chat-wrapper">
+            <div class="chat-header">
+                <div class="chat-header-friends">친구 목록</div>
+                <div class="chat-header-room"></div>
+            </div>
+            <div class="chat-friends"></div>
+            <div class="chat-container">
+                <div class="chat-room">
+
+                </div>
+                <div class="chat-input">
+                    <textarea id="message" name="message" onkeydown="handleEnter(event)"></textarea>
+                    <button id="send-message"><i class="bi bi-send-fill"></i></button>
+                </div>
+            </div>
+            <div class="empty-chat-room">
+                <div>대화할 친구를 좌측에서 선택해주세요.</div>
+            </div>
+        </div>
+
     </div>
-
-    <div id="chat-list-wrapper">
-        <p>대화목록</p>
-        <ul id="chat-list">
-        </ul>
     </div>
-
-    <div id="chat-room-wrapper" style="display:none;"></div>
-    <!-- -------------------------------------------------------------------------- -->
-
     <footer>
     </footer>
 
@@ -133,364 +259,478 @@
 <!-- ========================================================================================== -->
 
 <!-- ========================================================================================== -->
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
 <script>
     //아이디 담길 변수 선언
     let myID;
     let otherID;
 
-    //소켓 연결
-    const socket = io();
-    // token 유효성 검사
-    (async function () {
-        //로컬 스토리지에서 'token' 이름의 아이템 불러오기
-        const token = window.localStorage.getItem('token')
 
-        const res = await axios({
-            method: 'post',
-            url: '/mate/verify',
-            data: {
-                token
-            }
-        })
-        if (res.data.result) {
-            myID = res.data.userinfo.userid
-            myLocation = res.data.userinfo.address
-            console.log('myUserInfo', res.data.userinfo)
-            socket.emit('getChatList', myID)
-        } else {
-            alert('로그인 해주세요')
-            document.location.href = '/'
-        }
-    })();
-
-    function signup() {
-        window.location.href = "/signup";
-    }
-
-
-    //산책페이트 찾기 필터 요소, 찾기 버튼 요소, 찾는 중 안내 요소
-    const findMateForm = document.querySelector('#find-mate-wrapper')
-    const searchBtn = document.querySelector('#search-btn-container')
-    const onSearch = document.querySelector('#onsearch-btn-container')
+    const findMateWrapper = document.querySelector('#find-mate-wrapper');
+    const foundMateWrapper = document.querySelector('#found-mate-wrapper');
 
     //아이디 입력 요소
-    const id = document.querySelector('#userid')
+    const id = document.querySelector('#userid');
 
     //찾기 조건 담길 변수 선언
     let filter;
     let myLocation;
+    let myProfile;
+    //소켓 연결
+    const socket = io();
+    // token 유효성 검사
+    (async function () {
+        try {
+            //로컬 스토리지에서 'token' 이름의 아이템 불러오기
+            const token = window.localStorage.getItem('token');
+            const res = await axios.post('/mate/auth', null, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            myID = res.data.userinfo.userid;
+            myLocation = res.data.userinfo.address;
+            myProfile = res.data.userinfo.profile;
+            console.log('myUserInfo', res.data.userinfo);
+            socket.emit('getChatList', myID);
+        } catch (error) {
+            window.localStorage.removeItem('token');
+            alert('로그인 해주세요');
+            document.location.href = '/';
+        }
+    })();
 
+    function handleEnter(event) {
+        if (event.keyCode == 13 && event.shiftKey == false) {
+            const sendMessageButton = document.querySelector('#send-message');
+            sendMessageButton.click();
+        }
+    }
+    function signup() {
+        window.location.href = "/signup";
+    }
 
     // 대화목록 보여주기
     function showChatList(chatList) {
         // chatList => [ {roomid:'', users:['userid','userid'] }, ... ]
 
-        const ul = document.querySelector('#chat-list')
-        ul.innerHTML = ''
+        // chatList => [ {roomid:'', users:[{userid: 'string', profile: 'string'}, ...] }, ... ]
+
+        // [{roomid: roomid, users: [{user: user, name: name, profile: profile}]}]
+
+        const chatFriendsContainer = document.querySelector('.chat-friends');
+        chatFriendsContainer.innerHTML = '';
 
         chatList.forEach((room) => {
-            let otherUser;
-            room.users.forEach((user) => {
-                if (user != myID) {
-                    otherUser = user
-                }
-            })
-            console.log('otherUser ====', otherUser)
-            if (otherUser == undefined) {
-                otherUser = 'unknown'
+            const roomID = room.roomid;
+            const [friend] = room.users.filter((user) => user.userid != myID);
+            console.log('mate', friend);
+
+            const friendDiv = document.createElement('div');
+            friendDiv.classList.add('chat-friend');
+            let HTML;
+
+            if (friend) {
+
+                HTML = `<img class="chat-friend-profile" src="${friend.profile}" />
+                        <span class="chat-friend-name" onclick="enterChat('${roomID}','${friend.userid}','${friend.name}','${friend.profile}')">${friend.name}</span>
+                        <i class="bi bi-x-lg delete-friend-button" onclick="leaveChat('${roomID}','${friend.userid}')"></i>`;
+            } else {
+                HTML = `<img class="chat-friend-profile" src="/images/default.png" />
+                        <span class="chat-friend-name" onclick="enterChat('${roomID}','','','')">unknown</span>
+                        <i class="bi bi-x-lg delete-friend-button" onclick="leaveChat('${roomID}','')"></i>`;
             }
-            const li = document.createElement('li')
-            const span = document.createElement('span')
-            const btnsContainer = document.createElement('span')
-            btnsContainer.classList.add('chat-list-btn-container')
-            span.textContent = `${otherUser}님`
 
-            const enterChatBtn = document.createElement('button')
-            enterChatBtn.setAttribute('type', 'button')
-            enterChatBtn.setAttribute('onclick', `enterChat('${room.roomid}','${otherUser}')`)
-            enterChatBtn.innerHTML = `<i class="bi bi-box-arrow-in-right"></i>`
+            friendDiv.innerHTML = HTML;
+            friendDiv.dataset.roomID = roomID;
+            chatFriendsContainer.appendChild(friendDiv);
+        });
 
-            const leaveChatBtn = document.createElement('button')
-            leaveChatBtn.setAttribute('type', 'button')
-            leaveChatBtn.setAttribute('onclick', `leaveChat('${room.roomid}','${otherUser}')`)
-            leaveChatBtn.innerHTML = `<i class="bi bi-x-lg"></i>`
 
-            li.id = `${room.roomid}`
-            btnsContainer.appendChild(enterChatBtn)
-            btnsContainer.appendChild(leaveChatBtn)
-            li.appendChild(span)
-            li.appendChild(btnsContainer)
-            ul.appendChild(li)
-        })
+
     }
 
     // HTML 채팅방 만드는 함수
-    function createChatRoom(otherID, roomID, messages) {
-        const chatWrapper = document.querySelector('#chat-room-wrapper')
-        chatWrapper.innerHTML = ''
+    function createChatRoom(chatRoomInfo) {
+        const { myID, otherID, roomID, messages, otherName, otherProfile } = chatRoomInfo;
+        // otherID, roomID
+        // messages => [{id, content. senderid, createdAt},...]
+        // const reversedMessages = messages.slice().reverse();
 
-        const topBarInterface = document.createElement('div')
-        topBarInterface.classList.add('top-bar-interface')
-
-        const span = document.createElement('span')
-        span.textContent = `${otherID}님과의 대화방`
-
-        const exitChatroomBtn = document.createElement('button')
-        exitChatroomBtn.classList.add('exit-chat-room-btn')
-        const exitRoomIcon = `<i class="bi bi-box-arrow-left exit-chat-room-btn-icon"></i>`
-        exitChatroomBtn.innerHTML = exitRoomIcon
-        exitChatroomBtn.onclick = function () {
-            chatWrapper.innerHTML = ''
-            chatWrapper.style.display = 'none'
+        const notification = document.querySelector(`.chat-friend[data-room-i-d='${roomID}'] div`);
+        if (notification) {
+            notification.remove();
         }
 
-        topBarInterface.appendChild(exitChatroomBtn)
-        topBarInterface.appendChild(span)
-        // topBarInterface
+        const emptyChatRoom = document.querySelector('.empty-chat-room');
+        emptyChatRoom.style.display = 'none';
 
-        const chatInterface = document.createElement('div')
-        chatInterface.classList.add('chat-interface')
-        chatInterface.id = `${roomID}`
-        // chatInterface
 
-        const inputInterface = document.createElement('div')
-        inputInterface.classList.add('input-interface')
-        const messageInputContainer = document.createElement('div')
-        messageInputContainer.classList.add('message-input-container')
-        const textarea = document.createElement('textarea')
-        textarea.name = 'message-input'
-        textarea.id = 'message-input'
-        messageInputContainer.appendChild(textarea)
+        const chatHeaderRoom = document.querySelector('.chat-header-room');
+        chatHeaderRoom.textContent = otherName ? `${otherName}님과의 대화` : `unknown님과의 대화`;
 
-        const sendButtonContainer = document.createElement('div')
-        sendButtonContainer.classList.add('send-button-container')
-        const sendButton = document.createElement('button')
-        sendButton.id = 'sendMessage'
-        sendButton.setAttribute('onclick', `sendMessage('${otherID}','${roomID}')`)
-        sendButton.innerHTML = `<i class="bi bi-send-fill fa-sm"></i>`
-        sendButtonContainer.appendChild(sendButton)
 
-        inputInterface.appendChild(messageInputContainer)
-        inputInterface.appendChild(sendButtonContainer)
-        // inputInterface
+        const chatContainer = document.querySelector('.chat-container');
+        chatContainer.style.display = 'flex';
+        chatContainer.dataset.roomID = roomID;
 
-        chatWrapper.appendChild(topBarInterface)
-        chatWrapper.appendChild(chatInterface)
-        chatWrapper.appendChild(inputInterface)
+        const chatRoom = document.querySelector('.chat-room');
+        chatRoom.innerHTML = '';
 
-        if (messages.length == 0) {
-            return;
+        const sendMessageButton = document.querySelector('#send-message');
+
+        let referenceDate = '';
+        let referenceTime = '';
+        if (messages.length > 0) {
+
+            messages.forEach((message, index) => {
+                const date = dayjs(message.createdAt).format('YYYY년 MM월 DD일');
+                const time = dayjs(message.createdAt).format('YYYY-MM-DDTh:mma');
+                console.log(time.split('T')[1]);
+                const sender = message.senderid;
+
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                bubble.textContent = message.content;
+                if (myID != sender) {
+                    bubble.classList.add('you');
+                } else {
+                    bubble.classList.add('me');
+                }
+                bubble.dataset.senderid = sender;
+
+                if (index > 0 && index < messages.length && referenceTime == time && messages[index - 1].senderid == message.senderid) {
+                    console.log('deleted lastTimestamp');
+                    const allTimestampsDivs = document.querySelectorAll('.timestamp');
+                    console.log(allTimestampsDivs);
+                    const lastTimestampDiv = allTimestampsDivs[allTimestampsDivs.length - 1];
+                    lastTimestampDiv.remove();
+                };
+
+                const timestamp = document.createElement('span');
+                timestamp.classList.add('timestamp');
+                timestamp.textContent = time.split('T')[1];
+                referenceTime = time;
+                bubble.dataset.timestamp = message.createdAt;
+                bubble.append(timestamp);
+
+                if (date != referenceDate) {
+                    const dateIndicator = document.createElement('div');
+                    dateIndicator.classList.add('date-indicator');
+                    referenceDate = date;
+                    dateIndicator.textContent = date;
+                    dateIndicator.dataset.date = dayjs(message.createdAt).format('YYYY-MM-DD');
+                    chatRoom.append(dateIndicator);
+                }
+
+                chatRoom.append(bubble);
+            });
         }
-
-        messages.forEach((msginfo) => {
-            const { id, senderid, content } = msginfo
-            appendChatMessage(senderid, id, content)
-        })
+        chatRoom.scrollTop = chatRoom.scrollHeight - chatRoom.clientHeight;
+        sendMessageButton.setAttribute('onclick', `sendMessage('${otherID}', '${roomID}')`);
+        if (otherID == '') {
+            sendMessageButton.disabled = true;
+        }
     }
 
     //대화방 입장 onclick
-    async function enterChat(roomID, otherID) {
-        console.log(roomID, otherID)
+    async function enterChat(roomID, otherID, otherName, otherProfile) {
+        console.log(roomID, otherID);
         const data = {
             myID: myID,
-            otherID: otherID,
-            roomID: roomID
-        }
-        await socket.emit('fetchChatRoomData', data)
+            otherID,
+            roomID,
+            otherName,
+            otherProfile,
+        };
+        await socket.emit('fetchChatRoomData', data);
     }
 
     //대화방 입장시
     socket.on('openChatRoom', (chatRoomInfo) => {
-        const { myID, otherID, roomID, messages } = chatRoomInfo
-        console.log('messages', messages)
+        const { myID, otherID, roomID, messages, otherName, otherProfile } = chatRoomInfo;
+        console.log('messages', messages);
         // messages => [{id, content. senderid, createdAt},...]
-        // <div id="chat-room-wrapper" style="display:none;"></div>
-        document.getElementById('chat-room-wrapper').style.display = 'flex'
-        createChatRoom(otherID, roomID, messages)
-    })
+        createChatRoom(chatRoomInfo);
+    });
 
     async function sendMessage(otherID, roomID) {
-        const content = document.querySelector('#message-input').value
-        const chatInterface = document.querySelector('.chat-interface')
-        chatInterface.scrollTop = chatInterface.scrollHeight;
+        const content = document.querySelector('#message').value;
+
+        if (content.trim() == '') {
+            return;
+        }
         const data = {
             myID,
             otherID,
             roomID,
             content
-        }
-        await socket.emit('message', data)
+        };
+        await socket.emit('message', data);
     }
 
     socket.on('newMessage', (msgData) => {
-        const { senderID, receiverID, roomID, message } = msgData
-
-        if (myID != senderID) {
-            socket.emit('getChatList', myID)
-            appendNotification(roomID, message)
-            if (document.querySelector('#chat-room-wrapper')) {
-                appendChatMessage(senderID, roomID, message)
-            }
-        } else {
-            appendChatMessage(myID, roomID, message)
+        const { senderID, receiverID, roomID, message, createdAt } = msgData;
+        const chatContainer = document.querySelector('.chat-container');
+        if (roomID != chatContainer.dataset.roomID) {
+            appendNotification(roomID, message);
+            return;
         }
-    })
 
-    async function appendChatMessage(senderID, roomID, message) {
-        const chatInterface = document.querySelector('.chat-interface')
-        const chatBubbleContainer = document.createElement('div')
-        chatBubbleContainer.classList.add('chat')
+
+        appendChatMessage(senderID, roomID, message, createdAt);
+
+
+
+
+
+
+    });
+
+    function appendChatMessage(senderID, roomID, message, createdAt) {
+        const chatRoom = document.querySelector('.chat-room');
+
+        const messageTimestamp = dayjs(createdAt).format('YYYY-MM-DDTh:mma');
+        const messageTime = messageTimestamp.split('T')[1];
+        const messageDate = messageTimestamp.split('T')[0];
+
+
+        const chatBubbles = document.querySelectorAll('.bubble');
+        let lastChatBubble;
+        let lastChatBubbleTimestamp;
+        let lastChatBubbleDate;
+        if (chatBubbles.length > 0) {
+            lastChatBubble = chatBubbles[chatBubbles.length - 1];
+            lastChatBubbleTimestamp = dayjs(lastChatBubble.dataset.timestamp).format('YYYY-MM-DDTh:mma');
+            lastChatBubbleDate = lastChatBubbleTimestamp.split('T')[0];
+        }
+        const lastChatBubbleTime = lastChatBubbleTimestamp.split('T')[1];
+
+        const chatBubble = document.createElement('div');
+        chatBubble.dataset.timestamp = createdAt;
+        chatBubble.classList.add('bubble');
+        chatBubble.textContent = message;
         if (myID == senderID) {
-            chatBubbleContainer.classList.add('me')
+            chatBubble.classList.add('me');
         } else {
-            chatBubbleContainer.classList.add('other')
+            chatBubble.classList.add('you');
         }
-        const chat = document.createElement('div')
-        chat.classList.add('textbox')
-        chat.textContent = message
-        chatBubbleContainer.appendChild(chat)
-        chatInterface.appendChild(chatBubbleContainer)
-        chatInterface.scrollTop = chatInterface.scrollHeight;
+        chatBubble.dataset.senderid = senderID;
+
+        if (chatBubbles.length > 0 && messageDate != lastChatBubbleDate) {
+            const dateIndicator = document.createElement('div');
+            dateIndicator.classList.add('date-indicator');
+            dateIndicator.textContent = dayjs(createdAt).format('YYYY년 MM월 DD일');
+            dateIndicator.dataset.date = dayjs(createdAt).format('YYYY-MM-DD');
+            chatRoom.append(dateIndicator);
+        }
+
+        const allTimestamps = document.querySelectorAll('.timestamp');
+        const lastTimestampSpan = allTimestamps[allTimestamps.length - 1];
+        const lastTimestamp = lastTimestampSpan.textContent;
+        if (allTimestamps.length > 0 && lastTimestamp == messageTime && lastChatBubble.dataset.senderid == senderID) {
+            lastTimestampSpan.remove();
+        }
+
+        const timestamp = document.createElement('span');
+        timestamp.classList.add('timestamp');
+        timestamp.textContent = messageTime;
+        chatBubble.appendChild(timestamp);
+
+
+        chatRoom.appendChild(chatBubble);
+        chatRoom.scrollTop = chatRoom.scrollHeight - chatRoom.clientHeight;
+        document.querySelector('#message').value = '';
     }
 
     function appendNotification(roomID, message) {
-        console.log('newMessage to you')
+        const room = document.querySelector(`.chat-friend[data-room-i-d='${roomID}']`);
+        if (room.children.length > 3) {
+            const notification = document.querySelector(`.chat-friend[data-room-i-d='${roomID}'] div`);
+            notification.textContent = Number(notification.textContent) + 1;
+        } else {
+            const notification = document.createElement('div');
+            notification.textContent = 1;
+            room.appendChild(notification);
+        }
+        console.log(`${roomID} : ${message}`);
+
     }
 
     //clientList중 하나를 클릭하고 나와 다른 사용자의 고유한 roomid를 새로 할당받는다
     socket.on('openNewChatRoom', (roomInfo) => {
-        const { roomID, otherID, myID } = roomInfo
-        console.log('newChatRoom ||', roomID)
+        const { roomID, otherID, myID, otherName, otherProfile } = roomInfo;
         const data = {
             myID: myID,
             otherID: otherID,
-            roomID: roomID
-        }
-        socket.emit('getChatList', myID)
-        socket.emit('fetchChatRoomData', data)
-    })
+            roomID: roomID,
+            otherName,
+            otherProfile
+        };
+        const chatButton = document.querySelector('#click');
+        chatButton.checked = true;
+        console.log('open new');
+
+        socket.emit('getChatList', myID);
+        socket.emit('fetchChatRoomData', data);
+    });
 
     //clientList중 하나를 클릭 =
     socket.on('openExistingChatRoom', (roomInfo) => {
-        const { roomID, otherID, myID } = roomInfo
-        console.log('existingChatRoom ||', roomID)
+        const { roomID, otherID, myID, otherName, otherProfile } = roomInfo;
         const data = {
             myID: myID,
             otherID: otherID,
-            roomID: roomID
-        }
-        socket.emit('fetchChatRoomData', data)
-    })
+            roomID: roomID,
+            otherName,
+            otherProfile
+        };
+        const chatButton = document.querySelector('#click');
+        chatButton.checked = true;
+        console.log('open existing');
+        socket.emit('getChatList', myID);
+        socket.emit('fetchChatRoomData', data);
+    });
 
 
     //chatList(대화방 목록) 받는 이벤트
     socket.on('chatList', (chatList) => {
-        console.log('chatList', chatList)
-        showChatList(chatList)
-    })
+        console.log('chatList', chatList);
+        showChatList(chatList);
+    });
 
     //대화방 나가기 onclick
     async function leaveChat(roomID, otherID) {
-        console.log('leaveChat()')
+        console.log('leaveChat()');
         const data = {
             myID: myID,
             otherID: otherID,
             roomID: roomID
-        }
-        await socket.emit('leaveChat', data)
+        };
+        await socket.emit('leaveChat', data);
     }
 
     socket.on('leftChat', (msg) => {
-        console.log(msg)
-
-        socket.emit('getChatList', myID)
-    })
+        console.log(msg);
+        document.querySelector('.chat-header-room').textContent = '';
+        const chatContainer = document.querySelector('.chat-container');
+        chatContainer.dataset.roomID = '';
+        const chatRoom = document.querySelector('.chat-room');
+        chatRoom.innerHTML = '';
+        chatContainer.style.display = 'none';
+        document.querySelector('.empty-chat-room').style.display = 'flex';
+        socket.emit('getChatList', myID);
+    });
 
     //필터조건으로 찾기 버튼 onclick 
     async function search() {
-        const type = document.forms['form-type']
-        const character = document.forms['form-character']
-        const walkingTime = document.forms['form-walkingTime']
-        const walkingLocation = document.forms['form-walkingLocation']
+        const allFields = document.querySelectorAll('fieldset');
+        const selectedRadio = document.querySelectorAll('input[type="radio"]:checked');
 
-        filter = `${myLocation}${type.type.value}_${character.character.value}_${walkingTime.walkingTime.value}_${walkingLocation.walkingLocation.value}`
+        const type = document.forms['form-type'].type;
+        const character = document.forms['form-character'].character;
+        const walkingTime = document.forms['form-walkingTime'].walkingTime;
+        const walkingLocation = document.forms['form-walkingLocation'].walkingLocation;
+        const searchValues = [type, character, walkingTime, walkingLocation];
+        // 모든 필드가 선택되지 않을 경우 
+        if (selectedRadio.length != allFields.length) {
+            alert("모든 조건을 선택해주세요.");
+            return;
+        }
+        // 모든 피드 선택되고, 선택된 조건들의 설명
+        for (const form of selectedRadio) {
+            const value = form.value;
+            const description = form.dataset.description;
+            const searchFilterDiv = document.querySelector('#search-filter');
+            const filterItemSpan = document.createElement('span');
+            filterItemSpan.classList.add('filter');
+            filterItemSpan.textContent = `#${description}`;
+            searchFilterDiv.appendChild(filterItemSpan);
+        }
+        filter = `${myLocation}_${type.value}_${character.value}_${walkingTime.value}_${walkingLocation.value}`;
 
         const data = {
             userid: myID,
+            profile: myProfile,
             filter: filter
-        }
 
-        await socket.emit('joinRoom', data)
+        };
 
-        findMateForm.hidden = false;
-        searchBtn.hidden = true;
-        onSearch.hidden = false;
+        await socket.emit('joinRoom', data);
+
+        findMateWrapper.style.display = 'none';
+        foundMateWrapper.style.display = 'block';
     }
 
     //필터조건으로 찾기 중지 버튼 onclick 
     async function cancelSearch() {
+        const foundUsersMessage = document.querySelector('#found-users');
+        const searchFilterDiv = document.querySelector('#search-filter');
+        searchFilterDiv.innerHTML = '';
+        foundUsersMessage.textContent = ``;
         const data = {
             myID: myID,
             filter: filter
-        }
-        await socket.emit('leaveRoom', data)
-        const ul = document.querySelector('#mate-list')
-        ul.innerHTML = ''
+        };
+        await socket.emit('leaveRoom', data);
+        const ul = document.querySelector('#mate-list');
+        ul.innerHTML = '';
 
-        findMateForm.hidden = false;
-        searchBtn.hidden = false;
-        onSearch.hidden = true;
+        findMateWrapper.style.display = 'block';
+        foundMateWrapper.style.display = 'none';
     }
 
     //clientList 받는 이벤트
     socket.on('clientList', (clientList) => {
-        console.log('clientList', clientList)
-        updateUsers(clientList)
-    })
+        console.log('clientList', clientList);
+        updateUsers(clientList);
+    });
 
     // HTML 동일조건 사용자들 보여주는 함수
     function updateUsers(clientList) {
-        const ul = document.querySelector('#mate-list')
-        ul.innerHTML = ''
-        clientList.forEach((user) => {
-            if (user.userid === myID) {
-                return;
-            } else {
-                const li = document.createElement('li')
-                li.setAttribute('onclick', `chat('${user.userid}','${user.socketid}')`)
-                const icon = `<i class="bi bi-chat-text-fill"></i>`
-                li.innerHTML = `${icon}  ${user.userid}님`
-                ul.appendChild(li)
-            }
-        })
+        const ul = document.querySelector('#mate-list');
+        const foundUsersMessage = document.querySelector('#found-users');
+        foundUsersMessage.textContent = `조회되는 산책메이트들 (${clientList.length - 1} 명)`;
+        ul.innerHTML = '';
+        if (clientList.length > 1) {
+            console.log('clientList', clientList);
+            clientList.forEach((user) => {
+                if (user.userid === myID) {
+                    return;
+                } else {
+                    const li = document.createElement('li');
+                    li.classList.add('found-user');
+                    li.setAttribute('onclick', `chat('${user.userid}','${user.socketid}')`);
+
+                    const img = document.createElement('img');
+                    const div = document.createElement('div');
+                    const hr = document.createElement('hr');
+                    img.src = user.profile;
+                    div.textContent = `${user.userid}님`;
+                    li.appendChild(img);
+                    li.appendChild(hr);
+                    li.appendChild(div);
+                    ul.appendChild(li);
+                }
+            });
+        }
+
     }
 
     //clientList를 받아서 보여준 특정 클라이언트 li태그 onclick
     function chat(otherID, otherSocketID) {
-        console.log('chat', otherID, otherSocketID)
+        console.log('chat', otherID, otherSocketID);
         const data = {
             myID: myID,
             otherID: otherID,
             otherSocketID: otherSocketID,
-        }
-        socket.emit('startChat', data)
+        };
+        socket.emit('startChat', data);
     }
 
-    function toggleChatList() {
-        const chatListWrapper = document.querySelector('#chat-list-wrapper')
-        const chatRoomWrapper = document.querySelector('#chat-room-wrapper')
-        switch (chatListWrapper.style.display || chatRoomWrapper.style.display) {
-            case 'flex':
-                chatListWrapper.style.display = 'none';
-                chatRoomWrapper.style.display = 'none'
-                break;
 
-            default:
-                chatListWrapper.style.display = 'flex';
-                break;
-        }
-    }
 
 </script>
 

@@ -4,125 +4,124 @@
 
 /* HTML 기본 설정 */
 html {
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-family: sans-serif;
-  line-height: 1.4;
-  font-size: 1em;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font-family: sans-serif;
+	line-height: 1.4;
+	font-size: 1em;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
 }
 
 /* 웹 폰트 */
 @font-face {
-  font-family: 'SUITE-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
+	font-family: 'SUITE-Regular';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
 }
 
 /* Body 설정 */
 body {
-  margin: 0;
-  font-family: 'SUITE-Regular';
+	margin: 0;
+	font-family: 'SUITE-Regular';
 }
 
 .logo__img {
-  width: 80px;
-  height: 55px;
+	width: 80px;
+	height: 55px;
 }
 
 /* ------------------------------
    Navbar 스타일
 ------------------------------ */
 
-.container > LogoImg {
-  width: 10px;
+.container > .LogoImg {
+	width: 10px;
 }
 
 /* 기본 Navbar 스타일 */
 .navbar {
-  height: 70px;
-  background-color: #F4E0D6;
-  padding: 0 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+	/* height: 70px; */
+	background-color: #f4e0d6;
+	padding: 0 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 /* Navbar 내부 요소 */
 .navbar-brand,
 .nav-link {
-  font-weight: bold;
-  color: black;
+	font-weight: bold;
+	color: black;
 }
 
 /* Navbar 토글러 */
 .navbar-toggler-icon {
-  background-color: black;
+	background-color: black;
 }
 
 /* 반응형 Navbar 설정 */
 @media (max-width: 991px) {
-  .navbar {
-    height: auto;
-    padding: 10px;
-  }
+	.myLog {
+		flex-direction: column;
+		align-items: flex-start;
+	}
 
-  .myLog {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .navbar-nav.ms-auto {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+	.navbar-nav.ms-auto {
+		flex-direction: column;
+		align-items: flex-start;
+	}
 }
 
 /* 햄버거 아이콘 스타일 */
 .navbar-toggler-icon {
-  background-image: none;
-  width: 18px;
-  height: 1.5px;
-  background-color: black;
-  position: relative;
+	background-image: none;
+	width: 18px;
+	height: 1.5px;
+	background-color: black;
+	position: relative;
 }
 
 .navbar-toggler-icon::before,
 .navbar-toggler-icon::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1.5px;
-  background-color: black;
+	content: '';
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 1.5px;
+	background-color: black;
 }
 
-.navbar-toggler-icon::before { top: -7px; }
-.navbar-toggler-icon::after { bottom: -7px; }
+.navbar-toggler-icon::before {
+	top: -7px;
+}
+.navbar-toggler-icon::after {
+	bottom: -7px;
+}
 
 /* ------------------------------
    버튼 및 컨테이너 스타일
 ------------------------------ */
 
 /* 공통 버튼 스타일 */
-.btn_my, .btn_log {
-  border: none;
-  color: black;
-  margin-top: 0;
-  font-weight: bold;
+.btn_my,
+.btn_log {
+	border: none;
+	color: black;
+	margin-top: 0;
+	font-weight: bold;
 }
 
 /* 버튼 호버 스타일 */
-.btn_my:hover, .btn_log:hover {
-  background-color: #FFDCC1;
+.btn_my:hover,
+.btn_log:hover {
+	background-color: #ffdcc1;
 }
 
-/* 컨테이너 설정 */
-.container-fluid {
-  height: 70px;
-  border-radius: 10px;
+.walk:hover {
+	cursor: pointer;
 }
 
 /* ------------------------------
@@ -130,26 +129,27 @@ body {
 ------------------------------ */
 
 .footer-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: black;
-  padding: 20px;
-  text-align: center;
-  height: 20%;
-  /* border-radius: 10px; */
-  background-color: #333;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: black;
+	padding: 20px;
+	text-align: center;
+	height: 20%;
+	/* border-radius: 10px; */
+	background-color: #333;
 }
 
 /* 기타 Footer 설정 */
-.footer-container-1, .footer-container-2 {
-  flex: 1;
-  margin: 10px;
+.footer-container-1,
+.footer-container-2 {
+	flex: 1;
+	margin: 10px;
 }
 
 .copyright {
-  font-size: 15px;
-  color: #888;
-  margin-top: 10px;
-  text-align: center;
+	font-size: 15px;
+	color: #888;
+	margin-top: 10px;
+	text-align: center;
 }

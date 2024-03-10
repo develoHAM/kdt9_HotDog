@@ -15,10 +15,9 @@
 
 <body>
   <header>
-    <!-- main start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt=""></a>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -26,7 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active walk" aria-current="page" href="/mate">산책친구 찾기</a>
+              <a class="nav-link walk" aria-current="page" onclick="authenticate()">산책친구 찾기</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -44,19 +43,21 @@
             </li>
           </ul>
           <hr class="d-lg-none">
+
           <div class="d-lg-none ">
             <a class="btn btn_my" href="/mypage">마이페이지</a>
             <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnSmall"
               type="button">로그인</button>
             <button class="btn btn_log" id="logoutBtnSmall" type="button" onclick="logout()">로그아웃</button>
-
           </div>
+
           <div class="myLog d-none d-lg-flex"> <!-- Only display on large screens -->
             <a class="btn btn_my" href="/mypage">마이페이지</a>
             <button class="btn btn_log" data-bs-toggle="modal" data-bs-target="#exampleModal-log" id="loginBtnLarge"
               type="button">로그인</button>
             <button class="btn btn_log" id="logoutBtnLarge" type="button" onclick="logout()">로그아웃</button>
           </div>
+
         </div>
       </div>
     </nav>
@@ -72,11 +73,11 @@
             <form id="login-form">
               <div class="mb-3">
                 <label for="userid" class="form-label">아이디</label>
-                <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;">
+                <input type="text" class="form-control" id="userid" style="background-color: #F4E0D6;" value="user1">
               </div>
               <div class="mb-3">
                 <label for="pw" class="form-label">비밀번호</label>
-                <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;">
+                <input type="password" class="form-control" id="pw" style="background-color: #F4E0D6;" value="user1">
               </div>
               <div class="text-center">
                 <button type="button" class="btn btn-primary" onclick="signin()"
@@ -91,10 +92,8 @@
         </div>
       </div>
     </div>
-
-    <!-- main end -->
   </header>
-
+  <script src="/js/header.js"></script>
 
   <button type="button" class="btn btn-primary write-button-container" data-bs-toggle="modal"
     data-bs-target="#exampleModal">
@@ -187,7 +186,7 @@
           </div>
           <div class="modal-body">
             <form id="edit-form_<%= data[i].id %>"">
-              <label for="title">제목</label>
+              <label for=" title">제목</label>
               <input type="text" id="title" /><br />
               <label for="content">내용</label>
               <textarea type="text" id="content"></textarea><br />
@@ -294,7 +293,7 @@
                 loginbuttonLarge.style.display = "block";
                 logoutbuttonLarge.style.display = "none";
               }
-            }
+            };
 
             function signup() {
               window.location.href = "/signup";
@@ -322,7 +321,7 @@
                 });
                 console.log(res.data);
                 if (res.data.result) {
-                  localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
+                  // localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
                   localStorage.setItem(`token`, res.data.token);
                   alert(`${res.data.userinfo.name}님 로그인 성공`);
                   window.location.reload();
@@ -355,8 +354,8 @@
 
             const editBtn = document.getElementById("editBtn");
             const deleteBtn = document.getElementById("deleteBtn");
-            const writer = document.querySelector('#writer')
-            const token = window.localStorage.getItem('token')
+            const writer = document.querySelector('#writer');
+            const token = window.localStorage.getItem('token');
             const data = { token, writer };
             axios({
               method: 'POST',
@@ -365,14 +364,14 @@
             }).then((res) => {
               console.log(res);
               if (!res.data.data) {
-                editBtn.style.display = 'none'
-                deleteBtn.style.display = 'none'
+                editBtn.style.display = 'none';
+                deleteBtn.style.display = 'none';
               }
-            })
+            });
 
-            const title = document.querySelector('#title')
-            const content = document.querySelector('#content')
-            const body = document.querySelector('tbody')
+            const title = document.querySelector('#title');
+            const content = document.querySelector('#content');
+            const body = document.querySelector('tbody');
             const tbody = document.querySelector('#tbody');
 
             // const token=localStorage.getItem('token');
@@ -395,8 +394,8 @@
               formData.append('title', title);
               formData.append('content', content);
               formData.append('dynamic_file', fileInput.files[0]);
-              formData.append('token', token)
-              console.log(formData)
+              formData.append('token', token);
+              console.log(formData);
               try {
                 const response = await axios({
                   method: 'POST',
@@ -407,12 +406,12 @@
                   },
 
                 });
-                console.log(response.data)
-                console.log(response.data.result)
+                console.log(response.data);
+                console.log(response.data.result);
                 alert('등록되었습니다.');
-                window.location.reload()
+                window.location.reload();
                 if (response.data.result) {
-                  console.log(response.data)
+                  console.log(response.data);
                 }
               } catch (error) {
                 console.error('오류 발생:', error);
@@ -446,7 +445,7 @@
 
             async function deleteShare(id) {
               if (!confirm('삭제 하시겠습니까?')) {
-                return
+                return;
               }
               try {
                 const res = await axios({
@@ -457,11 +456,11 @@
                   }
                 });
                 if (res.data.result) {
-                  alert(`삭제되었습니다.`)
-                  window.location.reload()
+                  alert(`삭제되었습니다.`);
+                  window.location.reload();
                 }
               } catch (error) {
-                console.log(error)
+                console.log(error);
               }
             }
 

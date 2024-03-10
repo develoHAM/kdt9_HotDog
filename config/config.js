@@ -2,27 +2,19 @@ require('dotenv').config();
 const env = process.env;
 
 const development = {
-    username: env.MYSQL_USERNAME,
-    password: env.MYSQL_PASSWORD,
-    database: env.MYSQL_DATABASE,
-    host: env.MYSQL_HOST,
-    dialect: "mysql",
-  };
-   
-  const production = {
-    username: env.RDS_USERNAME,
-    password: env.RDS_PASSWORD,
-    database: env.RDS_DATABASE,
-    host: env.RDS_HOST,
-    dialect: "mysql",
-  };
-   
-  const test = {
-    username: env.MYSQL_USERNAME,
-    password: env.MYSQL_PASSWORD,
-    database: env.MYSQL_DATABASE_TEST,
-    host: env.MYSQL_HOST,
-    dialect: "mysql",
-  };
-   
-  module.exports = { development, production, test };
+	username: env.LOCAL_USERNAME,
+	password: env.LOCAL_PASSWORD,
+	database: env.LOCAL_DATABASE,
+	host: env.LOCAL_HOST,
+	dialect: env.LOCAL_DIALECT,
+};
+
+const production = {
+	username: env.RDS_USERNAME,
+	password: env.RDS_PASSWORD,
+	database: env.RDS_DATABASE,
+	host: env.RDS_HOST,
+	dialect: env.RDS_DIALECT,
+};
+
+module.exports = { development, production };
