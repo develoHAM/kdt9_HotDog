@@ -501,12 +501,13 @@
         let lastChatBubble;
         let lastChatBubbleTimestamp;
         let lastChatBubbleDate;
+        let lastChatBubbleTime;
         if (chatBubbles.length > 0) {
             lastChatBubble = chatBubbles[chatBubbles.length - 1];
             lastChatBubbleTimestamp = dayjs(lastChatBubble.dataset.timestamp).format('YYYY-MM-DDTh:mma');
-            lastChatBubbleDate = lastChatBubbleTimestamp.split('T')[0];
+            lastChatBubbleDate = lastChatBubbleTimestamp.split('T')[0]; lastChatBubbleTime = lastChatBubbleTimestamp.split('T')[1];
         }
-        const lastChatBubbleTime = lastChatBubbleTimestamp.split('T')[1];
+
 
         const chatBubble = document.createElement('div');
         chatBubble.dataset.timestamp = createdAt;
