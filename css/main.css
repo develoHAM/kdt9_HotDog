@@ -122,6 +122,10 @@ body {
 	cursor: pointer;
 }
 
+a {
+	font-family: 'SUITE-Regular';
+}
+
 /* ------------------------------
    Footer 스타일
 ------------------------------ */
@@ -138,6 +142,7 @@ body {
 }
 
 /* 기타 Footer 설정 */
+
 .footer-container-1 {
 	flex: 0 0 30%;
 }
