@@ -15,6 +15,7 @@ exports.connection = (io, socket) => {
 		socket.room = data.filter;
 		socket.userid = data.userid;
 		socket.profile = data.profile;
+		socket.name = data.name;
 
 		const clientList = getClientList(socket.room);
 		console.log('join Room clientList ====', clientList);
@@ -102,7 +103,7 @@ exports.connection = (io, socket) => {
 		if (socketIdsInRoom) {
 			socketIdsInRoom.forEach((socketID) => {
 				const client = io.sockets.sockets.get(socketID);
-				users.push({ userid: client.userid, socketid: client.id, profile: client.profile });
+				users.push({ userid: client.userid, socketid: client.id, profile: client.profile, name: client.name });
 			});
 		}
 		return users;

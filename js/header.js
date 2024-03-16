@@ -1,5 +1,4 @@
 window.onload = (event) => {
-	console.log('load');
 	const loginbuttonSmall = document.querySelector('#loginBtnSmall');
 	const logoutbuttonSmall = document.querySelector('#logoutBtnSmall');
 	const loginbuttonLarge = document.querySelector('#loginBtnLarge');
@@ -19,7 +18,6 @@ window.onload = (event) => {
 };
 
 async function authenticate() {
-	console.log('authenticate');
 	const token = window.localStorage.getItem('token');
 	if (!token) {
 		const loginbuttonLarge = document.querySelector('#loginBtnLarge');

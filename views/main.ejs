@@ -18,7 +18,7 @@
   <!-- header -->
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
+      <div class="container-lg">
         <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,35 +101,35 @@
   <main>
     <div class="main1">
 
-      <img id="mainImg" src="/images/산책.jpg" alt="">
+      <img id="mainImg" src="/images/walkingmate2.jpg" alt="">
       <div class="main-back">
         <div class="text-main">
-          <div class="animated-text">With a walking mate <br> Experience a special experience!</div>
+          <div class="animated-text">다른 견주와 함께 반려견 산책을 해보세요!</div>
           <!-- <div class="animated-text">Experience a special experience!</div> -->
-          <button class="animated-text" id="startBtn">START</button>
+          <button class="animated-text" id="startBtn" onclick="redirectMate()">시작하기</button>
 
         </div>
       </div>
     </div>
     <div class="items">
       <div class="item">
-        <img src="/images/강아지2.jpg" alt="강아지 1">
+        <img src="/images/petacc.jpg" alt="강아지 1">
         <div class="bord-hover">
-          <p>share</p>
+          <p>강아지 용품 나눔</p>
           <button id="itemBtn1">Click me</button>
         </div>
       </div>
       <div class="item">
-        <img src="/images/강아지.jpg" alt="강아지 2">
+        <img src="/images/sns.jpg" alt="강아지 2">
         <div class="bord-hover">
-          <p>Woof Social</p>
+          <p>강아지 자랑</p>
           <button id="itemBtn2">Click me</button>
         </div>
       </div>
       <div class="item">
-        <img src="/images/강아지2마리.jpg" alt="강아지 병원">
+        <img src="/images/qna.jpg" alt="강아지 병원">
         <div class="bord-hover">
-          <p>Bark Share</p>
+          <p>자유 Q&A 게시판</p>
           <button id="itemBtn3">Click me</button>
         </div>
       </div>
@@ -159,6 +159,7 @@
   <script src="/js/header.js"></script>
 
   <script>
+
     function signup() {
       window.location.href = "/signup";
     }
@@ -212,43 +213,40 @@
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
 
-  <!-- <script>
+  <script>
     // 산책메이트로 찾아가는 btn function
-    document.addEventListener("DOMContentLoaded",function(){
-      const startBtn = document.getElementById("startBtn")
-      startBtn.addEventListener("click",function(){
-        const mateURL = "http://localhost:8000/mate"
-        window.location.href = '/mate';
-      })
-    })
+    document.addEventListener("DOMContentLoaded", function () {
+      const startBtn = document.getElementById("startBtn");
+      startBtn.addEventListener("click", authenticate);
+    });
 
     // item1 용품나눔
-    document.addEventListener("DOMContentLoaded",function(){
-      const itemBtn1 = document.getElementById("itemBtn1")
-      itemBtn1.addEventListener("click",function(){
-        const carrotURL = "http://localhost:8000/share"
+    document.addEventListener("DOMContentLoaded", function () {
+      const itemBtn1 = document.getElementById("itemBtn1");
+      itemBtn1.addEventListener("click", function () {
+        const carrotURL = "http://localhost:8000/share";
         window.location.href = carrotURL;
-      })
-    })
+      });
+    });
 
     // item2 강아지 sns/
-    document.addEventListener("DOMContentLoaded",function(){
-      const itemBtn2 = document.getElementById("itemBtn2")
-      itemBtn2.addEventListener("click",function(){
-        const dogURL = "http://localhost:8000/boards"
+    document.addEventListener("DOMContentLoaded", function () {
+      const itemBtn2 = document.getElementById("itemBtn2");
+      itemBtn2.addEventListener("click", function () {
+        const dogURL = "http://localhost:8000/boards";
         window.location.href = '/sns';
-      })
-    })
+      });
+    });
     //item3 q&a
-    document.addEventListener("DOMContentLoaded",function(){
-      const itemBtn3 = document.getElementById("itemBtn3")
-      itemBtn3.addEventListener("click",function(){
-        const QnaURL = "..."
+    document.addEventListener("DOMContentLoaded", function () {
+      const itemBtn3 = document.getElementById("itemBtn3");
+      itemBtn3.addEventListener("click", function () {
+        const QnaURL = "...";
         window.location.href = QnaURL;
-      })
+      });
     })
 
-  </script> -->
+  </script>
 </body>
 
 </html>
