@@ -2,6 +2,14 @@
    기본 스타일 설정
 ------------------------------ */
 
+/* 웹 폰트 */
+@font-face {
+	font-family: 'SUITE-Regular';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
+
 /* HTML 기본 설정 */
 html {
 	-moz-box-sizing: border-box;
@@ -11,14 +19,7 @@ html {
 	font-size: 1em;
 	-ms-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
-}
-
-/* 웹 폰트 */
-@font-face {
 	font-family: 'SUITE-Regular';
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-	font-weight: 400;
-	font-style: normal;
 }
 
 /* Body 설정 */

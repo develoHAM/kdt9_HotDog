@@ -29,19 +29,15 @@
             <li class="nav-item">
               <a class="nav-link walk" aria-current="page" onclick="authenticate()">산책친구 찾기</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">게시판</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/share">용품나눔</a></li>
-                <li><a class="dropdown-item" href="/share">나의 펫을 자랑합니다</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="/share">강아지 자랑</a>
+            </li>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hospital">병원 찾기</a>
+              <a class="nav-link" href="/hospital">동물병원 찾기</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/boards/qna">Q&A</a>
+              <a class="nav-link" href="/boards/qna">Q&A 게시판</a>
             </li>
           </ul>
           <hr class="d-lg-none">
@@ -111,25 +107,26 @@
       </div>
     </div>
     <div class="items">
+
       <div class="item">
-        <img src="/images/petacc.jpg" alt="강아지 1">
+        <img src="/images/sns.jpg">
         <div class="bord-hover">
-          <p>강아지 용품 나눔</p>
-          <button id="itemBtn1">Click me</button>
+          <button id="itemBtn1">강아지 자랑</button>
         </div>
       </div>
+
       <div class="item">
-        <img src="/images/sns.jpg" alt="강아지 2">
+        <img src="/images/hospital.jpg">
         <div class="bord-hover">
-          <p>강아지 자랑</p>
-          <button id="itemBtn2">Click me</button>
+          <button id="itemBtn2">동물병원 찾기</button>
         </div>
       </div>
+
+
       <div class="item">
-        <img src="/images/qna.jpg" alt="강아지 병원">
+        <img src="/images/qna.jpg">
         <div class="bord-hover">
-          <p>자유 Q&A 게시판</p>
-          <button id="itemBtn3">Click me</button>
+          <button id="itemBtn3">Q&A 게시판</button>
         </div>
       </div>
     </div>
@@ -137,10 +134,8 @@
     <footer>
       <div class="footer-container">
         <div class="footer-container-1">
-          <!-- <a href="#" onclick="scrollToTop()">사이트맵</a>
-          <a href="FAQ.ejs">FAQ</a>
-          <a href="#">웹사이트</a> -->
           <div class="copyright">&copy; 2023 Hotdog. All rights reserved.</div>
+          <a href="/faq">FAQ</a>
         </div>
         <div class="footer-container-2">
           <div>김민현</div>
@@ -223,8 +218,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       const itemBtn1 = document.getElementById("itemBtn1");
       itemBtn1.addEventListener("click", function () {
-        const carrotURL = "http://localhost:8000/share";
-        window.location.href = carrotURL;
+        window.location.href = '/share';
       });
     });
 
@@ -232,16 +226,14 @@
     document.addEventListener("DOMContentLoaded", function () {
       const itemBtn2 = document.getElementById("itemBtn2");
       itemBtn2.addEventListener("click", function () {
-        const dogURL = "http://localhost:8000/boards";
-        window.location.href = '/sns';
+        window.location.href = "/hospital";
       });
     });
     //item3 q&a
     document.addEventListener("DOMContentLoaded", function () {
       const itemBtn3 = document.getElementById("itemBtn3");
       itemBtn3.addEventListener("click", function () {
-        const QnaURL = "...";
-        window.location.href = QnaURL;
+        window.location.href = '/boards/qna';
       });
     })
 

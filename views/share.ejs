@@ -14,9 +14,10 @@
 </head>
 
 <body>
+  <!-- header -->
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
+      <div class="container-lg">
         <a class="navbar-brand" href="/"><img class="logo__img" src="/images/logo-removebg.png" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,19 +28,15 @@
             <li class="nav-item">
               <a class="nav-link walk" aria-current="page" onclick="authenticate()">산책친구 찾기</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">게시판</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/share">용품나눔</a></li>
-                <li><a class="dropdown-item" href="/share">나의 펫을 자랑합니다</a></li>
-              </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="/share">강아지 자랑</a>
+            </li>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hospital">병원 찾기</a>
+              <a class="nav-link" href="/hospital">동물병원 찾기</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/boards/qna">Q&A</a>
+              <a class="nav-link" href="/boards/qna">Q&A 게시판</a>
             </li>
           </ul>
           <hr class="d-lg-none">
@@ -109,12 +106,12 @@
         </div>
         <div class="modal-body">
           <form id="write-form">
-            <label for="title">제목</label>
-            <input type="text" id="title" placeholder="제목" /><br />
-            <label for="content">내용</label>
-            <textarea type="text" id="content" placeholder="내용"></textarea><br />
-            <label for="dynamic_file"></label>
-            <input type='file' id="dynamic_file" accept='image/jpg, image/png, image/jpeg' />
+            <label for="newtitle">제목</label>
+            <input type="text" id="newtitle" placeholder="제목" /><br />
+            <label for="newcontent">내용</label>
+            <textarea type="text" id="newcontent" placeholder="내용"></textarea><br />
+            <label for="newdynamic_file"></label>
+            <input type='file' id="newdynamic_file" accept='image/jpg, image/png, image/jpeg' />
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -133,7 +130,7 @@
         <% for (let i=0; i < data.length; i++) { %>
           <% let dateObj=new Date(data[i].createdAt); %>
             <div class="col-md-4 mb-4">
-              <div class="card">
+              <div class="card" data-writer="<%= data[i].writer %>">
                 <% if(data[i].dynamic_file) { %>
                   <div class="card-img-container"><img src="<%= data[i].dynamic_file %>" alt="게시글 이미지"
                       class="card-img-top"></div>
@@ -169,7 +166,7 @@
             <% } %>
               <% } else { %>
                 <div class="col-12">
-                  <p>데이터가 없습니다.</p>
+                  <p>작성된 글이 아직 없어요! 반려견을 자랑해보세요!</p>
                 </div>
                 <% } %>
     </div>
@@ -185,8 +182,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form id="edit-form_<%= data[i].id %>"">
-              <label for=" title">제목</label>
+            <form id="edit-form_<%= data[i].id %>">
+              <label for="title">제목</label>
               <input type="text" id="title" /><br />
               <label for="content">내용</label>
               <textarea type="text" id="content"></textarea><br />
@@ -331,31 +328,41 @@
             // script end
 
             ////////////////////?/////////////
-            console.log("Token from localStorage:", window.localStorage.getItem('token'));
+            // console.log("Token from localStorage:", window.localStorage.getItem('token'));
 
-            const editBtn = document.getElementById("editBtn");
-            const deleteBtn = document.getElementById("deleteBtn");
-            const writer = document.querySelector('#writer');
-            const token = window.localStorage.getItem('token');
-            const data = { token, writer };
-            axios({
-              method: 'POST',
-              url: '/share/verify',
-              data
-            }).then((res) => {
-              console.log(res);
-              if (!res.data.data) {
-                editBtn.style.display = 'none';
-                deleteBtn.style.display = 'none';
+            (async function setPostAcess() {
+              const token = window.localStorage.getItem('token');
+              let myID;
+
+              try {
+                const { data } = await axios.get('/share/user', {
+                  headers: {
+                    Authorization: `Bearer ${token}`
+                  }
+                });
+                myID = data.userinfo.userid;
+              } catch (error) {
+                myInfo = null;
               }
-            });
 
-            const title = document.querySelector('#title');
-            const content = document.querySelector('#content');
-            const body = document.querySelector('tbody');
-            const tbody = document.querySelector('#tbody');
+              const posts = document.querySelectorAll('.card');
 
-            // const token=localStorage.getItem('token');
+              posts.forEach((post) => {
+                const writer = post.dataset.writer;
+                const postControls = post.lastElementChild.children;
+                const editBtn = postControls[0];
+                const deleteBtn = postControls[1];
+                console.log('writer', writer);
+                console.log('myID', myID);
+                if (writer != myID) {
+                  editBtn.style.display = 'none';
+                  deleteBtn.style.display = 'none';
+                }
+
+              });
+
+
+            })();
 
             async function writeShare() {
               const token = window.localStorage.getItem("token");
@@ -366,9 +373,9 @@
                 return;
               }
 
-              const title = document.querySelector('#title').value;
-              const content = document.querySelector('#content').value;
-              const fileInput = document.querySelector('#dynamic_file');
+              const title = document.querySelector('#newtitle').value;
+              const content = document.querySelector('#newcontent').value;
+              const fileInput = document.querySelector('#newdynamic_file');
 
 
               const formData = new FormData();

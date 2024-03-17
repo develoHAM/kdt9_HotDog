@@ -5,7 +5,6 @@ body {
 }
 /* - */
 .main1 {
-	/* background-color: #FCEEEF; */
 	height: 20%;
 	display: flex;
 
@@ -70,7 +69,8 @@ body {
 /* 이미지 스타일 */
 .item img {
 	width: 100%;
-	height: auto;
+	height: 100%;
+	object-fit: cover;
 	display: block;
 	transition: filter 0.3s;
 }
@@ -97,17 +97,17 @@ body {
 }
 
 /* 텍스트와 버튼 스타일 */
-.bord-hover p,
 .bord-hover button {
-	color: white;
+	color: black;
 	font-size: 24px;
+	font-weight: 800;
 	margin-bottom: 10px;
 }
 
 .bord-hover button,
 .bord-hover a {
-	background-color: white;
-	color: gray;
+	background-color: black;
+	color: white;
 	padding: 10px 20px;
 	border: none;
 	cursor: pointer;
