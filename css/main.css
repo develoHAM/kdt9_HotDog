@@ -135,11 +135,10 @@ a {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	color: black;
 	text-align: center;
-	height: 10%;
 	background-color: #333;
 	padding: 1rem;
+	font-size: 0.8rem;
 }
 
 /* 기타 Footer 설정 */
@@ -149,11 +148,15 @@ a {
 }
 
 .footer-container-2 {
-	flex: 0 0 40%;
+	flex: 0 0 60%;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: flex-end;
 	align-items: center;
 	color: whitesmoke;
+}
+
+.footer-container-2 div {
+	margin-left: 0.4rem;
 }
 
 .copyright {

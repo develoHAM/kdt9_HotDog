@@ -115,7 +115,7 @@
     <main>
 
         <div id="page-wrapper container-md">
-            <img id="dogSearchIMG" src="/images/dogsearch.png" />
+
             <section>
                 <!-- ------------------------------ -->
                 <!-- find-mate-wrapper -->
@@ -123,8 +123,8 @@
                     <p>같은 동네에서 산책 메이트를 찾아보세요!</p>
                     <div id="find-mate-fieldset-container" class="row row-cols-2 row-cols-lg-4 g-2">
                         <div class="col">
-                            <fieldset class="field">
-                                <legend>견종 크기</legend>
+                            <div class="field">
+                                <div class="legend">견종 크기</div>
                                 <form name="form-type">
                                     <input type="radio" name="type" value="small" id="small" data-description="소형견" />
                                     <label for="small">소형</label>
@@ -133,11 +133,11 @@
                                     <input type="radio" name="type" value="large" id="large" data-description="대형견" />
                                     <label for="large">대형</label>
                                 </form>
-                            </fieldset>
+                            </div>
                         </div>
                         <div class="col">
-                            <fieldset class="field">
-                                <legend>견종 성격</legend>
+                            <div class="field">
+                                <div class="legend">견종 성격</div>
                                 <form name="form-character">
                                     <input type="radio" name="character" value="introvert" id="introvert"
                                         data-description="소심한" />
@@ -146,11 +146,11 @@
                                         data-description="활발한" />
                                     <label for="extrovert">활발</label>
                                 </form>
-                            </fieldset>
+                            </div>
                         </div>
                         <div class="col">
-                            <fieldset class="field">
-                                <legend>산책 시간 (분)</legend>
+                            <div class="field">
+                                <div class="legend">산책 시간 (분)</div>
                                 <form name="form-walkingTime">
                                     <input type="radio" name="walkingTime" value="60" id="60" data-description="60분" />
                                     <label for="60">60</i></label>
@@ -161,11 +161,11 @@
                                     <label for="120">120</i></label>
                                 </form>
 
-                            </fieldset>
+                            </div>
                         </div>
                         <div class="col">
-                            <fieldset class="field">
-                                <legend>산책 장소</legend>
+                            <div class="field">
+                                <div class="legend">산책 장소</div>
                                 <form name="form-walkingLocation">
                                     <input type="radio" name="walkingLocation" value="indoor" id="indoor"
                                         data-description="실내" />
@@ -174,7 +174,7 @@
                                         data-description="실외" />
                                     <label for="outdoor">실외</label>
                                 </form>
-                            </fieldset>
+                            </div>
                         </div>
 
                     </div>
@@ -627,7 +627,7 @@
 
     //필터조건으로 찾기 버튼 onclick 
     async function search() {
-        const allFields = document.querySelectorAll('fieldset');
+        const allFields = document.querySelectorAll('.field');
         const selectedRadio = document.querySelectorAll('input[type="radio"]:checked');
 
         const type = document.forms['form-type'].type;

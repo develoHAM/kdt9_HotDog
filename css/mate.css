@@ -33,17 +33,10 @@ section {
 	padding-top: 4rem;
 }
 
-#dogSearchIMG {
-	width: 10rem;
-	object-fit: contain;
-	position: fixed;
-	right: -15px;
-	top: 86px;
-}
-
 #find-mate-wrapper > p {
 	font-size: 1.4rem;
 	text-align: center;
+	margin-bottom: 3rem;
 }
 
 input {
@@ -72,7 +65,6 @@ form {
 }
 
 .field {
-	/* max-width: 20rem; */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
@@ -82,10 +74,8 @@ form {
 	border-radius: 0.4rem;
 }
 
-legend {
-	font-size: 1.2rem;
+.legend {
 	text-align: center;
-	margin: 0;
 }
 
 #find-mate-fieldset-container {
@@ -278,19 +268,6 @@ label i.close-chat {
 	justify-content: space-between;
 	/* padding: 0.4rem; */
 	border: 1px solid lightgrey;
-}
-
-@media only screen and (max-width: 600px) {
-	.chat-wrapper {
-		right: 0px;
-	}
-	label[for='click'] {
-		right: 0px;
-		bottom: 0px;
-	}
-	#click:checked ~ .chat-wrapper {
-		bottom: 65px;
-	}
 }
 
 #click:checked ~ .chat-wrapper {
@@ -535,4 +512,15 @@ label i.close-chat {
 	background-color: #556b2f;
 	color: whitesmoke;
 	margin-right: auto;
+}
+
+@media only screen and (max-width: 600px) {
+	.chat-wrapper {
+		right: 0px;
+		height: 80%;
+	}
+	label[for='click'] {
+		right: 10px;
+		bottom: 10px;
+	}
 }
