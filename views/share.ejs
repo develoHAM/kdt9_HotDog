@@ -297,7 +297,7 @@
                   url: "/login",
                   data,
                 });
-                console.log(res.data);
+                // console.log(res.data);
                 if (res.data.result) {
                   // localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
                   localStorage.setItem(`token`, res.data.token);
@@ -308,7 +308,7 @@
                   document.location.reload();
                 }
               } catch (error) {
-                console.log(error);
+                // console.log(error);
               }
             }
             async function logout() {
@@ -352,8 +352,8 @@
                 const postControls = post.lastElementChild.children;
                 const editBtn = postControls[0];
                 const deleteBtn = postControls[1];
-                console.log('writer', writer);
-                console.log('myID', myID);
+                // console.log('writer', writer);
+                // console.log('myID', myID);
                 if (writer != myID) {
                   editBtn.style.display = 'none';
                   deleteBtn.style.display = 'none';
@@ -367,7 +367,7 @@
             async function writeShare() {
               const token = window.localStorage.getItem("token");
               event.preventDefault();
-              console.log(token);
+              // console.log(token);
               if (!token) {
                 alert("로그인 해주세요.");
                 return;
@@ -383,7 +383,7 @@
               formData.append('content', content);
               formData.append('dynamic_file', fileInput.files[0]);
               formData.append('token', token);
-              console.log(formData);
+              // console.log(formData);
               try {
                 const response = await axios({
                   method: 'POST',
@@ -394,12 +394,12 @@
                   },
 
                 });
-                console.log(response.data);
-                console.log(response.data.result);
+                // console.log(response.data);
+                // console.log(response.data.result);
                 alert('등록되었습니다.');
                 window.location.reload();
                 if (response.data.result) {
-                  console.log(response.data);
+                  // console.log(response.data);
                 }
               } catch (error) {
                 console.error('오류 발생:', error);
@@ -426,7 +426,7 @@
                   window.location.reload();
                 }
               } catch (error) {
-                console.log(error);
+                // console.log(error);
               }
             }
 
@@ -448,7 +448,7 @@
                   window.location.reload();
                 }
               } catch (error) {
-                console.log(error);
+                // console.log(error);
               }
             }
 

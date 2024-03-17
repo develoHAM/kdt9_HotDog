@@ -293,7 +293,7 @@
             myLocation = res.data.userinfo.address;
             myProfile = res.data.userinfo.profile;
             myName = res.data.userinfo.name;
-            console.log('myUserInfo', res.data.userinfo);
+            // console.log('myUserInfo', res.data.userinfo);
             socket.emit('getChatList', myID);
         } catch (error) {
             window.localStorage.removeItem('token');
@@ -326,7 +326,7 @@
         chatList.forEach((room) => {
             const roomID = room.roomid;
             const [friend] = room.users.filter((user) => user.userid != myID);
-            console.log('mate', friend);
+            // console.log('mate', friend);
 
             const friendDiv = document.createElement('div');
             friendDiv.classList.add('chat-friend');
@@ -388,7 +388,7 @@
             messages.forEach((message, index) => {
                 const date = dayjs(message.createdAt).format('YYYY년 MM월 DD일');
                 const time = dayjs(message.createdAt).format('YYYY-MM-DDTh:mma');
-                console.log(time.split('T')[1]);
+                // console.log(time.split('T')[1]);
                 const sender = message.senderid;
 
                 const bubble = document.createElement('div');
@@ -402,9 +402,9 @@
                 bubble.dataset.senderid = sender;
 
                 if (index > 0 && index < messages.length && referenceTime == time && messages[index - 1].senderid == message.senderid) {
-                    console.log('deleted lastTimestamp');
+                    // console.log('deleted lastTimestamp');
                     const allTimestampsDivs = document.querySelectorAll('.timestamp');
-                    console.log(allTimestampsDivs);
+                    // console.log(allTimestampsDivs);
                     const lastTimestampDiv = allTimestampsDivs[allTimestampsDivs.length - 1];
                     lastTimestampDiv.remove();
                 };
@@ -437,7 +437,7 @@
 
     //대화방 입장 onclick
     async function enterChat(roomID, otherID, otherName, otherProfile) {
-        console.log(roomID, otherID);
+        // console.log(roomID, otherID);
         const data = {
             myID: myID,
             otherID,
@@ -451,7 +451,7 @@
     //대화방 입장시
     socket.on('openChatRoom', (chatRoomInfo) => {
         const { myID, otherID, roomID, messages, otherName, otherProfile } = chatRoomInfo;
-        console.log('messages', messages);
+        // console.log('messages', messages);
         // messages => [{id, content. senderid, createdAt},...]
         createChatRoom(chatRoomInfo);
     });
@@ -556,7 +556,7 @@
             notification.textContent = 1;
             room.appendChild(notification);
         }
-        console.log(`${roomID} : ${message}`);
+        // console.log(`${roomID} : ${message}`);
 
     }
 
@@ -572,7 +572,7 @@
         };
         const chatButton = document.querySelector('#click');
         chatButton.checked = true;
-        console.log('open new');
+        // console.log('open new');
 
         socket.emit('getChatList', myID);
         socket.emit('fetchChatRoomData', data);
@@ -590,7 +590,7 @@
         };
         const chatButton = document.querySelector('#click');
         chatButton.checked = true;
-        console.log('open existing');
+        // console.log('open existing');
         socket.emit('getChatList', myID);
         socket.emit('fetchChatRoomData', data);
     });
@@ -598,13 +598,13 @@
 
     //chatList(대화방 목록) 받는 이벤트
     socket.on('chatList', (chatList) => {
-        console.log('chatList', chatList);
+        // console.log('chatList', chatList);
         showChatList(chatList);
     });
 
     //대화방 나가기 onclick
     async function leaveChat(roomID, otherID) {
-        console.log('leaveChat()');
+        // console.log('leaveChat()');
         const data = {
             myID: myID,
             otherID: otherID,
@@ -614,7 +614,7 @@
     }
 
     socket.on('leftChat', (msg) => {
-        console.log(msg);
+        // console.log(msg);
         document.querySelector('.chat-header-room').textContent = '';
         const chatContainer = document.querySelector('.chat-container');
         chatContainer.dataset.roomID = '';
@@ -685,7 +685,7 @@
 
     //clientList 받는 이벤트
     socket.on('clientList', (clientList) => {
-        console.log('clientList', clientList);
+        // console.log('clientList', clientList);
         updateUsers(clientList);
     });
 
@@ -696,7 +696,7 @@
         foundUsersMessage.textContent = `조회되는 산책메이트들 (${clientList.length - 1} 명)`;
         ul.innerHTML = '';
         if (clientList.length > 1) {
-            console.log('clientList', clientList);
+            // console.log('clientList', clientList);
             clientList.forEach((user) => {
                 if (user.userid === myID) {
                     return;
@@ -722,7 +722,7 @@
 
     //clientList를 받아서 보여준 특정 클라이언트 li태그 onclick
     function chat(otherID, otherSocketID) {
-        console.log('chat', otherID, otherSocketID);
+        // console.log('chat', otherID, otherSocketID);
         const data = {
             myID: myID,
             otherID: otherID,

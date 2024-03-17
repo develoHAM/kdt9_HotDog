@@ -173,7 +173,7 @@
           url: "/login",
           data,
         });
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.result) {
           // localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
           localStorage.setItem(`token`, res.data.token);
@@ -184,7 +184,7 @@
           document.location.reload();
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     async function logout() {
@@ -204,7 +204,7 @@
     const comment = document.querySelector('#comment');
     async function cmt(id) {
       const data = { id };
-      console.log(id);
+      // console.log(id);
       try {
         const res = await axios({
           method: 'POST',
@@ -213,7 +213,7 @@
         });
         cmtid.value = `${res.data.data}`;
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
 
@@ -228,7 +228,7 @@
           url: '/boards/register',
           data,
         });
-        console.log(`${res.data.data}번 게시물에 대한 댓글:${res.data.message}`);
+        // console.log(`${res.data.data}번 게시물에 대한 댓글:${res.data.message}`);
       } catch (error) {
 
       }

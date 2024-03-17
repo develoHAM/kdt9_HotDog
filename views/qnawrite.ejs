@@ -164,7 +164,7 @@
           url: "/login",
           data,
         });
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.result) {
           // localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
           localStorage.setItem(`token`, res.data.token);
@@ -175,7 +175,7 @@
           document.location.reload();
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     async function logout() {
@@ -198,12 +198,12 @@
     const form = document.forms["#boardForm"];
     const token = window.localStorage.getItem("token");
     async function qnaPost() {
-      console.log(token);
+      // console.log(token);
       if (!token) {
         alert("로그인 해주세요.");
         return;
       }
-      console.log(title.value);
+      // console.log(title.value);
       if (!title.value) {
         alert("제목을 입력해주세요.");
         return;
@@ -224,13 +224,13 @@
           url: "/boards/qna",
           data
         });
-        console.log(res.data.result.userid);
+        // console.log(res.data.result.userid);
         if (res.data.data) {
           alert('글작성 완료!');
           document.location.href = '/boards/qna';
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
 
     }

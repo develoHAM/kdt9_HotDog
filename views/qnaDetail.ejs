@@ -193,7 +193,7 @@
         url: "/login",
         data,
       });
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.result) {
         // localStorage.setItem(`${res.data.userinfo.userid}`, res.data.token);
         localStorage.setItem(`token`, res.data.token);
@@ -204,7 +204,7 @@
         document.location.reload();
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
   async function logout() {
@@ -262,7 +262,7 @@
     url: '/boards/verify',
     data
   }).then((res) => {
-    console.log(res);
+    // console.log(res);
     if (!res.data.data) {
       editBtn.style.display = 'none';
       deleteBtn.style.display = 'none';
@@ -272,7 +272,7 @@
     method: 'GET',
     url: `/boards/comment/${document.getElementById("id").value}`
   }).then(res => {
-    console.log(res.data);
+    // console.log(res.data);
     const commentarea = document.querySelector('#commentarea'); // 댓글을 표시할 요소 선택
     res.data.comments.forEach(value => {
       const paragraph = document.createElement('p'); // <p> 요소 생성
@@ -284,9 +284,9 @@
     const id = document.getElementById("id").value;
     const title = document.getElementById("title").value;
     const contents = document.getElementById("contents").value;
-    console.log(id);
-    console.log(title);
-    console.log(contents);
+    // console.log(id);
+    // console.log(title);
+    // console.log(contents);
     try {
       if (!confirm("수정 하시겠습니까?")) {
         return;
@@ -325,7 +325,7 @@
         url: `/boards/qna/${id}`,
         data
       });
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.data) {
         alert("삭제가 완료되었습니다.");
         document.location.href = '/boards/qna';
@@ -351,7 +351,7 @@
         url: "/boards/verify",
         data
       });
-      console.log(res.data.data);
+      // console.log(res.data.data);
       if (!res.data.data) {
         alert(`${res.data.message}`);
         document.location.href = '/boards/qna';
@@ -370,7 +370,7 @@
   async function postComment() {
     const id = document.getElementById("id").value;
     const commentContent = contents.value.trim();
-    console.log(b_t, writer, contents);
+    // console.log(b_t, writer, contents);
     if (!commentContent.trim()) { // 댓글 내용이 비어있을 때
       alert('댓글을 입력하세요.');
       return;
@@ -395,7 +395,7 @@
       }
 
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   }
 </script>
