@@ -294,7 +294,7 @@
             myProfile = res.data.userinfo.profile;
             myName = res.data.userinfo.name;
             // console.log('myUserInfo', res.data.userinfo);
-            socket.emit('getChatList', myID);
+            socket.emit('getChatList', myID, () => { });
         } catch (error) {
             window.localStorage.removeItem('token');
             alert('로그인 해주세요');
@@ -333,7 +333,6 @@
             let HTML;
 
             if (friend) {
-
                 HTML = `<img class="chat-friend-profile" src="${friend.profile}" />
                         <span class="chat-friend-name" onclick="enterChat('${roomID}','${friend.userid}','${friend.name}','${friend.profile}')">${friend.name}</span>
                         <i class="bi bi-x-lg delete-friend-button" onclick="leaveChat('${roomID}','${friend.userid}')"></i>`;
@@ -344,7 +343,7 @@
             }
 
             friendDiv.innerHTML = HTML;
-            friendDiv.dataset.roomID = roomID;
+            friendDiv.dataset.room = roomID;
             chatFriendsContainer.appendChild(friendDiv);
         });
 
@@ -359,7 +358,7 @@
         // messages => [{id, content. senderid, createdAt},...]
         // const reversedMessages = messages.slice().reverse();
 
-        const notification = document.querySelector(`.chat-friend[data-room-i-d='${roomID}'] div`);
+        const notification = document.querySelector(`.chat-friend[data-room="${roomID}"] div`);
         if (notification) {
             notification.remove();
         }
@@ -374,7 +373,7 @@
 
         const chatContainer = document.querySelector('.chat-container');
         chatContainer.style.display = 'flex';
-        chatContainer.dataset.roomID = roomID;
+        chatContainer.dataset.room = roomID;
 
         const chatRoom = document.querySelector('.chat-room');
         chatRoom.innerHTML = '';
@@ -471,22 +470,20 @@
         await socket.emit('message', data);
     }
 
-    socket.on('newMessage', (msgData) => {
+    socket.on('newMessage', async (msgData) => {
+        console.log('newMessage');
         const { senderID, receiverID, roomID, message, createdAt } = msgData;
-        const chatContainer = document.querySelector('.chat-container');
-        if (roomID != chatContainer.dataset.roomID) {
-            appendNotification(roomID, message);
+
+        if (myID == senderID) {
+            appendChatMessage(senderID, roomID, message, createdAt);
             return;
         }
 
-
-        appendChatMessage(senderID, roomID, message, createdAt);
-
-
-
-
-
-
+        const chatContainer = document.querySelector('.chat-container');
+        if (myID != senderID && roomID != chatContainer.dataset.room) {
+            appendNotification(roomID, message);
+            return;
+        }
     });
 
     function appendChatMessage(senderID, roomID, message, createdAt) {
@@ -530,8 +527,8 @@
 
         const allTimestamps = document.querySelectorAll('.timestamp');
         const lastTimestampSpan = allTimestamps[allTimestamps.length - 1];
-        const lastTimestamp = lastTimestampSpan.textContent;
-        if (allTimestamps.length > 0 && lastTimestamp == messageTime && lastChatBubble.dataset.senderid == senderID) {
+        // const lastTimestamp = lastTimestampSpan.textContent;
+        if (allTimestamps.length > 0 && lastTimestampSpan.textContent == messageTime && lastChatBubble.dataset.senderid == senderID) {
             lastTimestampSpan.remove();
         }
 
@@ -546,22 +543,44 @@
         document.querySelector('#message').value = '';
     }
 
-    function appendNotification(roomID, message) {
-        const room = document.querySelector(`.chat-friend[data-room-i-d='${roomID}']`);
-        if (room.children.length > 3) {
-            const notification = document.querySelector(`.chat-friend[data-room-i-d='${roomID}'] div`);
-            notification.textContent = Number(notification.textContent) + 1;
-        } else {
-            const notification = document.createElement('div');
-            notification.textContent = 1;
-            room.appendChild(notification);
-        }
+    async function appendNotification(roomID, message) {
         // console.log(`${roomID} : ${message}`);
+
+        const room = document.querySelector(`.chat-friend[data-room="${roomID}"]`);
+        // console.log('room', room);
+        if (!room) {
+            await socket.emit('getChatList', myID, () => {
+                const refreshedRoom = document.querySelector(`.chat-friend[data-room="${roomID}"]`);
+                const elementLengthWithoutNotification = 3;
+                // console.log('refreshedRoom', refreshedRoom);
+                // console.log('refreshedRoom childNodes', refreshedRoom.childElementCount);
+                // console.log('refreshedRoom children', refreshedRoom.children);
+
+                const notification = document.createElement('div');
+                notification.textContent = 1;
+                refreshedRoom.appendChild(notification);
+                return;
+            });
+        } else {
+            const notification = document.querySelector(`.chat-friend[data-room="${roomID}"] div`);
+            if (notification) {
+
+                notification.textContent = Number(notification.textContent) + 1;
+            } else {
+                const newNotification = document.createElement('div');
+                newNotification.textContent = 1;
+                room.appendChild(newNotification);
+
+
+            }
+        }
+
+
 
     }
 
     //clientList중 하나를 클릭하고 나와 다른 사용자의 고유한 roomid를 새로 할당받는다
-    socket.on('openNewChatRoom', (roomInfo) => {
+    socket.on('openNewChatRoom', async (roomInfo) => {
         const { roomID, otherID, myID, otherName, otherProfile } = roomInfo;
         const data = {
             myID: myID,
@@ -574,12 +593,12 @@
         chatButton.checked = true;
         // console.log('open new');
 
-        socket.emit('getChatList', myID);
-        socket.emit('fetchChatRoomData', data);
+        await socket.emit('getChatList', myID, () => { });
+        await socket.emit('fetchChatRoomData', data);
     });
 
     //clientList중 하나를 클릭 =
-    socket.on('openExistingChatRoom', (roomInfo) => {
+    socket.on('openExistingChatRoom', async (roomInfo) => {
         const { roomID, otherID, myID, otherName, otherProfile } = roomInfo;
         const data = {
             myID: myID,
@@ -591,8 +610,8 @@
         const chatButton = document.querySelector('#click');
         chatButton.checked = true;
         // console.log('open existing');
-        socket.emit('getChatList', myID);
-        socket.emit('fetchChatRoomData', data);
+        await socket.emit('getChatList', myID, () => { });
+        await socket.emit('fetchChatRoomData', data);
     });
 
 
@@ -613,16 +632,16 @@
         await socket.emit('leaveChat', data);
     }
 
-    socket.on('leftChat', (msg) => {
+    socket.on('leftChat', async (msg) => {
         // console.log(msg);
         document.querySelector('.chat-header-room').textContent = '';
         const chatContainer = document.querySelector('.chat-container');
-        chatContainer.dataset.roomID = '';
+        chatContainer.dataset.room = '';
         const chatRoom = document.querySelector('.chat-room');
         chatRoom.innerHTML = '';
         chatContainer.style.display = 'none';
         document.querySelector('.empty-chat-room').style.display = 'flex';
-        socket.emit('getChatList', myID);
+        await socket.emit('getChatList', myID, () => { });
     });
 
     //필터조건으로 찾기 버튼 onclick 
@@ -721,14 +740,14 @@
     }
 
     //clientList를 받아서 보여준 특정 클라이언트 li태그 onclick
-    function chat(otherID, otherSocketID) {
+    async function chat(otherID, otherSocketID) {
         // console.log('chat', otherID, otherSocketID);
         const data = {
             myID: myID,
             otherID: otherID,
             otherSocketID: otherSocketID,
         };
-        socket.emit('startChat', data);
+        await socket.emit('startChat', data);
     }
 
 

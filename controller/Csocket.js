@@ -5,8 +5,10 @@ const { v4: uuidv4 } = require('uuid');
 exports.connection = (io, socket) => {
 	console.log('접속');
 
-	socket.on('getChatList', async (myID) => {
+	socket.on('getChatList', async (myID, callback) => {
 		await getChatList(myID);
+
+		callback();
 	});
 
 	socket.on('joinRoom', (data) => {
