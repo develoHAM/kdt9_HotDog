@@ -552,9 +552,6 @@
             await socket.emit('getChatList', myID, () => {
                 const refreshedRoom = document.querySelector(`.chat-friend[data-room="${roomID}"]`);
                 const elementLengthWithoutNotification = 3;
-                // console.log('refreshedRoom', refreshedRoom);
-                // console.log('refreshedRoom childNodes', refreshedRoom.childElementCount);
-                // console.log('refreshedRoom children', refreshedRoom.children);
 
                 const notification = document.createElement('div');
                 notification.textContent = 1;
