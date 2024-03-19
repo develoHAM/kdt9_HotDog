@@ -313,6 +313,11 @@
         window.location.href = "/signup";
     }
 
+    function logout() {
+        window.localStorage.removeItem('token');
+        document.location.href = "/";
+    }
+
     // 대화목록 보여주기
     function showChatList(chatList) {
         // chatList => [ {roomid:'', users:['userid','userid'] }, ... ]
