@@ -477,6 +477,7 @@
         const chatRoomID = chatRoom.dataset.room;
 
         if (myID != senderID && roomID != chatRoomID) {
+            console.log('notification');
             appendNotification(roomID, message);
             return;
         }
@@ -486,6 +487,7 @@
     });
 
     function appendChatMessage(senderID, roomID, message, createdAt) {
+        console.log('message');
         const chatRoom = document.querySelector('.chat-room');
 
         const messageTimestamp = dayjs(createdAt).format('YYYY-MM-DDTh:mma');
