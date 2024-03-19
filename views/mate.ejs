@@ -304,6 +304,7 @@
 
     function handleEnter(event) {
         if (event.keyCode == 13 && event.shiftKey == false) {
+            event.preventDefault();
             const sendMessageButton = document.querySelector('#send-message');
             sendMessageButton.click();
         }
@@ -456,17 +457,20 @@
     });
 
     async function sendMessage(otherID, roomID) {
-        const content = document.querySelector('#message').value;
-
-        if (content.trim() == '') {
+        const textArea = document.querySelector('#message');
+        const content = textArea.value;
+        if (textArea.value.trim() == '') {
             return;
         }
         const data = {
             myID,
             otherID,
             roomID,
-            content
+            content: textArea.value
         };
+
+        textArea.value = "";
+
         await socket.emit('message', data);
     }
 
@@ -541,7 +545,6 @@
 
         chatRoom.appendChild(chatBubble);
         chatRoom.scrollTop = chatRoom.scrollHeight - chatRoom.clientHeight;
-        document.querySelector('#message').value = '';
     }
 
     async function appendNotification(roomID, message) {
