@@ -473,14 +473,14 @@
     socket.on('newMessage', async (msgData) => {
         console.log('newMessage');
         const { senderID, receiverID, roomID, message, createdAt } = msgData;
-
-        if (myID == senderID) {
+        const chatRoom = document.querySelector('.chat-container');
+        const chatRoomID = chatRoom.dataset.room;
+        if (roomID == chatRoomID) {
             appendChatMessage(senderID, roomID, message, createdAt);
             return;
         }
 
-        const chatContainer = document.querySelector('.chat-container');
-        if (myID != senderID && roomID != chatContainer.dataset.room) {
+        if (myID != senderID && roomID != chatRoomID) {
             appendNotification(roomID, message);
             return;
         }
