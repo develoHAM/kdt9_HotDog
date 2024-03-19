@@ -470,20 +470,19 @@
         await socket.emit('message', data);
     }
 
-    socket.on('newMessage', async (msgData) => {
+    socket.on('newMessage', (msgData) => {
         console.log('newMessage');
         const { senderID, receiverID, roomID, message, createdAt } = msgData;
         const chatRoom = document.querySelector('.chat-container');
         const chatRoomID = chatRoom.dataset.room;
-        if (roomID == chatRoomID) {
-            appendChatMessage(senderID, roomID, message, createdAt);
-            return;
-        }
 
         if (myID != senderID && roomID != chatRoomID) {
             appendNotification(roomID, message);
             return;
         }
+
+        appendChatMessage(senderID, roomID, message, createdAt);
+
     });
 
     function appendChatMessage(senderID, roomID, message, createdAt) {
