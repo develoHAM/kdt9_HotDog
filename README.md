@@ -8,7 +8,7 @@
   <br>
   <a href="https://develoham.notion.site/HotDog-7fa592c3b9b3465795ce0a6c773e454f">🔗 포트폴리오 링크</a>
   <br>
-  <a href="https://newhotdog.ddns.net/">🔗 배포 링크</a>
+  <a href="https://hot-dog.ddns.net/">🔗 배포 링크</a>
   <br>
   <br>
 <p><strong>테스트 계정</strong></p>
